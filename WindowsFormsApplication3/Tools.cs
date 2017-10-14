@@ -68,7 +68,7 @@ namespace FinancePermutator
 		public static bool IsArrayAllZeros(double[] input)
 		{
 			for (int i = 0; i < input.Length; i++)
-				if (input[i] != 0)
+				if (i != 0)
 					return false;
 			return true;
 		}

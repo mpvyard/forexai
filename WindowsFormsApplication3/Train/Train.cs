@@ -272,8 +272,8 @@ namespace FinancePermutator.Train
 					    double.IsNaN(cell))
 					{
 						debug($"inputSetsLocal: error in CELL {j}:{k}  {cell}");
-						MessageBox.Show($"inputSetsLocal: error in CELL {j}:{k} {cell}", "input", MessageBoxButtons.RetryCancel,
-							MessageBoxIcon.Error);
+						/*MessageBox.Show($"inputSetsLocal: error in CELL {j}:{k} {cell}", "input", MessageBoxButtons.RetryCancel,
+							MessageBoxIcon.Error);*/
 						return false;
 					}
 					k++;
@@ -297,8 +297,8 @@ namespace FinancePermutator.Train
 					    double.IsNaN(cell))
 					{
 						debug($"outputSetsLocal: error in CELL {j}:{k} {cell}");
-						MessageBox.Show($"outputSetsLocal: error in CELL {j}:{k} {cell}", "output", MessageBoxButtons.RetryCancel,
-							MessageBoxIcon.Error);
+						/*MessageBox.Show($"outputSetsLocal: error in CELL {j}:{k} {cell}", "output", MessageBoxButtons.RetryCancel,
+							MessageBoxIcon.Error);*/
 						return false;
 					}
 					k++;
@@ -394,6 +394,20 @@ namespace FinancePermutator.Train
 
 				Program.Form.chart.Series[0].Color = Color.Green;
 				Program.Form.chart.Series[1].Color = Color.DarkViolet;
+
+				/*Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
+
+				Program.Form.chart.ChartAreas[0].AxisX.Interval = 1;
+
+				Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+
+				Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+
+				Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
+
+				Program.Form.chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;
+
+				Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.6;*/
 			}));
 
 			// create network to hold all input data

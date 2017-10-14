@@ -16,7 +16,7 @@ namespace FinancePermutator.Forms
 	using FANNCSharp.Double;
 	using static FANNCSharp.TrainingAlgorithm;
 	using Networks;
-	using static FinancePermutator.Tools;
+	using static Tools;
 	using TicTacTec.TA.Library;
 
 	/// <summary>

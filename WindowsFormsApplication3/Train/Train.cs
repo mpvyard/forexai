@@ -151,6 +151,23 @@ namespace FinancePermutator.Train
 			debug($"done scan: numRecord={numRecord} i:{inputSets?.Length} o:{outputSets?.Length}");
 		}
 
+/*
+		／ イ(((ヽ
+		(ﾉ ￣Ｙ＼
+		|　(＼　(. /) ｜ )
+		ヽ ヽ` ( ͡° ͜ʖ ͡°) _ノ /
+		＼ |　⌒Ｙ⌒　/ /
+		｜ヽ　 ｜　 ﾉ ／
+		＼トー仝ーイ
+		｜ ミ土彡/
+		)\ ° /
+		( \ /
+		/ / ѼΞΞΞΞΞΞΞD
+		/ / / \ \ \ 
+		(( ). ) ).)
+		( ). ( | | 
+		| / \ |*/
+
 		private void SetupFunctions(int randomSeed)
 		{
 			for (int i = 0; i < Configuration.TaFunctionsCount && RunScan; i++)

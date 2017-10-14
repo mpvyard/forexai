@@ -32,7 +32,7 @@ namespace FinancePermutator.Function
             }
             catch (Exception e)
             {
-                Tools.debug($"exception: {e.Message}");
+                debug($"exception: {e.Message}");
             }
 
             resultLen = (int)parameters.Arguments[parameters.OutNbElement];

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -8,11 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using FANNCSharp;
 using FANNCSharp.Double;
-using FinancePermutator.Forms;
+using FinancePermutator.Function;
+using FinancePermutator.Generators;
 using FinancePermutator.Networks;
-using TicTacTec.TA.Library;
 using static FinancePermutator.Tools;
 
 namespace FinancePermutator.Train
@@ -56,7 +54,7 @@ namespace FinancePermutator.Train
 			if (!Data.TALibMethods.Any())
 				return;
 
-			int ret = 0;
+			int ret;
 			do
 			{
 				Program.Form.setStatus("generating functions list");
@@ -96,7 +94,7 @@ namespace FinancePermutator.Train
 						result = function.Execute(functionParameters, out var code);
 						if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) ||
 						    double.IsPositiveInfinity(result[0]) || double.IsNaN(result[0]) || double.IsInfinity(result[0]) ||
-						    IsAllZeros(result))
+						    IsArrayAllZeros(result))
 						{
 							debug(
 								$"WARNING: skip {((MethodInfo) functionInfo["methodInfo"]).Name} due to bad output [len={result.Length}, code={code}]");
@@ -134,6 +132,7 @@ namespace FinancePermutator.Train
 					SetOutputResult(valuesCount, offset, numRecord);
 
 					numRecord++;
+					// hello 2
 
 					if (offset > Configuration.MaxOffset)
 						break;
@@ -180,7 +179,7 @@ namespace FinancePermutator.Train
 				result = function.Execute(functionParameters, out var code);
 				if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) ||
 				    double.IsPositiveInfinity(result[0]) || double.IsNaN(result[0]) || double.IsInfinity(result[0]) ||
-				    IsAllZeros(result))
+				    IsArrayAllZeros(result))
 				{
 					DumpValues(methodInfo, result);
 					debug(
@@ -294,13 +293,11 @@ namespace FinancePermutator.Train
 			return true;
 		}
 
-		private bool ClearParameters()
+		private void ClearParameters()
 		{
 			outputSets = null;
 			inputSets = null;
 			numRecord = 0;
-
-			return true;
 		}
 
 		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
@@ -338,14 +335,13 @@ namespace FinancePermutator.Train
 
 			TrainingData trainData;
 			TrainingData testData;
-			uint testDataOffset;
 			try
 			{
 				trainData = new TrainingData();
 				trainData.SetTrainData(inputSetsLocal, outputSetsLocal);
 
 				testData = new TrainingData(trainData);
-				testDataOffset = trainData.TrainDataLength / Configuration.TestDataAmountPerc;
+				var testDataOffset = trainData.TrainDataLength / Configuration.TestDataAmountPerc;
 
 				testData.SubsetTrainData(0, testDataOffset);
 				testData.ScaleTrainData(-1.0, 1.0);
@@ -388,7 +384,7 @@ namespace FinancePermutator.Train
 			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 + 1;
 			debug($"new network: numinputs: {inputCount} neurons: {numNeurons}");
 
-			network = new Network((uint) inputCount, numNeurons, 2);
+			network = new Network(inputCount, numNeurons, 2);
 
 			network.TrainingAlgorithm = Configuration.TrainAlgo;
 
@@ -437,7 +433,6 @@ namespace FinancePermutator.Train
 				}
 
 				if (a % 3 == 0)
-				{
 					Program.Form.chart.Invoke((MethodInvoker) (() =>
 					{
 						Program.Form.chart.Series["train"].Points.AddXY(a1, mse);
@@ -446,7 +441,6 @@ namespace FinancePermutator.Train
 						//Program.Form.chart.Series["train"].Points[a1-1].Color = Color.Green;
 						//Program.Form.chart.Series["test"].Points[a1-1].Color = Color.RosyBrown;
 					}));
-				}
 			}
 
 			var output = network.RunNetwork(inputSetsLocal[0]);

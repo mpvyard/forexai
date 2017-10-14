@@ -1,7 +1,7 @@
-﻿namespace FinancePermutator
-{
-	using System;
+﻿using System;
 
+namespace FinancePermutator.Generators
+{
 	internal static class MaGen
 	{
 		private static readonly Random Random = new Random(DateTime.Now.Millisecond);

@@ -1,10 +1,8 @@
-﻿namespace FinancePermutator
+﻿using System;
+using System.Reflection;
+
+namespace FinancePermutator.Function
 {
-	using System;
-	using System.Reflection;
-
-	using static FinancePermutator.Tools;
-
 	class FunctionParameters
 	{
 		public Random Random;
@@ -216,7 +214,7 @@
 						break;
 
 					default:
-						debug($"nothing found for {param.Name}");
+						Tools.debug($"nothing found for {param.Name}");
 						break;
 				}
 
@@ -228,18 +226,18 @@
 
 		private void DumpArguments()
 		{
-			debug($"arguments: {Arguments.Length}");
+			Tools.debug($"arguments: {Arguments.Length}");
 			int argIdx = 0;
 			foreach (object o in Arguments)
 				if (o != null)
-					debug($" +arg{argIdx++, -2:00} {o.GetType()} {o}");
+					Tools.debug($" +arg{argIdx++, -2:00} {o.GetType()} {o}");
 		}
 
 		private static void DumpParams(MethodInfo methodInfo)
 		{
 			int idx = 0;
 			foreach (var pi in methodInfo.GetParameters())
-				debug($" prm{idx++, 2:00} {pi.ParameterType} {pi.Name}");
+				Tools.debug($" prm{idx++, 2:00} {pi.ParameterType} {pi.Name}");
 		}
 	}
 }

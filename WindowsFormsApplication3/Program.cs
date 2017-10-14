@@ -3,7 +3,7 @@
     using System;
     using System.Windows.Forms;
 
-    using FinancePermutator.Forms;
+    using Forms;
 
     internal static class Program
     {

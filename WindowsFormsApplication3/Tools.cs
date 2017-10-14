@@ -34,9 +34,7 @@ namespace FinancePermutator
 					Program.Form.debugView.BeginUpdate();
 					LastLogTime = DateTime.Now.Second;
 					foreach (var msg in Messages)
-					{
 						Program.Form.debugView.Items.Add(msg);
-					}
 					Messages.Clear();
 
 					int visibleItems = Program.Form.debugView.ClientSize.Height / Program.Form.debugView.ItemHeight;
@@ -67,7 +65,7 @@ namespace FinancePermutator
 			}
 		}
 
-		public static bool IsAllZeros(double[] input)
+		public static bool IsArrayAllZeros(double[] input)
 		{
 			for (int i = 0; i < input.Length; i++)
 				if (input[i] != 0)

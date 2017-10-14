@@ -3,7 +3,7 @@
 	using System;
 	using System.Linq;
 
-	using static FinancePermutator.Tools;
+	using static Tools;
 
 	internal static class Prices
 	{

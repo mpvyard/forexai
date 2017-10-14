@@ -1,9 +1,8 @@
-﻿namespace FinancePermutator
+﻿using System;
+using TicTacTec.TA.Library;
+
+namespace FinancePermutator.Generators
 {
-    using System;
-
-    using TicTacTec.TA.Library;
-
     internal static class MaTypeGen
     {
         private static readonly Random Random = new Random(DateTime.Now.Millisecond);

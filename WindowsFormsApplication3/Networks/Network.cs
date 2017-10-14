@@ -1,8 +1,10 @@
-﻿using System;
+﻿using System.Windows.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using dotless.Core.Parser.Tree;
 using FANNCSharp;
 using FANNCSharp.Double;
 using static FinancePermutator.Tools;
@@ -32,6 +34,12 @@ namespace FinancePermutator.Networks
 			set => network.TrainingAlgorithm = value;
 		}
 
+		public float SarpropStepErrorShift
+		{
+			get => network.SarpropStepErrorShift;
+			set => network.SarpropStepErrorShift = value;
+		}
+
 		public float SarTemp
 		{
 			get { return this.network.SarpropTemperature; }
@@ -55,7 +63,7 @@ namespace FinancePermutator.Networks
 				░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 		public void SetupActivation()
 		{
-			this.network.SetActivationFunctionLayer(ActivationFunction.ELLIOT_SYMMETRIC, 1); //SIGMOID_SYMMETRIC
+			this.network.SetActivationFunctionLayer(ActivationFunction.LINEAR_PIECE_SYMMETRIC, 1); //SIGMOID_SYMMETRIC
 			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE,
 				2); //SIGMOID_SYMMETRIC_STEPWISE
 			//LINEAR_PIECE_SYMMETRIC
@@ -74,7 +82,11 @@ namespace FinancePermutator.Networks
 
 		public double Train(TrainingData trainData)
 		{
-			return this.network.TrainEpochSarpropParallel(trainData, 4); //TrainEpochIrpropmParallel
+			/*this.network.LearningRate = 0.04f;
+			this.network.LearningMomentum = 0.01f;
+			this.network.RpropDecreaseFactor = this.network.RpropDecreaseFactor;
+			this.network.ActivationSteepnessHidden = 0.25f;*/
+			return this.network.TrainEpochIrpropmParallel(trainData, 4); //TrainEpochSarpropParallel
 		}
 
 		public double[] RunNetwork(double[] input)

@@ -101,6 +101,9 @@
     <StartupObject>FinancePermutator.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotless.Core, Version=1.5.2.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotless.1.5.2\lib\dotless.Core.dll</HintPath>
+    </Reference>
     <Reference Include="FANNCSharp, Version=0.1.7.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\FANNCSharp-x64.0.1.8\lib\FANNCSharp.dll</HintPath>
       <Private>True</Private>

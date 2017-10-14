@@ -434,6 +434,9 @@ namespace FinancePermutator.Train
 				//Thread.Yield();
 				Thread.Sleep(33);
 
+				/*network.SarpropStepErrorShift -= 0.01f;
+				debug($"SarpropStepErrorShift {network.SarpropStepErrorShift}");*/
+
 				trainMse = network.Train(trainData);
 				if (network.ErrNo > 0)
 					debug($"error {network.ErrNo}: {network.ErrStr}");
@@ -463,7 +466,7 @@ namespace FinancePermutator.Train
 					network.Save(@"d:\temp\net_mintestmse.net");
 				}
 
-				if (epoch % 2 == 0)
+				//if (epoch % 2 == 0)
 					Program.Form.chart.Invoke((MethodInvoker) (() =>
 					{
 						Program.Form.chart.Series["train"].Points.AddXY(epoch1, mse);

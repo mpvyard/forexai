@@ -35,11 +35,11 @@
 		 {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-			System.Windows.Forms.DataVisualization.Charting.LineAnnotation lineAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.LineAnnotation();
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+			System.Windows.Forms.DataVisualization.Charting.LineAnnotation lineAnnotation9 = new System.Windows.Forms.DataVisualization.Charting.LineAnnotation();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.Title title9 = new System.Windows.Forms.DataVisualization.Charting.Title();
 			this.loadPricesButton = new System.Windows.Forms.Button();
 			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
 			this.showValues = new System.Windows.Forms.CheckBox();
@@ -147,20 +147,20 @@
 			// 
 			this.statusLabel.AutoSize = true;
 			this.statusLabel.BackColor = System.Drawing.Color.Aquamarine;
-			this.statusLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.statusLabel.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.statusLabel.ForeColor = System.Drawing.Color.Navy;
-			this.statusLabel.Location = new System.Drawing.Point(2, 456);
+			this.statusLabel.Location = new System.Drawing.Point(2, 453);
 			this.statusLabel.MaximumSize = new System.Drawing.Size(0, 19);
 			this.statusLabel.MinimumSize = new System.Drawing.Size(800, 0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(800, 18);
+			this.statusLabel.Size = new System.Drawing.Size(800, 15);
 			this.statusLabel.TabIndex = 6;
 			this.statusLabel.Text = "idle";
 			// 
 			// chart
 			// 
-			lineAnnotation1.Name = "LineAnnotation1";
-			this.chart.Annotations.Add(lineAnnotation1);
+			lineAnnotation9.Name = "LineAnnotation1";
+			this.chart.Annotations.Add(lineAnnotation9);
 			this.chart.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.None;
 			this.chart.BackColor = System.Drawing.Color.ForestGreen;
 			this.chart.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.VerticalCenter;
@@ -185,37 +185,37 @@
 			this.chart.BorderSkin.BorderWidth = 3;
 			this.chart.BorderSkin.PageColor = System.Drawing.Color.Turquoise;
 			this.chart.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
-			chartArea1.BackImage = "D:\\pics\\aaa.jpg";
-			chartArea1.Name = "ChartArea1";
-			this.chart.ChartAreas.Add(chartArea1);
+			chartArea9.BackImage = "D:\\pics\\aaa.jpg";
+			chartArea9.Name = "ChartArea1";
+			this.chart.ChartAreas.Add(chartArea9);
 			this.chart.Cursor = System.Windows.Forms.Cursors.Default;
 			this.chart.IsSoftShadows = false;
-			legend1.BackImage = "D:\\pics\\3d.png";
-			legend1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Unscaled;
-			legend1.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-			legend1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-			legend1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-			legend1.BorderWidth = 5;
-			legend1.Font = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			legend1.IsTextAutoFit = false;
-			legend1.Name = "xxx";
-			legend1.TitleFont = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.chart.Legends.Add(legend1);
+			legend9.BackImage = "D:\\pics\\3d.png";
+			legend9.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Unscaled;
+			legend9.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+			legend9.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+			legend9.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+			legend9.BorderWidth = 5;
+			legend9.Font = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			legend9.IsTextAutoFit = false;
+			legend9.Name = "xxx";
+			legend9.TitleFont = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.chart.Legends.Add(legend9);
 			this.chart.Location = new System.Drawing.Point(-5, 6);
 			this.chart.Margin = new System.Windows.Forms.Padding(0);
 			this.chart.Name = "chart";
 			this.chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-			series1.ChartArea = "ChartArea1";
-			series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-			series1.Legend = "xxx";
-			series1.Name = "Series1";
-			series1.YValuesPerPoint = 6;
-			this.chart.Series.Add(series1);
+			series9.ChartArea = "ChartArea1";
+			series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+			series9.Legend = "xxx";
+			series9.Name = "Series1";
+			series9.YValuesPerPoint = 6;
+			this.chart.Series.Add(series9);
 			this.chart.Size = new System.Drawing.Size(594, 451);
 			this.chart.TabIndex = 5;
 			this.chart.Text = "chart1";
-			title1.Name = "Title1";
-			this.chart.Titles.Add(title1);
+			title9.Name = "Title1";
+			this.chart.Titles.Add(title9);
 			this.chart.Click += new System.EventHandler(this.ChartClick);
 			// 
 			// tabPage2

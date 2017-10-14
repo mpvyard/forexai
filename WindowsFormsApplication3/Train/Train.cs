@@ -472,8 +472,6 @@ namespace FinancePermutator.Train
 						//Program.Form.chart.Series["train"].Points[a1-1].Color = Color.Green;
 						//Program.Form.chart.Series["test"].Points[a1-1].Color = Color.RosyBrown;
 					}));
-				network.SarTemp -= 1;
-				debug($"temp: {network.SarTemp}");
 			}
 
 			var output = network.RunNetwork(inputSetsLocal[0]);

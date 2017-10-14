@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsFormsApplication3
+namespace FinancePermutator.Filters
 {
-	class Train
-	{
-	}
+    class Normalizer
+    {
+    }
 }

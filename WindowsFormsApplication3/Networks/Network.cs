@@ -74,7 +74,7 @@ namespace FinancePermutator.Networks
 
 		public double Train(TrainingData trainData)
 		{
-			return this.network.TrainEpochIrpropmParallel(trainData, 4); //TrainEpochSarpropParallel
+			return this.network.TrainEpochSarpropParallel(trainData, 4); //TrainEpochIrpropmParallel
 		}
 
 		public double[] RunNetwork(double[] input)

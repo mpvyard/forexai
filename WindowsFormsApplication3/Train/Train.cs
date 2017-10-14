@@ -431,7 +431,7 @@ namespace FinancePermutator.Train
 			{
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
-				Thread.Yield();
+				//Thread.Yield();
 				Thread.Sleep(33);
 
 				trainMse = network.Train(trainData);

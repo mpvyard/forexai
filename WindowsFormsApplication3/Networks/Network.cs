@@ -55,7 +55,7 @@ namespace FinancePermutator.Networks
 				░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 		public void SetupActivation()
 		{
-			this.network.SetActivationFunctionLayer(ActivationFunction.ELLIOT_SYMMETRIC, 1);//SIGMOID_SYMMETRIC
+			this.network.SetActivationFunctionLayer(ActivationFunction.ELLIOT_SYMMETRIC, 1); //SIGMOID_SYMMETRIC
 			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE,
 				2); //SIGMOID_SYMMETRIC_STEPWISE
 			//LINEAR_PIECE_SYMMETRIC
@@ -74,7 +74,7 @@ namespace FinancePermutator.Networks
 
 		public double Train(TrainingData trainData)
 		{
-			return this.network.TrainEpoch(trainData); //TrainEpochIrpropmParallel
+			return this.network.TrainEpochSarpropParallel(trainData, 4); //TrainEpochIrpropmParallel
 		}
 
 		public double[] RunNetwork(double[] input)

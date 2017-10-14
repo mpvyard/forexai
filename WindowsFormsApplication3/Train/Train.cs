@@ -427,7 +427,7 @@ namespace FinancePermutator.Train
 
 			debug("starting train");
 
-			for (var a = 0; a < Configuration.TrainEpochs && RunScan && inputSetsLocal != null && outputSetsLocal != null; a++)
+			for (var epoch = 0; epoch < Configuration.TrainEpochs && RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
 			{
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
@@ -443,12 +443,12 @@ namespace FinancePermutator.Train
 				if (network.ErrNo > 0)
 					debug($"error {network.ErrNo}: {network.ErrStr}");
 
-				debug($"train: epoch #{a} trainMse {trainMse} testmse {testMse} bitfail {network.BitFail}");
+				debug($"train: epoch #{epoch} trainMse {trainMse} testmse {testMse} bitfail {network.BitFail}");
 
 				// debug(String.Format("temp {0:0.##}", Net.SarTemp));
 				var mse = trainMse;
 				var mse1 = testMse;
-				var a1 = a;
+				var epoch1 = epoch;
 
 				if (trainMse <= 0.001)
 				{
@@ -463,15 +463,17 @@ namespace FinancePermutator.Train
 					network.Save(@"d:\temp\net_mintestmse.net");
 				}
 
-				if (a % 3 == 0)
+				if (epoch % 2 == 0)
 					Program.Form.chart.Invoke((MethodInvoker) (() =>
 					{
-						Program.Form.chart.Series["train"].Points.AddXY(a1, mse);
-						Program.Form.chart.Series["test"].Points.AddXY(a1, mse1);
+						Program.Form.chart.Series["train"].Points.AddXY(epoch1, mse);
+						Program.Form.chart.Series["test"].Points.AddXY(epoch1, mse1);
 
 						//Program.Form.chart.Series["train"].Points[a1-1].Color = Color.Green;
 						//Program.Form.chart.Series["test"].Points[a1-1].Color = Color.RosyBrown;
 					}));
+				network.SarTemp -= 1;
+				debug($"temp: {network.SarTemp}");
 			}
 
 			var output = network.RunNetwork(inputSetsLocal[0]);

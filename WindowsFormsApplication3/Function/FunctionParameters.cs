@@ -98,16 +98,16 @@ namespace FinancePermutator.Function
 						switch (index)
 						{
 							case 0:
-								Arguments[ParamIndex] = Prices.GetOpen(NumData, Offset);
+								Arguments[ParamIndex] = ForexPrices.GetOpen(NumData, Offset);
 								break;
 							case 1:
-								Arguments[ParamIndex] = Prices.GetClose(numdata, Offset);
+								Arguments[ParamIndex] = ForexPrices.GetClose(numdata, Offset);
 								break;
 							case 2:
-								Arguments[ParamIndex] = Prices.GetHigh(NumData, Offset);
+								Arguments[ParamIndex] = ForexPrices.GetHigh(NumData, Offset);
 								break;
 							case 3:
-								Arguments[ParamIndex] = Prices.GetLow(NumData, Offset);
+								Arguments[ParamIndex] = ForexPrices.GetLow(NumData, Offset);
 								break;
 						}
 
@@ -172,19 +172,19 @@ namespace FinancePermutator.Function
 						Arguments[ParamIndex] = NumData - 1;
 						break;
 					case "inOpen":
-						Arguments[ParamIndex] = Prices.GetOpen(NumData, Offset);
+						Arguments[ParamIndex] = ForexPrices.GetOpen(NumData, Offset);
 						break;
 					case "inHigh":
-						Arguments[ParamIndex] = Prices.GetHigh(NumData, Offset);
+						Arguments[ParamIndex] = ForexPrices.GetHigh(NumData, Offset);
 						break;
 					case "inLow":
-						Arguments[ParamIndex] = Prices.GetLow(NumData, Offset);
+						Arguments[ParamIndex] = ForexPrices.GetLow(NumData, Offset);
 						break;
 					case "inClose":
-						Arguments[ParamIndex] = Prices.GetClose(NumData, Offset);
+						Arguments[ParamIndex] = ForexPrices.GetClose(NumData, Offset);
 						break;
 					case "inVolume":
-						Arguments[ParamIndex] = Prices.GetVolume(NumData, Offset);
+						Arguments[ParamIndex] = ForexPrices.GetVolume(NumData, Offset);
 						break;
 					case "outBegIdx":
 						Arguments[ParamIndex] = this.OutBegIdx;

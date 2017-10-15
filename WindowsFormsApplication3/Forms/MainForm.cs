@@ -133,7 +133,6 @@ namespace FinancePermutator.Forms
 			Data.TALibMethods.Clear();
 			var methodInfos = typeof(Core).GetMethods(BindingFlags.Static | BindingFlags.Public);
 			foreach (var method in methodInfos)
-			{
 				if (IsGoodMethod(method))
 				{
 					Data.TALibMethods.Add(method);
@@ -141,7 +140,6 @@ namespace FinancePermutator.Forms
 					Program.Form.loadTAButton.Invoke((MethodInvoker) (() =>
 						Program.Form.loadTAButton.Text = $"loading {this.methodNum}"));
 				}
-			}
 			Program.Form.loadTAButton.Text = $"{Data.TALibMethods.Count} OK";
 
 			if (Data.ForexPrices.Any())

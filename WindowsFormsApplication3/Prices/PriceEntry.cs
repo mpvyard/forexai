@@ -1,4 +1,4 @@
-﻿namespace FinancePermutator
+﻿namespace FinancePermutator.Prices
 {
     using System;
 

@@ -387,10 +387,10 @@ namespace FinancePermutator.Train
 				Program.Form.chart.Series.Add("train");
 				Program.Form.chart.Series.Add("test");
 				Program.Form.chart.Series["test"].ChartType = SeriesChartType.Line;
-				Program.Form.chart.Series["train"].ChartType = SeriesChartType.FastLine;
+				Program.Form.chart.Series["train"].ChartType = SeriesChartType.Line;
 
-				Program.Form.chart.Series["train"].BorderWidth = 3;
-				Program.Form.chart.Series["test"].BorderWidth = 3;
+				Program.Form.chart.Series["train"].BorderWidth = 2;
+				Program.Form.chart.Series["test"].BorderWidth = 2;
 
 				Program.Form.chart.Series[0].Color = Color.Green;
 				Program.Form.chart.Series[1].Color = Color.DarkViolet;
@@ -493,7 +493,7 @@ namespace FinancePermutator.Train
 
 		private static void SetOutputResult(int valuesCountLocal, int offset, int numRecordLocal)
 		{
-			double[] priceOpen = Prices.GetOpen(valuesCountLocal, offset);
+			double[] priceOpen = ForexPrices.GetOpen(valuesCountLocal, offset);
 			if (priceOpen[valuesCountLocal - 1] > priceOpen[valuesCountLocal - 5])
 			{
 				// if (numRecord > 3 && priceOpen.Length > 3)

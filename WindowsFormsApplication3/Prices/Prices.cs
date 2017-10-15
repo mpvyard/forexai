@@ -5,7 +5,7 @@
 
 	using static Tools;
 
-	internal static class Prices
+	internal static class ForexPrices
 	{
 		public static double[] GetHigh(int num, int offset = 0)
 		{

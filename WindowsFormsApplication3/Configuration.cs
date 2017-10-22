@@ -20,7 +20,7 @@ namespace FinancePermutator
 		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;//TRAIN_QUICKPROP;//TRAIN_RPROP;
 
 		//TRAIN_BATCH;//TRAIN_INCREMENTAL;//TRAIN_RPROP;
-		public const int TrainEpochs = 88;
+		public const int TrainEpochs = 130;
 
 		public const uint DefaultHiddenNeurons = 0;
 	}

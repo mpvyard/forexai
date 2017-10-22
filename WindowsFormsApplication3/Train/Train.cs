@@ -447,14 +447,13 @@ namespace FinancePermutator.Train
 				{
 					debug("[AUTO-RESTART]");
 					Program.Form.setStatus("AUTO-RESTARTING ...");
-					Thread.Sleep(800);
 					ClearParameters();
 					return -1;
 				}
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
 				//Thread.Yield();
-				Thread.Sleep(33);
+				Thread.Sleep(5);
 
 				/*network.SarpropStepErrorShift -= 0.01f;
 				debug($"SarpropStepErrorShift {network.SarpropStepErrorShift}");*/
@@ -485,7 +484,7 @@ namespace FinancePermutator.Train
 				if (testMse < minTestMSE && epoch > 10)
 				{
 					minTestMSE = mse1;
-					network.Save(@"d:\temp\net_mintestmse.net");
+					network.Save(@"d:\temp\good_networks\net_mintestmse.net");
 				}
 
 				if (testMse <= 0.1 && epoch > 10)

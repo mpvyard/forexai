@@ -442,7 +442,6 @@ namespace FinancePermutator.Train
 			network.SetupActivation();
 
 			double minTestMSE = 1.0;
-			double[] output;
 
 			debug("starting train");
 
@@ -515,7 +514,7 @@ namespace FinancePermutator.Train
 				testMse = network.TestData(testData);
 			}
 
-			output = network.RunNetwork(inputSetsLocal[0]);
+			var output = network.RunNetwork(inputSetsLocal[0]);
 			testMse = network.TestData(testData);
 			debug($"trained mse {trainMse} testmse {testMse} 0:should={outputSetsLocal[0][0]}");
 			debug($"is={output[0]} should={outputSetsLocal[0][1]} is={output[1]} ");

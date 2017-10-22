@@ -42,7 +42,7 @@ namespace FinancePermutator.Function
 			RandomSeed = randomSeed > 0 ? randomSeed : DateTime.Now.Millisecond;
 			Random = new Random(RandomSeed);
 
-			Program.Form.ConfigurationAddLine($"Function {methodInfo.Name}\r\n");
+			//Program.Form.ConfigurationAddLine($"Function {methodInfo.Name}\r\n");
 
 			// DumpParams(methodInfo);
 			Arguments = new object[methodInfo.GetParameters().Length];
@@ -223,7 +223,7 @@ namespace FinancePermutator.Function
 
 				ParamIndex++;
 
-				Program.Form.ConfigurationAddLine($"{ParamIndex} {param.Name}: {Arguments[ParamIndex - 1]}\r\n");
+				//Program.Form.ConfigurationAddLine($"{ParamIndex} {param.Name}: {Arguments[ParamIndex - 1]}\r\n");
 			}
 
 			// 	DumpArguments();

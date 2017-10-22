@@ -443,7 +443,7 @@ namespace FinancePermutator.Train
 
 			for (var epoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
 			{
-				if (epoch >= Configuration.TrainEpochs)
+				if (epoch >= Configuration.TrainLimitEpochs)
 				{
 					debug("[AUTO-RESTART]");
 					Program.Form.setStatus("AUTO-RESTARTING ...");
@@ -474,7 +474,7 @@ namespace FinancePermutator.Train
 				var mse1 = testMse;
 				var epoch1 = epoch;
 
-				if (trainMse <= 0.001 && epoch > 10)
+				if (trainMse <= 0.01 && epoch > 10)
 				{
 					debug($"finished training, reached corner trainmse={trainMse} testmse={testMse}");
 					//RunScan = false;

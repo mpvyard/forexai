@@ -12,16 +12,14 @@ namespace FinancePermutator
 	{
 		public const string PriceFileName = @"d:\temp\GBPUSD.csv";
 		public const string LogFileName = @"d:\temp\winform3.log";
-		public const int ValuesCount = 64;
+		public const int ValuesCount = 99;
 		public const int MaxOffset = 140000;
-		public const int TaFunctionsCount = 5;
+		public const int TaFunctionsCount = 6;
 		public const int TestDataAmountPerc = 5;
-
-		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;//TRAIN_QUICKPROP;//TRAIN_RPROP;
-
-		//TRAIN_BATCH;//TRAIN_INCREMENTAL;//TRAIN_RPROP;
-		public const int TrainEpochs = 130;
-
+		public const int TrainLimitEpochs = 200;
 		public const uint DefaultHiddenNeurons = 0;
+
+		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP; //TRAIN_QUICKPROP;//TRAIN_RPROP;
+		//TRAIN_BATCH;//TRAIN_INCREMENTAL;//TRAIN_SARPROP;
 	}
 }

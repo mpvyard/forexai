@@ -86,8 +86,11 @@ namespace FinancePermutator.Networks
 			this.network.LearningMomentum = 0.01f;
 			this.network.RpropDecreaseFactor = this.network.RpropDecreaseFactor;
 			this.network.ActivationSteepnessHidden = 0.25f;*/
-			return this.network.TrainEpochIrpropmParallel(trainData, 4); //TrainEpochSarpropParallel
-																		 //TrainEpochIrpropmParallel
+			return this.network.TrainEpoch(trainData); //TrainEpochSarpropParallel
+											 //TrainEpochIrpropmParallel
+											 // TrainEpochBatchParallel
+											 //TrainEpochQuickpropParallel
+											 // TrainEpochIncrementalMod
 		}
 
 		public double[] RunNetwork(double[] input)

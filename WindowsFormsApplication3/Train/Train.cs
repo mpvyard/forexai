@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -455,8 +456,8 @@ namespace FinancePermutator.Train
 				}
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
-				//Thread.Yield();
-				Thread.Sleep(5);
+				Thread.Yield();
+				Thread.Sleep(100);
 
 				/*network.SarpropStepErrorShift -= 0.01f;
 				debug($"SarpropStepErrorShift {network.SarpropStepErrorShift}");*/
@@ -487,12 +488,17 @@ namespace FinancePermutator.Train
 				if (testMse < minTestMSE && epoch > 10)
 				{
 					minTestMSE = mse1;
-					network.Save(@"d:\temp\good_networks\net_mintestmse.net");
+					network.Save(@"d:\temp\forexAI\net_mintestmse.net");
 				}
 
 				if (testMse <= 0.1 && epoch > 10)
 				{
-					network.Save($"d:\\temp\\good_networks\\good_{network.GetHashCode(),4:0.####}.net");
+					if (!Directory.Exists($"d:\\temp\\forexAI\\{network.GetHashCode()}"))
+						Directory.CreateDirectory($"d:\\temp\\forexAI\\{network.GetHashCode()}");
+					;
+					network.Save($"d:\\temp\\forexAI\\{network.GetHashCode()}\\{network.GetHashCode(),4:0.####}.net");
+					File.Copy("d:\\temp\\traindata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\traindata.dat");
+					File.Copy("d:\\temp\\testdata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\testdata.dat");
 				}
 
 				//if (epoch % 2 == 0)

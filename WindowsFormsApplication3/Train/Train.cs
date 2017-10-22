@@ -144,7 +144,7 @@ namespace FinancePermutator.Train
 				/*if (-1 == TrainNetwork(ref inputSets, ref outputSets))
 					debug($"ERROR: unsuccessfull train il {inputSets?.Length} ol {outputSets?.Length}");*/
 				ret = TrainNetwork(ref inputSets, ref outputSets);
-			} while (ret == -1);
+			} while (RunScan);
 
 			// goto again;
 			Program.Form.DoingSearch = false;
@@ -242,6 +242,19 @@ namespace FinancePermutator.Train
 			{
 				debug("first null");
 				return false;
+			}
+
+			double firstValue = 0;
+			foreach (double[] set in inputSetsLocal)
+			{
+				int setLength = set.Length;
+				if (firstValue == 0)
+					firstValue = setLength;
+				if (setLength != firstValue)
+				{
+					debug("ERROR: check same input size failed");
+					return false;
+				}
 			}
 
 			/*inputSetsLocal[inputSetsLocal.Length - 1] = null;
@@ -412,7 +425,7 @@ namespace FinancePermutator.Train
 
 			// create network to hold all input data
 			var inputCount = trainData.InputCount;
-			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 + 1;
+			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 - 1;
 			debug($"new network: numinputs: {inputCount} neurons: {numNeurons}");
 
 			network = new Network(inputCount, numNeurons, 2);
@@ -424,11 +437,20 @@ namespace FinancePermutator.Train
 			network.SetupActivation();
 
 			double minTestMSE = 1.0;
+			double[] output;
 
 			debug("starting train");
 
-			for (var epoch = 0; epoch < Configuration.TrainEpochs && RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
+			for (var epoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
 			{
+				if (epoch >= Configuration.TrainEpochs)
+				{
+					debug("[AUTO-RESTART]");
+					Program.Form.setStatus("AUTO-RESTARTING ...");
+					Thread.Sleep(800);
+					ClearParameters();
+					return -1;
+				}
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
 				//Thread.Yield();
@@ -453,38 +475,46 @@ namespace FinancePermutator.Train
 				var mse1 = testMse;
 				var epoch1 = epoch;
 
-				if (trainMse <= 0.001)
+				if (trainMse <= 0.001 && epoch > 10)
 				{
 					debug($"finished training, reached corner trainmse={trainMse} testmse={testMse}");
-					RunScan = false;
+					//RunScan = false;
 					break;
 				}
 
-				if (testMse < minTestMSE)
+				if (testMse < minTestMSE && epoch > 10)
 				{
 					minTestMSE = mse1;
 					network.Save(@"d:\temp\net_mintestmse.net");
 				}
 
-				//if (epoch % 2 == 0)
-					Program.Form.chart.Invoke((MethodInvoker) (() =>
-					{
-						Program.Form.chart.Series["train"].Points.AddXY(epoch1, mse);
-						Program.Form.chart.Series["test"].Points.AddXY(epoch1, mse1);
+				if (testMse <= 0.1 && epoch > 10)
+				{
+					network.Save($"d:\\temp\\good_networks\\good_{testMse,4:0.####}.net");
+				}
 
-						//Program.Form.chart.Series["train"].Points[a1-1].Color = Color.Green;
-						//Program.Form.chart.Series["test"].Points[a1-1].Color = Color.RosyBrown;
-					}));
+				//if (epoch % 2 == 0)
+				Program.Form.chart.Invoke((MethodInvoker) (() =>
+				{
+					Program.Form.chart.Series["train"].Points.AddXY(epoch1, mse);
+					Program.Form.chart.Series["test"].Points.AddXY(epoch1, mse1);
+
+					//Program.Form.chart.Series["train"].Points[a1-1].Color = Color.Green;
+					//Program.Form.chart.Series["test"].Points[a1-1].Color = Color.RosyBrown;
+				}));
+
+				output = network.RunNetwork(inputSetsLocal[0]);
+				testMse = network.TestData(testData);
 			}
 
-			var output = network.RunNetwork(inputSetsLocal[0]);
+			output = network.RunNetwork(inputSetsLocal[0]);
 			testMse = network.TestData(testData);
-
 			debug($"trained mse {trainMse} testmse {testMse} 0:should={outputSetsLocal[0][0]}");
 			debug($"is={output[0]} should={outputSetsLocal[0][1]} is={output[1]} ");
 
-			network.Save(@"d:\temp\net_sharp.net");
-
+			//network.Save(@"d:\temp\net_sharp.net");
+			output = network.RunNetwork(inputSetsLocal[0]);
+			testMse = network.TestData(testData);
 			Program.Form.setStatus(
 				$"[Done] Trainmse {trainMse,6:0.####} Testmse {testMse,6:0.####} . should={outputSetsLocal[0][1]} is={output[1]}.");
 

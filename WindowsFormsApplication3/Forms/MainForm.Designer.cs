@@ -147,13 +147,13 @@
 			// 
 			this.statusLabel.AutoSize = true;
 			this.statusLabel.BackColor = System.Drawing.Color.Aquamarine;
-			this.statusLabel.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.statusLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.statusLabel.ForeColor = System.Drawing.Color.Navy;
 			this.statusLabel.Location = new System.Drawing.Point(2, 453);
 			this.statusLabel.MaximumSize = new System.Drawing.Size(0, 19);
 			this.statusLabel.MinimumSize = new System.Drawing.Size(800, 0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(800, 15);
+			this.statusLabel.Size = new System.Drawing.Size(800, 18);
 			this.statusLabel.TabIndex = 6;
 			this.statusLabel.Text = "idle";
 			// 
@@ -231,19 +231,19 @@
 			this.tabPage2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tabPage2.Controls.Add(this.showValues);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Location = new System.Drawing.Point(4, 25);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(601, 487);
+			this.tabPage2.Size = new System.Drawing.Size(601, 484);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Train";
 			// 
 			// tabPage3
 			// 
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
+			this.tabPage3.Location = new System.Drawing.Point(4, 25);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(601, 487);
+			this.tabPage3.Size = new System.Drawing.Size(601, 484);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "tabPage3";
 			this.tabPage3.UseVisualStyleBackColor = true;

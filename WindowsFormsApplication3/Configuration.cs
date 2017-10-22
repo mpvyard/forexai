@@ -14,13 +14,13 @@ namespace FinancePermutator
 		public const string LogFileName = @"d:\temp\winform3.log";
 		public const int ValuesCount = 64;
 		public const int MaxOffset = 140000;
-		public const int TaFunctionsCount = 8;
-		public const int TestDataAmountPerc = 4;
+		public const int TaFunctionsCount = 5;
+		public const int TestDataAmountPerc = 5;
 
 		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;//TRAIN_QUICKPROP;//TRAIN_RPROP;
 
 		//TRAIN_BATCH;//TRAIN_INCREMENTAL;//TRAIN_RPROP;
-		public const int TrainEpochs = 3450;
+		public const int TrainEpochs = 88;
 
 		public const uint DefaultHiddenNeurons = 0;
 	}

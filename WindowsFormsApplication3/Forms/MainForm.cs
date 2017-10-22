@@ -8,17 +8,17 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using FinancePermutator.Prices;
+using System.Drawing;
+using System.Drawing.Text;
+using FANNCSharp.Double;
+using static FANNCSharp.TrainingAlgorithm;
+using FinancePermutator.Networks;
+using static FinancePermutator.Tools;
+using TicTacTec.TA.Library;
 
 namespace FinancePermutator.Forms
 {
-	using System.Drawing;
-	using System.Drawing.Text;
-	using FANNCSharp.Double;
-	using static FANNCSharp.TrainingAlgorithm;
-	using Networks;
-	using static Tools;
-	using TicTacTec.TA.Library;
-
 	/// <summary>
 	/// Main form
 	/// </summary>

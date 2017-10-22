@@ -1,4 +1,6 @@
-﻿namespace FinancePermutator
+﻿using FinancePermutator.Prices;
+
+namespace FinancePermutator
 {
 	using System;
 	using System.Collections.Generic;

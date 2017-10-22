@@ -32,6 +32,16 @@ namespace FinancePermutator.Forms
 		[DllImport("Kernel32", EntryPoint = "GetCurrentThreadId", ExactSpelling = true)]
 		static extern int GetCurrentThreadId();
 
+		public void ConfigurationClear()
+		{
+			Program.Form.tabControl1.Invoke((MethodInvoker)(() => { Program.Form.configurationTab.Clear(); }));
+		}
+
+		public void ConfigurationAddLine(string msg)
+		{
+			Program.Form.tabControl1.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.AppendText(msg); }));
+		}
+
 		public Form1()
 		{
 			InitializeComponent();

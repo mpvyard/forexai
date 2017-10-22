@@ -174,6 +174,7 @@ namespace FinancePermutator.Train
 
 		private void SetupFunctions(int randomSeed)
 		{
+			Program.Form.ConfigurationClear();
 			for (int i = 0; i < Configuration.TaFunctionsCount && RunScan; i++)
 			{
 				Thread.Yield();

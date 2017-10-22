@@ -35,11 +35,11 @@
 		 {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-			System.Windows.Forms.DataVisualization.Charting.LineAnnotation lineAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.LineAnnotation();
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+			System.Windows.Forms.DataVisualization.Charting.LineAnnotation lineAnnotation2 = new System.Windows.Forms.DataVisualization.Charting.LineAnnotation();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
 			this.loadPricesButton = new System.Windows.Forms.Button();
 			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
 			this.showValues = new System.Windows.Forms.CheckBox();
@@ -49,6 +49,7 @@
 			this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.configurationTab = new System.Windows.Forms.TextBox();
 			this.button3 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.buttonExecute = new System.Windows.Forms.Button();
@@ -56,7 +57,6 @@
 			this.timeFast = new System.Windows.Forms.Timer(this.components);
 			this.debugView = new System.Windows.Forms.ListBox();
 			this.funcListLabel = new System.Windows.Forms.TextBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
@@ -161,8 +161,8 @@
 			// 
 			// chart
 			// 
-			lineAnnotation1.Name = "LineAnnotation1";
-			this.chart.Annotations.Add(lineAnnotation1);
+			lineAnnotation2.Name = "LineAnnotation1";
+			this.chart.Annotations.Add(lineAnnotation2);
 			this.chart.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.None;
 			this.chart.BackColor = System.Drawing.Color.ForestGreen;
 			this.chart.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.VerticalCenter;
@@ -187,44 +187,44 @@
 			this.chart.BorderSkin.BorderWidth = 3;
 			this.chart.BorderSkin.PageColor = System.Drawing.Color.Turquoise;
 			this.chart.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
-			chartArea1.Area3DStyle.IsRightAngleAxes = false;
-			chartArea1.Area3DStyle.LightStyle = System.Windows.Forms.DataVisualization.Charting.LightStyle.Realistic;
-			chartArea1.Area3DStyle.WallWidth = 0;
-			chartArea1.AxisX.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-			chartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
-			chartArea1.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.Cross;
-			chartArea1.BackImage = "D:\\pics\\aaa.jpg";
-			chartArea1.IsSameFontSizeForAllAxes = true;
-			chartArea1.Name = "ChartArea1";
-			this.chart.ChartAreas.Add(chartArea1);
+			chartArea2.Area3DStyle.IsRightAngleAxes = false;
+			chartArea2.Area3DStyle.LightStyle = System.Windows.Forms.DataVisualization.Charting.LightStyle.Realistic;
+			chartArea2.Area3DStyle.WallWidth = 0;
+			chartArea2.AxisX.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+			chartArea2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
+			chartArea2.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.Cross;
+			chartArea2.BackImage = "D:\\pics\\aaa.jpg";
+			chartArea2.IsSameFontSizeForAllAxes = true;
+			chartArea2.Name = "ChartArea1";
+			this.chart.ChartAreas.Add(chartArea2);
 			this.chart.Cursor = System.Windows.Forms.Cursors.Default;
 			this.chart.IsSoftShadows = false;
-			legend1.BackImage = "D:\\pics\\3d.png";
-			legend1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Unscaled;
-			legend1.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-			legend1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-			legend1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-			legend1.BorderWidth = 5;
-			legend1.Font = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			legend1.IsTextAutoFit = false;
-			legend1.Name = "xxx";
-			legend1.TitleFont = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.chart.Legends.Add(legend1);
+			legend2.BackImage = "D:\\pics\\3d.png";
+			legend2.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Unscaled;
+			legend2.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+			legend2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+			legend2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+			legend2.BorderWidth = 5;
+			legend2.Font = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			legend2.IsTextAutoFit = false;
+			legend2.Name = "xxx";
+			legend2.TitleFont = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.chart.Legends.Add(legend2);
 			this.chart.Location = new System.Drawing.Point(-5, 6);
 			this.chart.Margin = new System.Windows.Forms.Padding(0);
 			this.chart.Name = "chart";
 			this.chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-			series1.ChartArea = "ChartArea1";
-			series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-			series1.Legend = "xxx";
-			series1.Name = "Series1";
-			series1.YValuesPerPoint = 6;
-			this.chart.Series.Add(series1);
+			series2.ChartArea = "ChartArea1";
+			series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+			series2.Legend = "xxx";
+			series2.Name = "Series1";
+			series2.YValuesPerPoint = 6;
+			this.chart.Series.Add(series2);
 			this.chart.Size = new System.Drawing.Size(594, 451);
 			this.chart.TabIndex = 5;
 			this.chart.Text = "chart1";
-			title1.Name = "Title1";
-			this.chart.Titles.Add(title1);
+			title2.Name = "Title1";
+			this.chart.Titles.Add(title2);
 			this.chart.Click += new System.EventHandler(this.ChartClick);
 			// 
 			// tabPage2
@@ -242,14 +242,36 @@
 			// 
 			// tabPage3
 			// 
-			this.tabPage3.Controls.Add(this.textBox1);
+			this.tabPage3.BackColor = System.Drawing.Color.Maroon;
+			this.tabPage3.BackgroundImage = global::FinancePermutator.Properties.Resources._86015670;
+			this.tabPage3.Controls.Add(this.configurationTab);
 			this.tabPage3.Location = new System.Drawing.Point(4, 25);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage3.Size = new System.Drawing.Size(601, 484);
 			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "tabPage3";
+			this.tabPage3.Text = "configuration";
 			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// configurationTab
+			// 
+			this.configurationTab.AcceptsReturn = true;
+			this.configurationTab.AcceptsTab = true;
+			this.configurationTab.AccessibleRole = System.Windows.Forms.AccessibleRole.Table;
+			this.configurationTab.BackColor = System.Drawing.Color.Moccasin;
+			this.configurationTab.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.configurationTab.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.configurationTab.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.configurationTab.ForeColor = System.Drawing.Color.OliveDrab;
+			this.configurationTab.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.configurationTab.Location = new System.Drawing.Point(3, 3);
+			this.configurationTab.Margin = new System.Windows.Forms.Padding(0);
+			this.configurationTab.Multiline = true;
+			this.configurationTab.Name = "configurationTab";
+			this.configurationTab.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.configurationTab.Size = new System.Drawing.Size(595, 478);
+			this.configurationTab.TabIndex = 0;
+			this.configurationTab.Text = "<configuration>";
 			// 
 			// button3
 			// 
@@ -377,15 +399,6 @@
 			this.funcListLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.funcListLabel.WordWrap = false;
 			// 
-			// textBox1
-			// 
-			this.textBox1.Location = new System.Drawing.Point(6, 8);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(589, 454);
-			this.textBox1.TabIndex = 0;
-			this.textBox1.Text = "<configuration>";
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -438,10 +451,10 @@
 		public Button button3;
 		public Chart chart;
 		public TabPage tabPage3;
-			public ListBox debugView;
+		public ListBox debugView;
 		public TextBox funcListLabel;
 		public Label statusLabel;
-		private TextBox textBox1;
+		public TextBox configurationTab;
 	}
 }
 

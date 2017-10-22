@@ -42,6 +42,8 @@ namespace FinancePermutator.Function
 			RandomSeed = randomSeed > 0 ? randomSeed : DateTime.Now.Millisecond;
 			Random = new Random(RandomSeed);
 
+			Program.Form.ConfigurationAddLine($"Function {methodInfo.Name}\r\n");
+
 			// DumpParams(methodInfo);
 			Arguments = new object[methodInfo.GetParameters().Length];
 
@@ -220,6 +222,8 @@ namespace FinancePermutator.Function
 				}
 
 				ParamIndex++;
+
+				Program.Form.ConfigurationAddLine($"{ParamIndex} {param.Name}: {Arguments[ParamIndex - 1]}\r\n");
 			}
 
 			// 	DumpArguments();
@@ -231,14 +235,14 @@ namespace FinancePermutator.Function
 			int argIdx = 0;
 			foreach (object o in Arguments)
 				if (o != null)
-					Tools.debug($" +arg{argIdx++, -2:00} {o.GetType()} {o}");
+					Tools.debug($" +arg{argIdx++,-2:00} {o.GetType()} {o}");
 		}
 
 		private static void DumpParams(MethodInfo methodInfo)
 		{
 			int idx = 0;
 			foreach (var pi in methodInfo.GetParameters())
-				Tools.debug($" prm{idx++, 2:00} {pi.ParameterType} {pi.Name}");
+				Tools.debug($" prm{idx++,2:00} {pi.ParameterType} {pi.Name}");
 		}
 	}
 }

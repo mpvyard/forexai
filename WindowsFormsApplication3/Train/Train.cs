@@ -46,6 +46,7 @@ namespace FinancePermutator.Train
 			ClearParameters();
 
 			RunScan = true;
+			thread.Priority = ThreadPriority.Lowest;
 			thread.Start();
 		}
 
@@ -502,7 +503,6 @@ namespace FinancePermutator.Train
 					//Program.Form.chart.Series["test"].Points[a1-1].Color = Color.RosyBrown;
 				}));
 
-				output = network.RunNetwork(inputSetsLocal[0]);
 				testMse = network.TestData(testData);
 			}
 

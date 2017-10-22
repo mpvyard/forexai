@@ -12,7 +12,7 @@ namespace FinancePermutator
 	{
 		public const string PriceFileName = @"d:\temp\GBPUSD.csv";
 		public const string LogFileName = @"d:\temp\winform3.log";
-		public const int ValuesCount = 99;
+		public const int ValuesCount = 128;
 		public const int MaxOffset = 140000;
 		public const int TaFunctionsCount = 6;
 		public const int TestDataAmountPerc = 5;

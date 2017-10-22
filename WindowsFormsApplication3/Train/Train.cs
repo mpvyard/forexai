@@ -17,7 +17,7 @@ namespace FinancePermutator.Train
 {
 	class Train
 	{
-		static int valuesCount = Configuration.ValuesCount;
+		static int valuesCount = Configuration.InputDimension;
 		static double[][] inputSets = new double[1][];
 		static double[][] outputSets = new double[1][];
 		static double[] combinedResult;
@@ -65,10 +65,12 @@ namespace FinancePermutator.Train
 				Data.FunctionsBase.Clear();
 
 				int randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
-
+				Random random = new Random(randomSeed);
 				SetupFunctions(randomSeed);
 
 				debug("function setup done, generating data ...");
+
+				valuesCount = random.Next(8, 8 * (8 + random.Next(16)));
 
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += valuesCount)
 				{

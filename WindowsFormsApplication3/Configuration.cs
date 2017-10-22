@@ -14,8 +14,8 @@ namespace FinancePermutator
 		public const string LogFileName = @"d:\temp\winform3.log";
 		public const int InputDimension = 128;
 		public const int MaxOffset = 140000;
-		public const int TaFunctionsCount = 6;
-		public const int TestDataAmountPerc = 5;
+		public const int TaFunctionsCount = 8;
+		public const int TestDataAmountPerc = 8;
 		public const int TrainLimitEpochs = 200;
 		public const uint DefaultHiddenNeurons = 0;
 

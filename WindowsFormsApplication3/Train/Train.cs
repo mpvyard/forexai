@@ -70,7 +70,7 @@ namespace FinancePermutator.Train
 
 				debug("function setup done, generating data ...");
 
-				valuesCount = random.Next(8, 8 * (8 + random.Next(16)));
+				valuesCount = random.Next(8, 8 * (random.Next(8, 32)));
 
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += valuesCount)
 				{
@@ -492,7 +492,7 @@ namespace FinancePermutator.Train
 
 				if (testMse <= 0.1 && epoch > 10)
 				{
-					network.Save($"d:\\temp\\good_networks\\good_{testMse,4:0.####}.net");
+					network.Save($"d:\\temp\\good_networks\\good_{network.GetHashCode(),4:0.####}.net");
 				}
 
 				//if (epoch % 2 == 0)

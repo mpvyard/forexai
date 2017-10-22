@@ -56,10 +56,12 @@
 			this.timeFast = new System.Windows.Forms.Timer(this.components);
 			this.debugView = new System.Windows.Forms.ListBox();
 			this.funcListLabel = new System.Windows.Forms.TextBox();
+			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
 			this.tabPage2.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// loadPricesButton
@@ -240,6 +242,7 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.textBox1);
 			this.tabPage3.Location = new System.Drawing.Point(4, 25);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -374,6 +377,15 @@
 			this.funcListLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.funcListLabel.WordWrap = false;
 			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(6, 8);
+			this.textBox1.Multiline = true;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(589, 454);
+			this.textBox1.TabIndex = 0;
+			this.textBox1.Text = "<configuration>";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,6 +416,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
+			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -427,6 +441,7 @@
 			public ListBox debugView;
 		public TextBox funcListLabel;
 		public Label statusLabel;
+		private TextBox textBox1;
 	}
 }
 

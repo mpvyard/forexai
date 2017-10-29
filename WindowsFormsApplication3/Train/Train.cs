@@ -185,7 +185,7 @@ namespace FinancePermutator.Train
 			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
 				Thread.Yield();
-				Thread.Sleep(50);
+				//Thread.Sleep(50);
 
 				int unixTimestamp = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds +
 				                    DateTime.Now.Millisecond;
@@ -462,7 +462,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
 				Thread.Yield();
-				Thread.Sleep(150);
+				Thread.Sleep(50);
 
 				/*network.SarpropStepErrorShift -= 0.01f;
 				debug($"SarpropStepErrorShift {network.SarpropStepErrorShift}");*/

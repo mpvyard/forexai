@@ -77,7 +77,7 @@ namespace FinancePermutator.Train
 
 		public static uint GetLastInputTime()
 		{
-			lastInPutNfo.cbSize = (uint)Marshal.SizeOf(lastInPutNfo);
+			lastInPutNfo.cbSize = (uint) Marshal.SizeOf(lastInPutNfo);
 			if (!GetLastInputInfo(ref lastInPutNfo))
 				debug($"ERROR: GetLastInputInfo: {Marshal.GetLastWin32Error()}");
 
@@ -94,7 +94,7 @@ namespace FinancePermutator.Train
 			{
 				again:
 
-				SleepTime = GetIdleTickCount() >= 2000 ? 0 : Configuration.SleepTime;
+				SleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
 				Program.Form.setStatus($"generating functions list, sleepTime={SleepTime}");
 
@@ -111,7 +111,6 @@ namespace FinancePermutator.Train
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
 				{
 					Program.Form.setStatus($"Generating train/test data {offset} - {offset + InputDimension} ...");
-					//debug($"creating train data offset {offset} num {valuesCount} ...");
 
 					combinedResult = new double[] { };
 
@@ -141,23 +140,17 @@ namespace FinancePermutator.Train
 							goto again;
 						}
 
-/*					if (numRecord % 3 == 0 && result != null && result.Length > 0)
-                        Form1.DrawResults(funcName, result, false);*/
-
 						// copy new output to all data
 						if (combinedResult != null)
 							prevOffset = combinedResult.Length;
 
 						Array.Resize(ref combinedResult, (combinedResult?.Length ?? 0) + result.Length);
 						Array.Copy(result, 0, combinedResult, prevOffset, result.Length);
-
-						//debug($"+result {result.Length} combined {combinedResult.Length} firstel {combinedResult[0]}");
 					}
 
 					// generate train data set
 					Array.Resize(ref inputSets, numRecord + 1);
 					Array.Resize(ref outputSets, numRecord + 1);
-					//debug($"arrays resized to numRecord={numRecord}");
 
 					inputSets[numRecord] = new double[combinedResult.Length];
 					outputSets[numRecord] = new double[2];
@@ -171,10 +164,9 @@ namespace FinancePermutator.Train
 					SetOutputResult(InputDimension, offset, numRecord);
 
 					numRecord++;
-					// hello 2
 
-					if (offset > Configuration.MaxOffset)
-						break;
+/*					if (offset > Configuration.MaxOffset)
+						break;*/
 				}
 
 				if (!RunScan)
@@ -216,6 +208,7 @@ namespace FinancePermutator.Train
 
 			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
+				SleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 				Thread.Yield();
 				Thread.Sleep(SleepTime);
 
@@ -484,6 +477,7 @@ namespace FinancePermutator.Train
 
 			for (var epoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
 			{
+				SleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 				if (epoch >= Configuration.TrainLimitEpochs)
 				{
 					debug("[AUTO-RESTART]");
@@ -491,7 +485,7 @@ namespace FinancePermutator.Train
 					ClearParameters();
 					return -1;
 				}
-				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
+				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ST {SleepTime}");
 
 				Thread.Yield();
 				Thread.Sleep(SleepTime);

@@ -110,7 +110,7 @@ namespace FinancePermutator.Train
 						}
 
 /*					if (numRecord % 3 == 0 && result != null && result.Length > 0)
-						Form1.DrawResults(funcName, result, false);*/
+                        Form1.DrawResults(funcName, result, false);*/
 
 						// copy new output to all data
 						if (combinedResult != null)
@@ -149,7 +149,7 @@ namespace FinancePermutator.Train
 					return;
 
 				/*if (-1 == TrainNetwork(ref inputSets, ref outputSets))
-					debug($"ERROR: unsuccessfull train il {inputSets?.Length} ol {outputSets?.Length}");*/
+				    debug($"ERROR: unsuccessfull train il {inputSets?.Length} ol {outputSets?.Length}");*/
 				ret = TrainNetwork(ref inputSets, ref outputSets);
 			} while (RunScan);
 
@@ -159,21 +159,21 @@ namespace FinancePermutator.Train
 		}
 
 /*
-		／ イ(((ヽ
-		(ﾉ ￣Ｙ＼
-		|　(＼　(. /) ｜ )
-		ヽ ヽ` ( ͡° ͜ʖ ͡°) _ノ /
-		＼ |　⌒Ｙ⌒　/ /
-		｜ヽ　 ｜　 ﾉ ／
-		＼トー仝ーイ
-		｜ ミ土彡/
-		)\ ° /
-		( \ /
-		/ / ѼΞΞΞΞΞΞΞD
-		/ / / \ \ \ 
-		(( ). ) ).)
-		( ). ( | | 
-		| / \ |*/
+        ／ イ(((ヽ
+        (ﾉ ￣Ｙ＼
+        |　(＼　(. /) ｜ )
+        ヽ ヽ` ( ͡° ͜ʖ ͡°) _ノ /
+        ＼ |　⌒Ｙ⌒　/ /
+        ｜ヽ　 ｜　 ﾉ ／
+        ＼トー仝ーイ
+        ｜ ミ土彡/
+        )\ ° /
+        ( \ /
+        / / ѼΞΞΞΞΞΞΞD
+        / / / \ \ \ 
+        (( ). ) ).)
+        ( ). ( | | 
+        | / \ |*/
 
 		private void SetupFunctions(int randomSeed)
 		{
@@ -298,7 +298,7 @@ namespace FinancePermutator.Train
 					{
 						debug($"inputSetsLocal: error in CELL {j}:{k}  {cell}");
 						/*MessageBox.Show($"inputSetsLocal: error in CELL {j}:{k} {cell}", "input", MessageBoxButtons.RetryCancel,
-							MessageBoxIcon.Error);*/
+						    MessageBoxIcon.Error);*/
 						return false;
 					}
 					k++;
@@ -323,7 +323,7 @@ namespace FinancePermutator.Train
 					{
 						debug($"outputSetsLocal: error in CELL {j}:{k} {cell}");
 						/*MessageBox.Show($"outputSetsLocal: error in CELL {j}:{k} {cell}", "output", MessageBoxButtons.RetryCancel,
-							MessageBoxIcon.Error);*/
+						    MessageBoxIcon.Error);*/
 						return false;
 					}
 					k++;
@@ -398,8 +398,8 @@ namespace FinancePermutator.Train
 				debug($"Exception '{e.Message}' while working with train data");
 				Program.Form.setStatus($"Exception '{e.Message}' while working with train data");
 				/*if (MessageBox.Show($"err: {e.Message} {e.StackTrace}", "error", MessageBoxButtons.RetryCancel,
-					    MessageBoxIcon.Error) == DialogResult.Cancel)
-					throw;*/
+				        MessageBoxIcon.Error) == DialogResult.Cancel)
+				    throw;*/
 				ClearParameters();
 				return -1;
 			}
@@ -545,6 +545,8 @@ namespace FinancePermutator.Train
 		private static void SetOutputResult(int valuesCountLocal, int offset, int numRecordLocal)
 		{
 			double[] priceOpen = ForexPrices.GetOpen(valuesCountLocal, offset);
+			class1 = class2 = class0 = 0;
+
 			if (priceOpen[valuesCountLocal - 1] > priceOpen[valuesCountLocal - 5])
 			{
 				// if (numRecord > 3 && priceOpen.Length > 3)
@@ -567,7 +569,7 @@ namespace FinancePermutator.Train
 			}
 
 			/*if (numRecord % 500 == 0)
-				debug($"#{numRecord} set output {outputSets[numRecord][0]} {outputSets[numRecord][1]}");*/
+			    debug($"#{numRecord} set output {outputSets[numRecord][0]} {outputSets[numRecord][1]}");*/
 		}
 	}
 }

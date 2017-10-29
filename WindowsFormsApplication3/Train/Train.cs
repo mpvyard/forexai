@@ -487,7 +487,7 @@ namespace FinancePermutator.Train
 					break;
 				}
 
-				if (testMse <= 0.15 && epoch > 10)
+				if (testMse <= Configuration.MinSaveTestMSE && epoch > 10)
 					SaveNetwork();
 
 				//if (epoch % 2 == 0)

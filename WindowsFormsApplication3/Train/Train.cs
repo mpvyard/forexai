@@ -116,7 +116,6 @@ namespace FinancePermutator.Train
 
 					foreach (var funct in Data.FunctionsBase)
 					{
-						Thread.Yield();
 						var functionInfo = funct.Value;
 						//string funcName = funct.Key;
 

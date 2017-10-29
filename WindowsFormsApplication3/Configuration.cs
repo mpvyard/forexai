@@ -19,6 +19,7 @@ namespace FinancePermutator
 		public const int TestDataAmountPerc = 6;
 		public const int TrainLimitEpochs = 200;
 		public static uint DefaultHiddenNeurons = 0;
+		public const int SleepTime = 80;
 
 		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP; //TRAIN_QUICKPROP;//TRAIN_RPROP;
 		//TRAIN_BATCH;//TRAIN_INCREMENTAL;//TRAIN_SARPROP;

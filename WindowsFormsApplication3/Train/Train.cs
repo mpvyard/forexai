@@ -444,6 +444,7 @@ namespace FinancePermutator.Train
 			double minTestMSE = 1.0;
 
 			debug("starting train");
+			Program.Form.debugView.Items.Clear();
 
 			for (var epoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
 			{
@@ -457,7 +458,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
 				Thread.Yield();
-				Thread.Sleep(100);
+				//Thread.Sleep(100);
 
 				/*network.SarpropStepErrorShift -= 0.01f;
 				debug($"SarpropStepErrorShift {network.SarpropStepErrorShift}");*/
@@ -493,16 +494,7 @@ namespace FinancePermutator.Train
 
 				if (testMse <= 0.2 && epoch > 10)
 				{
-					if (!Directory.Exists($"d:\\temp\\forexAI\\{network.GetHashCode()}"))
-						Directory.CreateDirectory($"d:\\temp\\forexAI\\{network.GetHashCode()}");
-					;
-					network.Save($"d:\\temp\\forexAI\\{network.GetHashCode()}\\{network.GetHashCode(),4:0.####}.net");
-					File.Copy("d:\\temp\\traindata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\traindata.dat", true);
-					File.Copy("d:\\temp\\testdata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\testdata.dat", true);
-					Program.Form.chart.Invoke((MethodInvoker) (() =>
-					{
-						Program.Form.chart.SaveImage($"d:\\temp\\forexAI\\{network.GetHashCode()}\\chart.jpg", ChartImageFormat.Jpeg);
-					}));
+					SaveNetwork();
 				}
 
 				//if (epoch % 2 == 0)
@@ -530,6 +522,20 @@ namespace FinancePermutator.Train
 				$"[Done] Trainmse {trainMse,6:0.####} Testmse {testMse,6:0.####} . should={outputSetsLocal[0][1]} is={output[1]}.");
 
 			return 0;
+		}
+
+		private static void SaveNetwork()
+		{
+			if (!Directory.Exists($"d:\\temp\\forexAI\\{network.GetHashCode()}"))
+				Directory.CreateDirectory($"d:\\temp\\forexAI\\{network.GetHashCode()}");
+			;
+			network.Save($"d:\\temp\\forexAI\\{network.GetHashCode()}\\{network.GetHashCode(),4:0.####}.net");
+			File.Copy("d:\\temp\\traindata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\traindata.dat", true);
+			File.Copy("d:\\temp\\testdata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\testdata.dat", true);
+			Program.Form.chart.Invoke((MethodInvoker)(() =>
+			{
+				Program.Form.chart.SaveImage($"d:\\temp\\forexAI\\{network.GetHashCode()}\\chart.jpg", ChartImageFormat.Jpeg);
+			}));
 		}
 
 		private static void SetOutputResult(int valuesCountLocal, int offset, int numRecordLocal)

@@ -18,7 +18,7 @@ namespace FinancePermutator.Train
 {
 	class Train
 	{
-		static int valuesCount = Configuration.InputDimension;
+		static int InputDimension = Configuration.InputDimension;
 		static double[][] inputSets = new double[1][];
 		static double[][] outputSets = new double[1][];
 		static double[] combinedResult;
@@ -64,18 +64,19 @@ namespace FinancePermutator.Train
 				again:
 
 				Data.FunctionsBase.Clear();
+				Program.Form.debugView.Items.Clear();
 
 				int randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
 				Random random = new Random(randomSeed);
 				SetupFunctions(randomSeed);
 
-				debug("function setup done, generating data ...");
+				InputDimension = random.Next(8, 8 * (random.Next(8, 32)));
 
-				valuesCount = random.Next(8, 8 * (random.Next(8, 32)));
+				debug($"function setup done, generating data [inputDimension={InputDimension}] ...");
 
-				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += valuesCount)
+				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
 				{
-					Program.Form.setStatus($"Generating train/test data {offset} - {offset + valuesCount} ...");
+					Program.Form.setStatus($"Generating train/test data {offset} - {offset + InputDimension} ...");
 					//debug($"creating train data offset {offset} num {valuesCount} ...");
 
 					combinedResult = new double[] { };
@@ -89,7 +90,7 @@ namespace FinancePermutator.Train
 						randomSeed = (int) functionInfo["randomseed"];
 						//debug($"load seed {randomSeed} for {funcName}");
 						FunctionParameters functionParameters =
-							new FunctionParameters((MethodInfo) functionInfo["methodInfo"], valuesCount, offset, randomSeed);
+							new FunctionParameters((MethodInfo) functionInfo["methodInfo"], InputDimension, offset, randomSeed);
 
 						// save seed
 
@@ -133,7 +134,7 @@ namespace FinancePermutator.Train
 
 					Array.Copy(combinedResult, inputSets[numRecord], combinedResult.Length);
 
-					SetOutputResult(valuesCount, offset, numRecord);
+					SetOutputResult(InputDimension, offset, numRecord);
 
 					numRecord++;
 					// hello 2
@@ -191,7 +192,7 @@ namespace FinancePermutator.Train
 				debug($"selected function #{i}: {methodInfo.Name} randomSeed: {randomSeed}");
 
 				// generate parameters
-				FunctionParameters functionParameters = new FunctionParameters(methodInfo, valuesCount, 0, randomSeed);
+				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0, randomSeed);
 
 				// save seed
 				randomSeed = functionParameters.RandomSeed;
@@ -444,7 +445,7 @@ namespace FinancePermutator.Train
 			double minTestMSE = 1.0;
 
 			debug("starting train");
-			Program.Form.debugView.Items.Clear();
+			
 
 			for (var epoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
 			{
@@ -458,7 +459,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} ");
 
 				Thread.Yield();
-				//Thread.Sleep(100);
+				Thread.Sleep(150);
 
 				/*network.SarpropStepErrorShift -= 0.01f;
 				debug($"SarpropStepErrorShift {network.SarpropStepErrorShift}");*/
@@ -486,16 +487,8 @@ namespace FinancePermutator.Train
 					break;
 				}
 
-				if (testMse < minTestMSE && epoch > 10)
-				{
-					minTestMSE = mse1;
-					network.Save(@"d:\temp\forexAI\net_mintestmse.net");
-				}
-
-				if (testMse <= 0.2 && epoch > 10)
-				{
+				if (testMse <= 0.15 && epoch > 10)
 					SaveNetwork();
-				}
 
 				//if (epoch % 2 == 0)
 				Program.Form.chart.Invoke((MethodInvoker) (() =>
@@ -532,7 +525,7 @@ namespace FinancePermutator.Train
 			network.Save($"d:\\temp\\forexAI\\{network.GetHashCode()}\\{network.GetHashCode(),4:0.####}.net");
 			File.Copy("d:\\temp\\traindata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\traindata.dat", true);
 			File.Copy("d:\\temp\\testdata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\testdata.dat", true);
-			Program.Form.chart.Invoke((MethodInvoker)(() =>
+			Program.Form.chart.Invoke((MethodInvoker) (() =>
 			{
 				Program.Form.chart.SaveImage($"d:\\temp\\forexAI\\{network.GetHashCode()}\\chart.jpg", ChartImageFormat.Jpeg);
 			}));

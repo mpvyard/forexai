@@ -64,7 +64,7 @@ namespace FinancePermutator.Train
 				again:
 
 				Data.FunctionsBase.Clear();
-				Program.Form.debugView.Items.Clear();
+				Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
 
 				int randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
 				Random random = new Random(randomSeed);
@@ -445,7 +445,6 @@ namespace FinancePermutator.Train
 			double minTestMSE = 1.0;
 
 			debug("starting train");
-			
 
 			for (var epoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
 			{
@@ -528,15 +527,13 @@ namespace FinancePermutator.Train
 			Program.Form.chart.Invoke((MethodInvoker) (() =>
 			{
 				Program.Form.chart.SaveImage($"d:\\temp\\forexAI\\{network.GetHashCode()}\\chart.jpg", ChartImageFormat.Jpeg);
-			}));
 
-			using (var tw = new StreamWriter($"d:\\temp\\forexAI\\{network.GetHashCode()}.log"))
-			{
-				foreach (ListViewItem item in Program.Form.debugView.Items)
+				using (var tw = new StreamWriter($"d:\\temp\\forexAI\\{network.GetHashCode()}\\console.log"))
 				{
-					tw.WriteLine(item.Text);
+					foreach (var item in Program.Form.debugView.Items)
+						tw.WriteLine(item.ToString());
 				}
-			}
+			}));
 		}
 
 		private static void SetOutputResult(int valuesCountLocal, int offset, int numRecordLocal)

@@ -529,6 +529,14 @@ namespace FinancePermutator.Train
 			{
 				Program.Form.chart.SaveImage($"d:\\temp\\forexAI\\{network.GetHashCode()}\\chart.jpg", ChartImageFormat.Jpeg);
 			}));
+
+			using (var tw = new StreamWriter($"d:\\temp\\forexAI\\{network.GetHashCode()}.log"))
+			{
+				foreach (ListViewItem item in Program.Form.debugView.Items)
+				{
+					tw.WriteLine(item.Text);
+				}
+			}
 		}
 
 		private static void SetOutputResult(int valuesCountLocal, int offset, int numRecordLocal)

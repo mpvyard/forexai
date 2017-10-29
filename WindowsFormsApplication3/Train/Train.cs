@@ -155,9 +155,9 @@ namespace FinancePermutator.Train
 					inputSets[numRecord] = new double[combinedResult.Length];
 					outputSets[numRecord] = new double[2];
 
-					if (numRecord % 25 == 0)
+					if (numRecord % 45 == 0)
 						debug(
-							$"offset: {offset} numRecord:{numRecord} inputSets:{inputSets.Length} outputSets:{outputSets.Length}\r\n combinedResult:{combinedResult.Length}");
+							$"offset: {offset} numRecord:{numRecord} inputSets:{inputSets.Length} outputSets:{outputSets.Length} combinedResult:{combinedResult.Length}");
 
 					Array.Copy(combinedResult, inputSets[numRecord], combinedResult.Length);
 

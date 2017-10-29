@@ -491,14 +491,18 @@ namespace FinancePermutator.Train
 					network.Save(@"d:\temp\forexAI\net_mintestmse.net");
 				}
 
-				if (testMse <= 0.1 && epoch > 10)
+				if (testMse <= 0.2 && epoch > 10)
 				{
 					if (!Directory.Exists($"d:\\temp\\forexAI\\{network.GetHashCode()}"))
 						Directory.CreateDirectory($"d:\\temp\\forexAI\\{network.GetHashCode()}");
 					;
 					network.Save($"d:\\temp\\forexAI\\{network.GetHashCode()}\\{network.GetHashCode(),4:0.####}.net");
-					File.Copy("d:\\temp\\traindata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\traindata.dat");
-					File.Copy("d:\\temp\\testdata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\testdata.dat");
+					File.Copy("d:\\temp\\traindata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\traindata.dat", true);
+					File.Copy("d:\\temp\\testdata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\testdata.dat", true);
+					Program.Form.chart.Invoke((MethodInvoker) (() =>
+					{
+						Program.Form.chart.SaveImage($"d:\\temp\\forexAI\\{network.GetHashCode()}\\chart.jpg", ChartImageFormat.Jpeg);
+					}));
 				}
 
 				//if (epoch % 2 == 0)

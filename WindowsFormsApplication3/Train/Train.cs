@@ -66,7 +66,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus("generating functions list");
 
 				again:
-
+				class1 = class2 = class0 = 0;
 				Data.FunctionsBase.Clear();
 				Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
 
@@ -448,8 +448,6 @@ namespace FinancePermutator.Train
 			network.InitWeights(trainData);
 			network.SetupActivation();
 
-			double minTestMSE = 1.0;
-
 			debug("starting train");
 
 			for (var epoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; epoch++)
@@ -545,7 +543,6 @@ namespace FinancePermutator.Train
 		private static void SetOutputResult(int valuesCountLocal, int offset, int numRecordLocal)
 		{
 			double[] priceOpen = ForexPrices.GetOpen(valuesCountLocal, offset);
-			class1 = class2 = class0 = 0;
 
 			if (priceOpen[valuesCountLocal - 1] > priceOpen[valuesCountLocal - 5])
 			{

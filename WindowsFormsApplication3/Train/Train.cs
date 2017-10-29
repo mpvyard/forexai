@@ -165,7 +165,7 @@ namespace FinancePermutator.Train
 					numRecord++;
 
 /*					if (offset > Configuration.MaxOffset)
-						break;*/
+                        break;*/
 				}
 
 				if (!RunScan)

@@ -195,7 +195,7 @@ namespace FinancePermutator.Train
 
 				Program.Form.setStatus($"Setup function #{i} <{methodInfo.Name}> ...");
 
-				debug($"selected function #{i}: {methodInfo.Name} randomSeed: {randomSeed}");
+				debug($"Selected function #{i}: {methodInfo.Name} randomSeed: {randomSeed}");
 
 				// generate parameters
 				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0, randomSeed);
@@ -525,14 +525,14 @@ namespace FinancePermutator.Train
 			if (!Directory.Exists($"d:\\temp\\forexAI\\{network.GetHashCode()}"))
 				Directory.CreateDirectory($"d:\\temp\\forexAI\\{network.GetHashCode()}");
 			;
-			network.Save($"d:\\temp\\forexAI\\{network.GetHashCode()}\\{network.GetHashCode(),4:0.####}.net");
+			network.Save($"d:\\temp\\forexAI\\{network.GetHashCode()}\\FANN.net");
 			File.Copy("d:\\temp\\traindata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\traindata.dat", true);
 			File.Copy("d:\\temp\\testdata.dat", $"d:\\temp\\forexAI\\{network.GetHashCode()}\\testdata.dat", true);
 			Program.Form.chart.Invoke((MethodInvoker) (() =>
 			{
 				Program.Form.chart.SaveImage($"d:\\temp\\forexAI\\{network.GetHashCode()}\\chart.jpg", ChartImageFormat.Jpeg);
 
-				using (var tw = new StreamWriter($"d:\\temp\\forexAI\\{network.GetHashCode()}\\console.log"))
+				using (var tw = new StreamWriter($"d:\\temp\\forexAI\\{network.GetHashCode()}\\debug.log"))
 				{
 					foreach (var item in Program.Form.debugView.Items)
 						tw.WriteLine(item.ToString());

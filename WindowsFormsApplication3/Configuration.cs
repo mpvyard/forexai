@@ -13,9 +13,9 @@ namespace FinancePermutator
 		public const string PriceFileName = @"d:\temp\forexAI\GBPUSD.csv";
 		public const string LogFileName = @"d:\temp\forexAI\forexAI.log";
 		public const int InputDimension = 128;
-		public const double MinSaveTestMSE = 0.19;
+		public const double MinSaveTestMSE = 0.16;
 		public const int MaxOffset = 140000;
-		public const int TaFunctionsCount = 10;
+		public const int TaFunctionsCount = 4;
 		public const int TestDataAmountPerc = 6;
 		public const int TrainLimitEpochs = 200;
 		public static uint DefaultHiddenNeurons = 0;

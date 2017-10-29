@@ -13,10 +13,10 @@ namespace FinancePermutator
 		public const string PriceFileName = @"d:\temp\GBPUSD.csv";
 		public const string LogFileName = @"d:\temp\winform3.log";
 		public const int InputDimension = 128;
-		public const double MinSaveTestMSE = 0.2;
+		public const double MinSaveTestMSE = 0.19;
 		public const int MaxOffset = 140000;
-		public const int TaFunctionsCount = 8;
-		public const int TestDataAmountPerc = 8;
+		public const int TaFunctionsCount = 10;
+		public const int TestDataAmountPerc = 6;
 		public const int TrainLimitEpochs = 200;
 		public const uint DefaultHiddenNeurons = 0;
 

@@ -31,9 +31,13 @@ namespace FinancePermutator.Train
 		public static int class0;
 		private static Thread thread;
 		private static Network network;
+		public Random random;
+		private int randomSeed;
 
 		public Train()
 		{
+			randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
+			random = new Random(randomSeed);
 			thread = new Thread(ProcessScan);
 		}
 
@@ -66,8 +70,6 @@ namespace FinancePermutator.Train
 				Data.FunctionsBase.Clear();
 				Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
 
-				int randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
-				Random random = new Random(randomSeed);
 				SetupFunctions(randomSeed);
 
 				InputDimension = random.Next(8, 8 * (random.Next(8, 32)));
@@ -175,11 +177,15 @@ namespace FinancePermutator.Train
 
 		private void SetupFunctions(int randomSeed)
 		{
+			int functionsCount = random.Next(3, 3 + Configuration.TaFunctionsCount);
+
+			debug($"functionsCount={functionsCount}");
 			Program.Form.ConfigurationClear();
-			for (int i = 0; i < Configuration.TaFunctionsCount && RunScan; i++)
+
+			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
 				Thread.Yield();
-				Thread.Sleep(10);
+				Thread.Sleep(50);
 
 				int unixTimestamp = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds +
 				                    DateTime.Now.Millisecond;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using FinancePermutator.Generators;
+using FinancePermutator.Prices;
 
 namespace FinancePermutator.Function
 {

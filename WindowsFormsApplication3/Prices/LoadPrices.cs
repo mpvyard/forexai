@@ -44,7 +44,7 @@ namespace FinancePermutator.Prices
 
 				Data.ForexPrices.Add(priceEntry);
 
-				if (lineNum % 850 == 0)
+				if (lineNum % 1850 == 0)
 				{
 					Tools.debug($"load {lineNum} {timeDate}");
 					Program.Form.chart.Invoke((MethodInvoker) (() =>

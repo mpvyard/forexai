@@ -1,10 +1,5 @@
-﻿namespace FinancePermutator
+﻿namespace FinancePermutator.Prices
 {
-	using System;
-	using System.Linq;
-
-	using static Tools;
-
 	internal static class ForexPrices
 	{
 		public static double[] GetHigh(int num, int offset = 0)

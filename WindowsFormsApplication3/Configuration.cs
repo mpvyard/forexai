@@ -17,7 +17,7 @@ namespace FinancePermutator
 		public const int MaxOffset = 140000;
 		public const int TaFunctionsCount = 3;
 		public const int TestDataAmountPerc = 6;
-		public const int TrainLimitEpochs = 200;
+		public const int TrainLimitEpochs = 111;
 		public static uint DefaultHiddenNeurons = 0;
 		public const int SleepTime = 300;
 		public const int SleepCheckTime = 10000;

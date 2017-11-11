@@ -34,7 +34,7 @@ namespace FinancePermutator.Forms
 
 		public void ConfigurationClear()
 		{
-			Program.Form.tabControl1.Invoke((MethodInvoker)(() => { Program.Form.configurationTab.Clear(); }));
+			Program.Form.tabControl1.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.Clear(); }));
 		}
 
 		public void ConfigurationAddLine(string msg)
@@ -60,8 +60,7 @@ namespace FinancePermutator.Forms
 				case FormWindowState.Minimized:
 					notifyIcon1.Visible = true;
 					notifyIcon1.BalloonTipTitle = "FINANCE PERMUTATOR";
-					notifyIcon1.BalloonTipText =
-						$"running in background, pid={Process.GetCurrentProcess().Id} tid={GetCurrentThreadId()}";
+					notifyIcon1.BalloonTipText = $"running in background, pid={Process.GetCurrentProcess().Id} tid={GetCurrentThreadId()}";
 					notifyIcon1.ShowBalloonTip(1500);
 
 					notifyIcon1.Text = @"[Message shown when hovering over tray icon]";
@@ -122,8 +121,8 @@ namespace FinancePermutator.Forms
 			foreach (var param in method.GetParameters())
 			{
 				// debug($" param: {param.Name} {param.ParameterType}");
-				if (param.Name.Contains("inReal") || param.Name.Contains("inOpen") || param.Name.Contains("inClose") ||
-				    param.Name.Contains("inLow") || param.Name.Contains("inHigh"))
+				if (param.Name.Contains("inReal") || param.Name.Contains("inOpen") || param.Name.Contains("inClose") || param.Name.Contains("inLow") ||
+				    param.Name.Contains("inHigh"))
 					bAddMethod = true;
 
 				if (param.Name.Contains("outFast") || param.Name.Contains("outSine") || param.Name.Contains("outMACD") ||
@@ -147,8 +146,7 @@ namespace FinancePermutator.Forms
 				{
 					Data.TALibMethods.Add(method);
 					debug($"-> method #{this.methodNum++,-3:000}: {method}");
-					Program.Form.loadTAButton.Invoke((MethodInvoker) (() =>
-						Program.Form.loadTAButton.Text = $"loading {this.methodNum}"));
+					Program.Form.loadTAButton.Invoke((MethodInvoker) (() => Program.Form.loadTAButton.Text = $"loading {this.methodNum}"));
 				}
 			Program.Form.loadTAButton.Text = $"{Data.TALibMethods.Count} OK";
 
@@ -159,7 +157,7 @@ namespace FinancePermutator.Forms
 		private void TimeFastTick(object sender, EventArgs e)
 		{
 			// debug("tick");
-			if(Messages.Any())
+			if (Messages.Any())
 				WriteMessages();
 		}
 
@@ -221,8 +219,7 @@ namespace FinancePermutator.Forms
 		{
 			foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
 			{
-				if (ni.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&
-				    ni.NetworkInterfaceType != NetworkInterfaceType.Ethernet)
+				if (ni.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 && ni.NetworkInterfaceType != NetworkInterfaceType.Ethernet)
 					continue;
 				debug($"interface: {ni.Name}");
 				foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
@@ -263,13 +260,11 @@ namespace FinancePermutator.Forms
 			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
 			{
 				// Selected. Draw with the system highlight color.
-				e.Graphics.DrawString(line, new Font("lucida console", 8, FontStyle.Regular), SystemBrushes.HighlightText,
-					e.Bounds.Left, e.Bounds.Top + 1);
+				e.Graphics.DrawString(line, new Font("lucida console", 8, FontStyle.Regular), SystemBrushes.HighlightText, e.Bounds.Left,
+					e.Bounds.Top + 1);
 			}
 			else
 			{
-				// Not selected. Draw with ListBox's foreground color.
-				// highlight!
 				var brush = new SolidBrush(Color.DarkSlateBlue);
 				if (line.IndexOf("error", StringComparison.OrdinalIgnoreCase) >= 0 ||
 				    line.IndexOf("Exception", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -291,6 +286,8 @@ namespace FinancePermutator.Forms
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
-		{ }
+		{
+			debug("Form1 LOAD");
+		}
 	}
 }

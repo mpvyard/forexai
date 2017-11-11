@@ -63,9 +63,8 @@ namespace FinancePermutator.Networks
 				░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 		public void SetupActivation()
 		{
-			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC, 1); //SIGMOID_SYMMETRIC
-			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE,
-				2); //SIGMOID_SYMMETRIC_STEPWISE
+			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE, 1); //SIGMOID_SYMMETRIC
+			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE, 2); //SIGMOID_SYMMETRIC_STEPWISE
 			//LINEAR_PIECE_SYMMETRIC
 		}
 
@@ -82,15 +81,12 @@ namespace FinancePermutator.Networks
 
 		public double Train(TrainingData trainData)
 		{
-			/*this.network.LearningRate = 0.04f;
-			this.network.LearningMomentum = 0.01f;
-			this.network.RpropDecreaseFactor = this.network.RpropDecreaseFactor;
-			this.network.ActivationSteepnessHidden = 0.25f;*/
-			return this.network.TrainEpochIrpropmParallel(trainData, 4); //TrainEpochSarpropParallel
-											 //TrainEpochIrpropmParallel
-											 // TrainEpochBatchParallel
-											 //TrainEpochQuickpropParallel
-											 // TrainEpochIncrementalMod
+			return this.network.TrainEpochIrpropmParallel(trainData, 4);
+			//TrainEpochSarpropParallel
+			//TrainEpochIrpropmParallel
+			// TrainEpochBatchParallel
+			//TrainEpochQuickpropParallel
+			// TrainEpochIncrementalMod
 		}
 
 		public double[] RunNetwork(double[] input)

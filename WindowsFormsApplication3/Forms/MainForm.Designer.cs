@@ -35,11 +35,11 @@
 		 {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-			System.Windows.Forms.DataVisualization.Charting.LineAnnotation lineAnnotation3 = new System.Windows.Forms.DataVisualization.Charting.LineAnnotation();
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+			System.Windows.Forms.DataVisualization.Charting.LineAnnotation lineAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.LineAnnotation();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
 			this.loadPricesButton = new System.Windows.Forms.Button();
 			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
 			this.showValues = new System.Windows.Forms.CheckBox();
@@ -57,6 +57,7 @@
 			this.timeFast = new System.Windows.Forms.Timer(this.components);
 			this.debugView = new System.Windows.Forms.ListBox();
 			this.funcListLabel = new System.Windows.Forms.TextBox();
+			this.nodelayCheckbox = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
@@ -161,8 +162,8 @@
 			// 
 			// chart
 			// 
-			lineAnnotation3.Name = "LineAnnotation1";
-			this.chart.Annotations.Add(lineAnnotation3);
+			lineAnnotation1.Name = "LineAnnotation1";
+			this.chart.Annotations.Add(lineAnnotation1);
 			this.chart.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Graphics;
 			this.chart.BackColor = System.Drawing.Color.Ivory;
 			this.chart.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.Center;
@@ -183,45 +184,45 @@
 			this.chart.BorderSkin.BorderWidth = 3;
 			this.chart.BorderSkin.PageColor = System.Drawing.Color.Turquoise;
 			this.chart.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
-			chartArea3.Area3DStyle.IsRightAngleAxes = false;
-			chartArea3.Area3DStyle.LightStyle = System.Windows.Forms.DataVisualization.Charting.LightStyle.Realistic;
-			chartArea3.Area3DStyle.WallWidth = 0;
-			chartArea3.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-			chartArea3.AxisX.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-			chartArea3.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-			chartArea3.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			chartArea3.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.DarkDownwardDiagonal;
-			chartArea3.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
-			chartArea3.Name = "ChartArea1";
-			this.chart.ChartAreas.Add(chartArea3);
+			chartArea1.Area3DStyle.IsRightAngleAxes = false;
+			chartArea1.Area3DStyle.LightStyle = System.Windows.Forms.DataVisualization.Charting.LightStyle.Realistic;
+			chartArea1.Area3DStyle.WallWidth = 0;
+			chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+			chartArea1.AxisX.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+			chartArea1.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+			chartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			chartArea1.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.DarkDownwardDiagonal;
+			chartArea1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
+			chartArea1.Name = "ChartArea1";
+			this.chart.ChartAreas.Add(chartArea1);
 			this.chart.Cursor = System.Windows.Forms.Cursors.Default;
 			this.chart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			legend3.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Unscaled;
-			legend3.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-			legend3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-			legend3.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-			legend3.BorderWidth = 5;
-			legend3.Font = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			legend3.IsTextAutoFit = false;
-			legend3.Name = "xxx";
-			legend3.TitleFont = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.chart.Legends.Add(legend3);
+			legend1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Unscaled;
+			legend1.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+			legend1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+			legend1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+			legend1.BorderWidth = 5;
+			legend1.Font = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			legend1.IsTextAutoFit = false;
+			legend1.Name = "xxx";
+			legend1.TitleFont = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.chart.Legends.Add(legend1);
 			this.chart.Location = new System.Drawing.Point(-5, 6);
 			this.chart.Margin = new System.Windows.Forms.Padding(0);
 			this.chart.Name = "chart";
 			this.chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-			series3.ChartArea = "ChartArea1";
-			series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-			series3.Legend = "xxx";
-			series3.Name = "Series1";
-			series3.YValuesPerPoint = 6;
-			this.chart.Series.Add(series3);
+			series1.ChartArea = "ChartArea1";
+			series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+			series1.Legend = "xxx";
+			series1.Name = "Series1";
+			series1.YValuesPerPoint = 6;
+			this.chart.Series.Add(series1);
 			this.chart.Size = new System.Drawing.Size(594, 451);
 			this.chart.TabIndex = 5;
 			this.chart.Text = "chart1";
 			this.chart.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.SystemDefault;
-			title3.Name = "Title1";
-			this.chart.Titles.Add(title3);
+			title1.Name = "Title1";
+			this.chart.Titles.Add(title1);
 			this.chart.Click += new System.EventHandler(this.ChartClick);
 			// 
 			// tabPage2
@@ -396,6 +397,16 @@
 			this.funcListLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.funcListLabel.WordWrap = false;
 			// 
+			// nodelayCheckbox
+			// 
+			this.nodelayCheckbox.AutoSize = true;
+			this.nodelayCheckbox.Location = new System.Drawing.Point(621, 212);
+			this.nodelayCheckbox.Name = "nodelayCheckbox";
+			this.nodelayCheckbox.Size = new System.Drawing.Size(66, 17);
+			this.nodelayCheckbox.TabIndex = 6;
+			this.nodelayCheckbox.Text = "no delay";
+			this.nodelayCheckbox.UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -403,6 +414,7 @@
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.Menu;
 			this.ClientSize = new System.Drawing.Size(1421, 500);
+			this.Controls.Add(this.nodelayCheckbox);
 			this.Controls.Add(this.funcListLabel);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.debugView);
@@ -452,6 +464,7 @@
 		public TextBox funcListLabel;
 		public Label statusLabel;
 		public TextBox configurationTab;
+		public CheckBox nodelayCheckbox;
 	}
 }
 

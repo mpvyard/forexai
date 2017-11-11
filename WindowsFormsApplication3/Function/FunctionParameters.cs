@@ -83,12 +83,10 @@ namespace FinancePermutator.Function
 					case "optInMaxPeriod":
 					case "optInSignalPeriod":
 						Arguments[ParamIndex] = MaTypeGen.GetRandom();
-
 						// debug($"{param.Name} optInSignalPeriod=" + arguments[paramIndex]);
 						break;
 					case "optInMAType":
 						Arguments[ParamIndex] = MaTypeGen.GetRandom();
-
 						// debug($"{param.Name} optInMAType=" + arguments[paramIndex]);
 						break;
 					case "optInNbDev":

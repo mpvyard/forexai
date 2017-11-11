@@ -22,7 +22,7 @@ namespace FinancePermutator
 		private static object writeMessagesBlock = new object();
 
 		public static void WriteMessages()
-		{ 
+		{
 			// hello
 			if (Messages.Count == 0)
 				return;
@@ -32,6 +32,7 @@ namespace FinancePermutator
 				Program.Form.debugView.Invoke((MethodInvoker) (() =>
 				{
 					Program.Form.debugView.BeginUpdate();
+
 					LastLogTime = DateTime.Now.Second;
 					foreach (var msg in Messages)
 						Program.Form.debugView.Items.Add(msg);

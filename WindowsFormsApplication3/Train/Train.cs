@@ -110,21 +110,16 @@ namespace FinancePermutator.Train
 
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
 				{
-					Program.Form.setStatus($"Generating train/test data {offset} - {offset + InputDimension} ...");
+					Program.Form.setStatus($"Generating train&test data [{offset} - {offset + InputDimension}] ...");
 
 					combinedResult = new double[] { };
 
 					foreach (var funct in Data.FunctionsBase)
 					{
 						var functionInfo = funct.Value;
-						//string funcName = funct.Key;
 
 						randomSeed = (int) functionInfo["randomseed"];
-						//debug($"load seed {randomSeed} for {funcName}");
-						FunctionParameters functionParameters =
-							new FunctionParameters((MethodInfo) functionInfo["methodInfo"], InputDimension, offset, randomSeed);
-
-						// save seed
+						FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], InputDimension, offset, randomSeed);
 
 						// execute function
 						Function.Function function = new Function.Function((MethodInfo) functionInfo["methodInfo"]);
@@ -161,16 +156,11 @@ namespace FinancePermutator.Train
 					SetOutputResult(InputDimension, offset, numRecord);
 
 					numRecord++;
-
-/*					if (offset > Configuration.MaxOffset)
-                        break;*/
 				}
 
 				if (!RunScan)
 					return;
 
-				/*if (-1 == TrainNetwork(ref inputSets, ref outputSets))
-				    debug($"ERROR: unsuccessfull train il {inputSets?.Length} ol {outputSets?.Length}");*/
 				TrainNetwork(ref inputSets, ref outputSets);
 			} while (RunScan);
 
@@ -196,7 +186,7 @@ namespace FinancePermutator.Train
         ( ). ( | | 
         | / \ |*/
 
-		private void SetupFunctions(int randomSeed)
+		private void SetupFunctions(int randomSeedLocal)
 		{
 			int functionsCount = random.Next(Configuration.TaFunctionsCount, Configuration.TaFunctionsCount + 8);
 
@@ -216,13 +206,20 @@ namespace FinancePermutator.Train
 
 				Program.Form.setStatus($"Setup function #{i} <{methodInfo.Name}> ...");
 
-				debug($"Selected function #{i}: {methodInfo.Name} randomSeed: {randomSeed}");
+				debug($"Selected function #{i}: {methodInfo.Name} randomSeed: {randomSeedLocal}");
+				if (Data.FunctionsBase.ContainsKey(methodInfo.Name))
+				{
+					debug("already selected function");
+					if (i > 0)
+						i--;
+					continue;
+				}
 
 				// generate parameters
-				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0, randomSeed);
+				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0, randomSeedLocal);
 
 				// save seed
-				randomSeed = functionParameters.RandomSeed;
+				randomSeedLocal = functionParameters.RandomSeed;
 
 				// execute function
 				var function = new Function.Function(methodInfo);
@@ -232,11 +229,10 @@ namespace FinancePermutator.Train
 				    double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayAllZeros(result))
 				{
 					DumpValues(methodInfo, result);
-					debug(
-						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code}], need {Configuration.TaFunctionsCount - i}");
+					debug($"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code}], need {Configuration.TaFunctionsCount - i}");
 					if (i > 0)
 						i--;
-					randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
+					randomSeedLocal = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
 					continue;
 				}
 
@@ -244,10 +240,10 @@ namespace FinancePermutator.Train
 				Data.FunctionsBase[methodInfo.Name] = new Dictionary<string, object>();
 				Data.FunctionsBase[methodInfo.Name]["parameters"] = functionParameters;
 				Data.FunctionsBase[methodInfo.Name]["result"] = result;
-				Data.FunctionsBase[methodInfo.Name]["randomseed"] = randomSeed;
+				Data.FunctionsBase[methodInfo.Name]["randomseed"] = randomSeedLocal;
 				Data.FunctionsBase[methodInfo.Name]["methodInfo"] = methodInfo;
 
-				randomSeed = unixTimestamp;
+				randomSeedLocal = unixTimestamp;
 			}
 			//debug($"functions in input: {Data.FunctionsBase.Count}");
 
@@ -436,6 +432,14 @@ namespace FinancePermutator.Train
 				Program.Form.chart.Series[0].Color = Color.Green;
 				Program.Form.chart.Series[1].Color = Color.IndianRed;
 
+				Program.Form.chart.ChartAreas[0].AxisX.LineColor = Color.White;
+				//Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.White;
+				Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.White;
+
+				Program.Form.chart.ChartAreas[0].AxisY.LineColor = Color.White;
+				//Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.White;
+				Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White;
+
 				/*Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
 
 				Program.Form.chart.ChartAreas[0].AxisX.Interval = 1;
@@ -478,8 +482,12 @@ namespace FinancePermutator.Train
 				}
 				Program.Form.setStatus($"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} DELAY {ThreadSleepTime}");
 
-				Thread.Yield();
-				Thread.Sleep(ThreadSleepTime);
+				if (Program.Form.nodelayCheckbox.Checked == false)
+				{
+					Thread.Yield();
+					Thread.Sleep(ThreadSleepTime);
+				}
+				
 
 				/*network.SarpropStepErrorShift -= 0.01f;
 				debug($"SarpropStepErrorShift {network.SarpropStepErrorShift}");*/
@@ -510,7 +518,6 @@ namespace FinancePermutator.Train
 				if (testMse <= Configuration.MinSaveTestMSE && epoch > 10)
 					SaveNetwork();
 
-				//if (epoch % 2 == 0)
 				Program.Form.chart.Invoke((MethodInvoker) (() =>
 				{
 					Program.Form.chart.Series["train"].Points.AddXY(epoch1, mse);
@@ -531,8 +538,7 @@ namespace FinancePermutator.Train
 			//network.Save(@"d:\temp\net_sharp.net");
 			output = network.RunNetwork(inputSetsLocal[0]);
 			testMse = network.TestData(testData);
-			Program.Form.setStatus(
-				$"[Done] Trainmse {trainMse,6:0.####} Testmse {testMse,6:0.####} . should={outputSetsLocal[0][1]} is={output[1]}.");
+			Program.Form.setStatus($"[Done] Trainmse {trainMse,6:0.####} Testmse {testMse,6:0.####} . should={outputSetsLocal[0][1]} is={output[1]}.");
 
 			return 0;
 		}
@@ -573,8 +579,8 @@ namespace FinancePermutator.Train
 			}
 			else if (priceOpen[valuesCountLocal - 1] == priceOpen[valuesCountLocal - 5])
 			{
-				outputSets[numRecordLocal][0] = -1;
-				outputSets[numRecordLocal][1] = -1;
+				outputSets[numRecordLocal][0] = 0;
+				outputSets[numRecordLocal][1] = 0;
 				class0++;
 			}
 			else

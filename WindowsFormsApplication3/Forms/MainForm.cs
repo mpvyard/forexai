@@ -159,7 +159,8 @@ namespace FinancePermutator.Forms
 		private void TimeFastTick(object sender, EventArgs e)
 		{
 			// debug("tick");
-			WriteMessages();
+			if(Messages.Any())
+				WriteMessages();
 		}
 
 		internal static void DrawResults(string name, double[] data, bool clearCurrent = true)

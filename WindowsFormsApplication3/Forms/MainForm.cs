@@ -34,12 +34,12 @@ namespace FinancePermutator.Forms
 
 		public void ConfigurationClear()
 		{
-			Program.Form.tabControl1.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.Clear(); }));
+			Program.Form.chart.Invoke((MethodInvoker)(() => { Program.Form.configurationTab.Clear(); }));
 		}
 
-		public void ConfigurationAddLine(string msg)
+		public void AddToConfiguration(string text)
 		{
-			Program.Form.tabControl1.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.AppendText(msg); }));
+			Program.Form.chart.Invoke((MethodInvoker)(() => { Program.Form.configurationTab.AppendText(text); }));
 		}
 
 		public Form1()

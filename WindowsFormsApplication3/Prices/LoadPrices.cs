@@ -47,8 +47,7 @@ namespace FinancePermutator.Prices
 				if (lineNum % 1850 == 0)
 				{
 					Tools.debug($"load {lineNum} {timeDate}");
-					Program.Form.chart.Invoke((MethodInvoker) (() =>
-						Program.Form.chart.Series["Series1"].Points.AddXY(priceEntry.Date, priceEntry.Open)));
+					Program.Form.chart.Invoke((MethodInvoker) (() => Program.Form.chart.Series["Series1"].Points.AddXY(priceEntry.Date, priceEntry.Open)));
 				}
 
 				lineNum++;

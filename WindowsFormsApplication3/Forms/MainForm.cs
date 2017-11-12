@@ -25,6 +25,7 @@ namespace FinancePermutator.Forms
 	public partial class Form1 : Form
 	{
 		int methodNum;
+		
 		Train.Train threadProcessScan;
 		internal bool DoingSearch;
 
@@ -287,6 +288,46 @@ namespace FinancePermutator.Forms
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			debug("Form1 LOAD");
+		}
+
+		public void EraseBigLabel()
+		{
+			Program.Form.debugView.Invoke((MethodInvoker)(() => { Data.chartBigLabel = string.Empty; }));
+		}
+
+		public void setBigLabel(string text)
+		{
+			Program.Form.debugView.Invoke((MethodInvoker)(() =>
+			{
+				Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
+			}));
+		}
+
+		private void chart_PostPaint(object sender, ChartPaintEventArgs e)
+		{
+			if (Data.chartBigLabel.Length <= 1)
+				return;
+
+			//MessageBox.Show($"paint {Data.chartBigLabel}");
+
+			Font drawFont = new Font("Consolas", 15);
+			SolidBrush drawBrush = new SolidBrush(Color.BlueViolet);
+
+			// Create rectangle for drawing.
+			float x = 150.0F;
+			float y = 150.0F;
+			float width = 200.0F;
+			float height = 50.0F;
+			RectangleF drawRect = new RectangleF(x, y, width, height);
+		
+			// Draw rectangle to screen.
+			Pen blackPen = new Pen(Color.Black);
+			e.ChartGraphics.Graphics.DrawRectangle(blackPen, x, y, width, height);
+
+			// Set format of string.
+			StringFormat drawFormat = new StringFormat();
+			drawFormat.Alignment = StringAlignment.Center;
+			e.ChartGraphics.Graphics.DrawString(Data.chartBigLabel, drawFont, drawBrush, drawRect, drawFormat);
 		}
 	}
 }

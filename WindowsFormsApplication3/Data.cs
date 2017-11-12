@@ -8,9 +8,10 @@ namespace FinancePermutator
 
 	internal static class Data
 	{
+		public static string chartBigLabel = "";
 		public static readonly List<PriceEntry> ForexPrices = new List<PriceEntry>();
 		public static readonly List<MethodInfo> TALibMethods = new List<MethodInfo>();
-
+		public static int loadPercent = 0;
 		public static Dictionary<string, Dictionary<string, object>> FunctionsBase = new Dictionary<string, Dictionary<string, object>>();
 	}
 }

@@ -45,6 +45,7 @@ namespace FinancePermutator.Train
 		private static double[][] testSetInput;
 		private static double[][] trainSetOutput;
 		private static double[][] trainSetInput;
+		
 		static double[] combinedResult;
 		static double[] result;
 		static int numRecord;
@@ -105,6 +106,20 @@ namespace FinancePermutator.Train
 
 			return (int) lastInPutNfo.dwTime;
 		}
+
+		public void EraseBigLabel()
+		{
+			Program.Form.debugView.Invoke((MethodInvoker) (() => { Data.chartBigLabel = string.Empty; }));
+		}
+
+		public void SetBigLabel(string text = "")
+		{
+			Program.Form.debugView.Invoke((MethodInvoker) (() =>
+			{
+				Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
+			}));
+		}
+
 		/*
 	
 				+------+.      +------+       +------+       +------+      .+------+
@@ -129,6 +144,7 @@ namespace FinancePermutator.Train
 
 				ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
+				Program.Form.setBigLabel("FUNCTION SETUP");
 				Program.Form.setStatus($"generating functions list, sleepTime={ThreadSleepTime}");
 
 				class1 = class2 = class0 = 0;
@@ -144,6 +160,7 @@ namespace FinancePermutator.Train
 
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
 				{
+					Program.Form.setBigLabel($"FUNCTION {offset} SETUP");
 					if (offset % 155 == 0)
 						Program.Form.setStatus($"Generating train&&test data [{offset} - {offset + InputDimension}] ...");
 
@@ -230,8 +247,11 @@ namespace FinancePermutator.Train
 
 			Program.Form.AddConfiguration("Functions:\r\n");
 
+			Program.Form.setBigLabel("[SETTING FUNCTIONS UP]");
+
 			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
+				Program.Form.setBigLabel($"[FUNCTION #{i,3:###}]");
 				//ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 				//Thread.Yield();
 				//Thread.Sleep(ThreadSleepTime);
@@ -419,6 +439,7 @@ namespace FinancePermutator.Train
 			double testMse = 0;
 			double trainMse = 0;
 
+			Program.Form.setBigLabel($"[CHECK {inputSetsLocal.Length} DATA ROWS]");
 			if (!CheckInputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
 			{
 				debug($"ERROR: data check failed");
@@ -485,6 +506,7 @@ namespace FinancePermutator.Train
 
 			Program.Form.chart.Invoke((MethodInvoker) (() =>
 			{
+				Program.Form.EraseBigLabel();
 				Program.Form.chart.Series.Clear();
 				Program.Form.chart.Series.Add("train");
 				Program.Form.chart.Series.Add("test");
@@ -643,13 +665,13 @@ namespace FinancePermutator.Train
 		{
 			double[] priceOpen = ForexPrices.GetClose(inputDimension, offset);
 
-			if (priceOpen[inputDimension - 1] > priceOpen[inputDimension - 10])
+			if (priceOpen[inputDimension - 1] > priceOpen[inputDimension > 10 ? inputDimension - 10 : inputDimension - 1])
 			{
 				outputSets[numRecordLocal][0] = 1;
 				outputSets[numRecordLocal][1] = -1;
 				class1++;
 			}
-			else if (priceOpen[inputDimension - 1] <= priceOpen[inputDimension - 10])
+			else if (priceOpen[inputDimension - 1] <= priceOpen[inputDimension > 10 ? inputDimension - 10 : inputDimension - 1])
 			{
 				outputSets[numRecordLocal][0] = -1;
 				outputSets[numRecordLocal][1] = 1;

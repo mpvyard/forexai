@@ -10,6 +10,7 @@ namespace FinancePermutator.Prices
 	{
 		public static void Exec() => new Thread(() =>
 		{
+			
 			long length = new FileInfo(Configuration.PriceFileName).Length;
 
 			Tools.debug($"ManagedThreadId: {Thread.CurrentThread.ManagedThreadId.ToString("00000").PadRight(10)}");

@@ -514,8 +514,8 @@ namespace FinancePermutator.Train
 				Program.Form.chart.Series["test"].ChartType = SeriesChartType.Line;
 				Program.Form.chart.Series["train"].ChartType = SeriesChartType.Line;
 
-				Program.Form.chart.Series["train"].BorderWidth = 3;
-				Program.Form.chart.Series["test"].BorderWidth = 3;
+				Program.Form.chart.Series["train"].BorderWidth = 2;
+				Program.Form.chart.Series["test"].BorderWidth = 2;
 
 				Program.Form.chart.Series[0].Color = Color.Green;
 				Program.Form.chart.Series[1].Color = Color.Blue;

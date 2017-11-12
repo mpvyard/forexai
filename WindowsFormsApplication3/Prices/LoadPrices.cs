@@ -8,7 +8,7 @@ namespace FinancePermutator.Prices
 {
 	class LoadPrices
 	{
-		public LoadPrices() => new Thread(() =>
+		public static void Exec() => new Thread(() =>
 		{
 			long length = new FileInfo(Configuration.PriceFileName).Length;
 

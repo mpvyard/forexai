@@ -37,7 +37,7 @@ namespace FinancePermutator.Function
 		░░░░░░░░░░░▌▌░▌▌░░░░░ 
 		░░░░░░░░░░░▌▌░▌▌░░░░░ 
 		░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
-		public FunctionParameters(MethodInfo methodInfo, int numdata, int offset, int randomSeed = 0)
+		public FunctionParameters(MethodInfo methodInfo, int numdata, int offset)
 		{
 			NumData = numdata;
 			Offset = offset;

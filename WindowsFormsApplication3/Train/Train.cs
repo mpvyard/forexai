@@ -75,7 +75,7 @@ namespace FinancePermutator.Train
 
 		public static int GetIdleTickCount()
 		{
-			return ((int) Environment.TickCount - GetLastInputTime());
+			return (Environment.TickCount - GetLastInputTime());
 		}
 
 		public static int GetLastInputTime()
@@ -104,17 +104,19 @@ namespace FinancePermutator.Train
 
 				class1 = class2 = class0 = 0;
 				Data.FunctionsBase.Clear();
-				Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
+				Program.Form.debugView.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
 
 				SetupFunctions(randomSeed);
 
-				InputDimension = random.Next(8, 8 * (random.Next(8, 32)));
+				InputDimension = random.Next(8, 8 * (random.Next(8, 16)));
+				Program.Form.AddToConfiguration($"InputDimension: {InputDimension}\r\n");
 
 				debug($"function setup done, generating data [inputDimension={InputDimension}] ...");
 
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
 				{
-					Program.Form.setStatus($"Generating train&&test data [{offset} - {offset + InputDimension}] ...");
+					if (offset % 155 == 0)
+						Program.Form.setStatus($"Generating train&&test data [{offset} - {offset + InputDimension}] ...");
 
 					combinedResult = new double[] { };
 
@@ -123,7 +125,7 @@ namespace FinancePermutator.Train
 						var functionInfo = funct.Value;
 
 						randomSeed = (int) functionInfo["randomseed"];
-						FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], InputDimension, offset, randomSeed);
+						FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], InputDimension, offset);
 
 						// execute function
 						Function.Function function = new Function.Function((MethodInfo) functionInfo["methodInfo"]);
@@ -215,14 +217,14 @@ namespace FinancePermutator.Train
 				debug($"Selected function #{i}: {methodInfo.Name} unixTimestamp: {unixTimestamp}");
 				if (Data.FunctionsBase.ContainsKey(methodInfo.Name))
 				{
-					debug("already selected function");
+					debug("this functions already exist");
 					if (i > 0)
 						i--;
 					continue;
 				}
 
 				// generate parameters
-				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0, randomSeedLocal);
+				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0);
 
 				// execute function
 				var function = new Function.Function(methodInfo);
@@ -250,7 +252,6 @@ namespace FinancePermutator.Train
 
 				randomSeedLocal = unixTimestamp + random.Next(255);
 			}
-			//debug($"functions in input: {Data.FunctionsBase.Count}");
 
 			var functions = new StringBuilder();
 
@@ -260,7 +261,7 @@ namespace FinancePermutator.Train
 			Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
 		}
 
-		public double CalcHitRatio(Network net, double[][] inputs, double[][] desired_outputs)
+		public double CalculateHitRatio(Network net, double[][] inputs, double[][] desired_outputs)
 		{
 			int hits = 0, curX = 0;
 			foreach (double[] input in inputs)
@@ -306,12 +307,6 @@ namespace FinancePermutator.Train
 					return false;
 				}
 			}
-
-			/*inputSetsLocal[inputSetsLocal.Length - 1] = null;
-			outputSetsLocal[outputSetsLocal.Length - 1] = null;
-
-			Array.Resize(ref inputSetsLocal, inputSetsLocal.Length - 1);
-			Array.Resize(ref outputSetsLocal, outputSetsLocal.Length - 1);*/
 
 			for (var i = 0; i < inputSetsLocal.Length; i++)
 				if (inputSetsLocal[i] == null || inputSetsLocal[i].Length == 0)
@@ -380,8 +375,8 @@ namespace FinancePermutator.Train
 
 		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
 		{
-			double testMse = 0.0;
-			double trainMse = 0.0;
+			double testMse = 0;
+			double trainMse = 0;
 
 			if (!CheckInputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
 			{
@@ -468,34 +463,29 @@ namespace FinancePermutator.Train
 				Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White;
 
 				/*Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
-
 				Program.Form.chart.ChartAreas[0].AxisX.Interval = 1;
-
 				Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-
 				Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-
 				Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
-
-				Program.Form.chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;
-
-				Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.6;*/
+				Program.Form.chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;*/
+				Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.6;
 			}));
 
 			// create network to hold all input data
 			var inputCount = trainData.InputCount;
 			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 - 1;
 			debug($"new network: numinputs: {inputCount} neurons: {numNeurons}");
+
 			Program.Form.AddToConfiguration($"Network:\r\n inputs: {inputCount} neurons: {numNeurons}");
+
 			network = new Network(inputCount, numNeurons, 2);
 
 			network.TrainingAlgorithm = Configuration.TrainAlgo;
 
-			// Net.SarTemp = 15.0f;
 			network.InitWeights(trainData);
 			network.SetupActivation();
 
-			debug("starting train");
+			debug($"starting train on network {network.GetHashCode()}");
 
 			for (var currentEpoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
 			{
@@ -524,7 +514,7 @@ namespace FinancePermutator.Train
 				if (network.ErrNo > 0)
 					debug($"error test {network.ErrNo}: {network.ErrStr}");
 
-				hitRatio = CalcHitRatio(network, testSetInput, testSetOutput);
+				hitRatio = CalculateHitRatio(network, testSetInput, testSetOutput);
 
 				Program.Form.setStatus(
 					$"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} DELAY {ThreadSleepTime} HITS {hitRatio,3:0.##}%");
@@ -570,7 +560,7 @@ namespace FinancePermutator.Train
 
 			if (!Directory.Exists($"d:\\temp\\forexAI\\{netDirectory}"))
 				Directory.CreateDirectory($"d:\\temp\\forexAI\\{netDirectory}");
-			;
+
 			network.Save($@"d:\temp\forexAI\{netDirectory}\FANN.net");
 
 			File.Copy("d:\\temp\\traindata.dat", $@"d:\temp\forexAI\{netDirectory}\traindata.dat", true);
@@ -593,17 +583,17 @@ namespace FinancePermutator.Train
 			}));
 		}
 
-		private static void SetOutputResult(int valuesCountLocal, int offset, int numRecordLocal)
+		private static void SetOutputResult(int inputDimension, int offset, int numRecordLocal)
 		{
-			double[] priceOpen = ForexPrices.GetClose(valuesCountLocal, offset);
+			double[] priceOpen = ForexPrices.GetClose(inputDimension, offset);
 
-			if (priceOpen[valuesCountLocal - 1] > priceOpen[valuesCountLocal - valuesCountLocal / 2])
+			if (priceOpen[inputDimension - 1] > priceOpen[inputDimension - 10])
 			{
 				outputSets[numRecordLocal][0] = 1;
 				outputSets[numRecordLocal][1] = -1;
 				class1++;
 			}
-			else if (priceOpen[valuesCountLocal - 1] <= priceOpen[valuesCountLocal - valuesCountLocal / 2])
+			else if (priceOpen[inputDimension - 1] <= priceOpen[inputDimension - 10])
 			{
 				outputSets[numRecordLocal][0] = -1;
 				outputSets[numRecordLocal][1] = 1;

@@ -64,7 +64,7 @@ namespace FinancePermutator.Networks
 		public void SetupActivation()
 		{
 			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC, 1); //SIGMOID_SYMMETRIC
-			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE, 2); //SIGMOID_SYMMETRIC_STEPWISE
+			this.network.SetActivationFunctionLayer(ActivationFunction.SIGMOID_SYMMETRIC, 2); //SIGMOID_SYMMETRIC_STEPWISE
 			//LINEAR_PIECE_SYMMETRIC
 		}
 

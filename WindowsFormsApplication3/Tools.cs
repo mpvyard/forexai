@@ -19,16 +19,15 @@ namespace FinancePermutator
 
 		public static int LastLogTime { get; private set; }
 
-		private static object writeMessagesBlock = new object();
+		public static object writeMessagesBlock = new object();
 
 		public static void WriteMessages()
 		{
 			// hello
-			if (Messages.Count == 0)
-				return;
-
 			lock (writeMessagesBlock)
 			{
+				if (Messages.Count == 0)
+					return;
 				Program.Form.debugView.Invoke((MethodInvoker) (() =>
 				{
 					Program.Form.debugView.BeginUpdate();

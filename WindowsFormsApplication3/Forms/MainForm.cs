@@ -26,7 +26,6 @@ namespace FinancePermutator.Forms
 	{
 		int methodNum;
 		Train.Train threadProcessScan;
-		private LoadPrices prices;
 		internal bool DoingSearch;
 
 		[DllImport("Kernel32", EntryPoint = "GetCurrentThreadId", ExactSpelling = true)]
@@ -34,12 +33,12 @@ namespace FinancePermutator.Forms
 
 		public void ConfigurationClear()
 		{
-			Program.Form.chart.Invoke((MethodInvoker)(() => { Program.Form.configurationTab.Clear(); }));
+			Program.Form.chart.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.Clear(); }));
 		}
 
 		public void AddToConfiguration(string text)
 		{
-			Program.Form.chart.Invoke((MethodInvoker)(() => { Program.Form.configurationTab.AppendText(text); }));
+			Program.Form.chart.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.AppendText(text); }));
 		}
 
 		public Form1()
@@ -50,7 +49,7 @@ namespace FinancePermutator.Forms
 		private void LoadPricesButtonClick(object sender, EventArgs e)
 		{
 			loadPricesButton.Text = @"loading";
-			prices = new LoadPrices();
+			LoadPrices.Exec();
 		}
 
 		private void Form1Resize(object sender, EventArgs e)
@@ -125,9 +124,9 @@ namespace FinancePermutator.Forms
 				    param.Name.Contains("inHigh"))
 					bAddMethod = true;
 
-				if (param.Name.Contains("outFast") || param.Name.Contains("outSine") || param.Name.Contains("outMACD") ||
-				    param.Name.Contains("outMAMA") || param.Name.Contains("outSlowK") || param.Name.Contains("outAroonDown") ||
-				    param.Name.Contains("inPeriods") || param.Name.Contains("outMin") || param.Name.Contains("outInPhase"))
+				if (param.Name.Contains("outFast") || param.Name.Contains("outSine") || param.Name.Contains("outMACD") || param.Name.Contains("outMAMA") ||
+				    param.Name.Contains("outSlowK") || param.Name.Contains("outAroonDown") || param.Name.Contains("inPeriods") || param.Name.Contains("outMin") ||
+				    param.Name.Contains("outInPhase"))
 					return false;
 			}
 
@@ -156,9 +155,11 @@ namespace FinancePermutator.Forms
 
 		private void TimeFastTick(object sender, EventArgs e)
 		{
-			// debug("tick");
-			if (Messages.Any())
-				WriteMessages();
+			lock (Tools.writeMessagesBlock)
+			{
+				if (Messages.Any())
+					WriteMessages();
+			}
 		}
 
 		internal static void DrawResults(string name, double[] data, bool clearCurrent = true)
@@ -260,14 +261,12 @@ namespace FinancePermutator.Forms
 			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
 			{
 				// Selected. Draw with the system highlight color.
-				e.Graphics.DrawString(line, new Font("lucida console", 8, FontStyle.Regular), SystemBrushes.HighlightText, e.Bounds.Left,
-					e.Bounds.Top + 1);
+				e.Graphics.DrawString(line, new Font("lucida console", 8, FontStyle.Regular), SystemBrushes.HighlightText, e.Bounds.Left, e.Bounds.Top + 1);
 			}
 			else
 			{
 				var brush = new SolidBrush(Color.DarkSlateBlue);
-				if (line.IndexOf("error", StringComparison.OrdinalIgnoreCase) >= 0 ||
-				    line.IndexOf("Exception", StringComparison.OrdinalIgnoreCase) >= 0)
+				if (line.IndexOf("error", StringComparison.OrdinalIgnoreCase) >= 0 || line.IndexOf("Exception", StringComparison.OrdinalIgnoreCase) >= 0)
 					brush = new SolidBrush(Color.Red);
 				else if (line.IndexOf("values", StringComparison.OrdinalIgnoreCase) >= 0)
 					brush = new SolidBrush(Color.MediumSeaGreen);

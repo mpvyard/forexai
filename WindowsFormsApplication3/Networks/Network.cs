@@ -23,9 +23,9 @@ namespace FinancePermutator.Networks
 
 		public uint BitFail => this.network.BitFail;
 
-		public double TestData(TrainingData testData)
+		public double Test(TrainingData testData)
 		{
-			return this.network.TestData(testData);
+			return this.network.TestDataParallel(testData, 4);
 		}
 
 		public TrainingAlgorithm TrainingAlgorithm

@@ -36,7 +36,7 @@ namespace FinancePermutator.Forms
 			Program.Form.chart.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.Clear(); }));
 		}
 
-		public void AddToConfiguration(string text)
+		public void AddConfiguration(string text)
 		{
 			Program.Form.chart.Invoke((MethodInvoker) (() => { Program.Form.configurationTab.AppendText(text); }));
 		}

@@ -26,6 +26,8 @@ namespace FinancePermutator.Train
 		static double[][] outputSets = new double[1][];
 		private static double[][] testSetOutput;
 		private static double[][] testSetInput;
+		private static double[][] trainSetOutput;
+		private static double[][] trainSetInput;
 		static double[] combinedResult;
 		static double[] result;
 		static int numRecord;
@@ -109,7 +111,7 @@ namespace FinancePermutator.Train
 				SetupFunctions(randomSeed);
 
 				InputDimension = random.Next(8, 8 * (random.Next(8, 16)));
-				Program.Form.AddToConfiguration($"InputDimension: {InputDimension}\r\n");
+				Program.Form.AddConfiguration($"InputDimension: {InputDimension}\r\n");
 
 				debug($"function setup done, generating data [inputDimension={InputDimension}] ...");
 
@@ -199,7 +201,7 @@ namespace FinancePermutator.Train
 			debug($"selecting functions Count={functionsCount}");
 			Program.Form.ConfigurationClear();
 
-			Program.Form.AddToConfiguration("Functions:\r\n");
+			Program.Form.AddConfiguration("Functions:\r\n");
 
 			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
@@ -241,7 +243,7 @@ namespace FinancePermutator.Train
 					continue;
 				}
 
-				Program.Form.AddToConfiguration($" {methodInfo.Name} seed={randomSeedLocal}\r\n{functionParameters.parametersMap}");
+				Program.Form.AddConfiguration($" {methodInfo.Name} seed={randomSeedLocal}\r\n{functionParameters.parametersMap}");
 
 				// record info
 				Data.FunctionsBase[methodInfo.Name] = new Dictionary<string, object>();
@@ -423,6 +425,8 @@ namespace FinancePermutator.Train
 
 				trainData.SubsetTrainData(testDataOffset, trainData.TrainDataLength - testDataOffset);
 				trainData.SaveTrain(@"d:\temp\traindata.dat");
+				trainSetInput = trainData.Input;
+				trainSetOutput = trainData.Output;
 			}
 			catch (Exception e)
 			{
@@ -435,7 +439,7 @@ namespace FinancePermutator.Train
 				return -1;
 			}
 
-			Program.Form.AddToConfiguration(
+			Program.Form.AddConfiguration(
 				$"Info:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
 
 			debug($"class1: {class1} class2: {class2} class0: {class0}");
@@ -476,7 +480,7 @@ namespace FinancePermutator.Train
 			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 - 1;
 			debug($"new network: numinputs: {inputCount} neurons: {numNeurons}");
 
-			Program.Form.AddToConfiguration($"Network:\r\n inputs: {inputCount} neurons: {numNeurons}");
+			Program.Form.AddConfiguration($"Network:\r\n inputs: {inputCount} neurons: {numNeurons}");
 
 			network = new Network(inputCount, numNeurons, 2);
 
@@ -489,7 +493,7 @@ namespace FinancePermutator.Train
 
 			for (var currentEpoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
 			{
-				double hitRatio = 0.0;
+				double TestHitRatio = 0.0, TrainHitRatio = 0.0;
 				if (currentEpoch >= Configuration.TrainLimitEpochs)
 				{
 					debug("[AUTO-RESTART]");
@@ -514,13 +518,14 @@ namespace FinancePermutator.Train
 				if (network.ErrNo > 0)
 					debug($"error test {network.ErrNo}: {network.ErrStr}");
 
-				hitRatio = CalculateHitRatio(network, testSetInput, testSetOutput);
+				TestHitRatio = CalculateHitRatio(network, testSetInput, testSetOutput);
+				TrainHitRatio = CalculateHitRatio(network, trainSetInput, trainSetOutput);
 
 				Program.Form.setStatus(
-					$"[Training] TrainMSE {trainMse,-7:0.#####}  TestMSE {testMse,-7:0.#####} DELAY {ThreadSleepTime} HITS {hitRatio,3:0.##}%");
+					$"[Training] TrainMSE {trainMse,-7:0.#####} {TrainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {TestHitRatio,-5:0.##}% DELAY {ThreadSleepTime}  ");
 
 				debug(
-					$"train: epoch #{currentEpoch} trainMse {trainMse,7:0.#####} testmse {testMse,7:0.#####} bitfail {network.BitFail} hits {hitRatio,3:0.##}%");
+					$"train: epoch #{currentEpoch} trainMse {trainMse,7:0.#####} {TrainHitRatio,3:0.##}% testmse {testMse,7:0.#####} {TestHitRatio,3:0.##}%");
 
 				var mse = trainMse;
 				var mse1 = testMse;
@@ -532,7 +537,7 @@ namespace FinancePermutator.Train
 					break;
 				}
 
-				if ((testMse <= Configuration.MinSaveTestMSE || hitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch)
+				if ((testMse <= Configuration.MinSaveTestMSE || TestHitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch)
 					SaveNetwork();
 
 				Program.Form.chart.Invoke((MethodInvoker) (() =>

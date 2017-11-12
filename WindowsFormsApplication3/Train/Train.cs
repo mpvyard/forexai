@@ -45,7 +45,7 @@ namespace FinancePermutator.Train
 		private static double[][] testSetInput;
 		private static double[][] trainSetOutput;
 		private static double[][] trainSetInput;
-		
+
 		static double[] combinedResult;
 		static double[] result;
 		static int numRecord;
@@ -144,7 +144,6 @@ namespace FinancePermutator.Train
 
 				ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
-				Program.Form.setBigLabel("FUNCTION SETUP");
 				Program.Form.setStatus($"generating functions list, sleepTime={ThreadSleepTime}");
 
 				class1 = class2 = class0 = 0;
@@ -160,7 +159,7 @@ namespace FinancePermutator.Train
 
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
 				{
-					Program.Form.setBigLabel($"FUNCTION {offset} SETUP");
+					Program.Form.setBigLabel($"Generating train/test data ...");
 					if (offset % 155 == 0)
 						Program.Form.setStatus($"Generating train&&test data [{offset} - {offset + InputDimension}] ...");
 
@@ -247,11 +246,13 @@ namespace FinancePermutator.Train
 
 			Program.Form.AddConfiguration("Functions:\r\n");
 
+			Program.Form.EraseBigLabel();
+
 			Program.Form.setBigLabel("[SETTING FUNCTIONS UP]");
 
 			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
-				Program.Form.setBigLabel($"[FUNCTION #{i,3:###}]");
+				Program.Form.setBigLabel($"[SETUP FUNCTION #{i}]");
 				//ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 				//Thread.Yield();
 				//Thread.Sleep(ThreadSleepTime);
@@ -552,6 +553,8 @@ namespace FinancePermutator.Train
 
 			debug($"starting train on network {network.GetHashCode()}");
 
+			double saveTestHitRatio = 0;
+			
 			for (var currentEpoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
 			{
 				double TestHitRatio = 0.0, TrainHitRatio = 0.0;
@@ -597,8 +600,12 @@ namespace FinancePermutator.Train
 					break;
 				}
 
-				if ((testMse <= Configuration.MinSaveTestMSE || TestHitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch)
+				if ((testMse <= Configuration.MinSaveTestMSE || TestHitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch &&
+				    saveTestHitRatio < TestHitRatio)
+				{
+					saveTestHitRatio = TestHitRatio;
 					SaveNetwork();
+				}
 
 				Program.Form.chart.Invoke((MethodInvoker) (() =>
 				{

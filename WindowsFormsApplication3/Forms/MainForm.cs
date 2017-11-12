@@ -292,6 +292,10 @@ namespace FinancePermutator.Forms
 
 		public void EraseBigLabel()
 		{
+			Program.Form.chart.Invoke((MethodInvoker)(() =>
+			{
+				Program.Form.chart.Series.Clear();
+			}));
 			Program.Form.debugView.Invoke((MethodInvoker)(() => { Data.chartBigLabel = string.Empty; }));
 		}
 
@@ -314,10 +318,10 @@ namespace FinancePermutator.Forms
 			SolidBrush drawBrush = new SolidBrush(Color.BlueViolet);
 
 			// Create rectangle for drawing.
-			float x = 150.0F;
-			float y = 150.0F;
-			float width = 200.0F;
-			float height = 50.0F;
+			float x = 100.0F;
+			float y = 100.0F;
+			float width = 300.0F;
+			float height = 250.0F;
 			RectangleF drawRect = new RectangleF(x, y, width, height);
 		
 			// Draw rectangle to screen.

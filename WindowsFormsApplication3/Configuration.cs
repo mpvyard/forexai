@@ -14,7 +14,7 @@ namespace FinancePermutator
 		public const string LogFileName = @"d:\temp\forexAI\forexAI.log";
 		public const int InputDimension = 128;
 		public const double MinSaveTestMSE = 0.09;
-		public const double MinSaveHit = 80;
+		public const double MinSaveHit = 85;
 		public const int MinSaveEpoch = 20;
 		public const int MinTaFunctionsCount = 3;
 		public const int TestDataAmountPerc = 6;

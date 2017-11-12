@@ -1,4 +1,21 @@
-﻿using System;
+﻿/*     
+				(<$$$$$$>#####<::::::>)
+            _/~~~~~~~~~~~~~~~~~~~~~~~~~\
+          /~                             ~\
+        .~                                 ~
+
+	()\/_____ _____\/()
+   .-''      ~~~~~~~~~~~~~~~~~~~~~~~~~~~     ``-.
+.-~__________________              ~-.
+`~~/~~~~~~~~~~~~TTTTTTTTTTTTTTTTTTTT~~~~~~~~~~~~\~~'
+| | | #### #### || | | | [] | | | || #### #### | | |
+;__\|___________|++++++++++++++++++|___________|/__;
+ (~~====___________________________________====~~~)
+  \------_____________[CHIP 911] __________-------/
+     |      ||         ~~~~~~~~       ||      |
+      \_____/                          \_____/*/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -88,6 +105,16 @@ namespace FinancePermutator.Train
 
 			return (int) lastInPutNfo.dwTime;
 		}
+		/*
+	
+				+------+.      +------+       +------+       +------+      .+------+
+		|`.    | `.    |\     |\      |      |      /|     /|    .' |    .'|
+		|  `+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+'  |
+		|   |  |   |   | |    | |     |      |     | |    | |   |   |  |   |
+		+---+--+.  |   +-+----+ |     +------+     | +----+-+   |  .+--+---+
+		 `. |    `.|    \|     \|     |      |     |/     |/    |.'    | .'
+		   `+------+     +------+     +------+     +------+     +------+'
+		*/
 
 		public void ProcessScan()
 		{
@@ -262,6 +289,18 @@ namespace FinancePermutator.Train
 
 			Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
 		}
+
+		/*		_______________________________________________________
+						  |                                                      |
+					 /    |                                                      |
+					/---, |                                                      |
+			   -----# ==| |                                                      |
+			   | :) # ==| |                                                      |
+		  -----'----#   | |______________________________________________________|
+		  |)___()  '#   |______====____   \___________________________________|
+		 [_/,-,\"--"------ //,-,  ,-,\\\   |/             //,-,  ,-,  ,-,\\ __#
+		   ( 0 )|===******||( 0 )( 0 )||-  o              '( 0 )( 0 )( 0 )||
+----'-'--------------'-'--'-'-----------------------'-'--'-'--'-'--------------*/
 
 		public double CalculateHitRatio(Network net, double[][] inputs, double[][] desired_outputs)
 		{
@@ -472,7 +511,7 @@ namespace FinancePermutator.Train
 				Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
 				Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
 				Program.Form.chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;*/
-				Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.6;
+				Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.3;
 			}));
 
 			// create network to hold all input data
@@ -524,8 +563,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus(
 					$"[Training] TrainMSE {trainMse,-7:0.#####} {TrainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {TestHitRatio,-5:0.##}% DELAY {ThreadSleepTime}  ");
 
-				debug(
-					$"train: epoch #{currentEpoch} trainMse {trainMse,7:0.#####} {TrainHitRatio,3:0.##}% testmse {testMse,7:0.#####} {TestHitRatio,3:0.##}%");
+				debug($"train: epoch #{currentEpoch} trainMse {trainMse,7:0.#####} {TrainHitRatio,3:0.##}% testmse {testMse,7:0.#####} {TestHitRatio,3:0.##}%");
 
 				var mse = trainMse;
 				var mse1 = testMse;
@@ -558,6 +596,19 @@ namespace FinancePermutator.Train
 
 			return 0;
 		}
+
+/*
+			    \\         //
+				 \\     //
+				   \\ //
+					(O)
+				   //#\\
+				 // ### \\
+			   //  #####  \\
+				  #######
+				  ### ###
+			'' """  """"  "'"""""
+*/
 
 		private static void SaveNetwork()
 		{

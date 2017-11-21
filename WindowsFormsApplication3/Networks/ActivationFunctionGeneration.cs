@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FANNCSharp;
 
-namespace FinancePermutator
+namespace FinancePermutator.Networks
 {
 	class ActivationFunctionGeneration
 	{
@@ -13,7 +9,7 @@ namespace FinancePermutator
 
 		public static ActivationFunction GetRandomActivationFunction()
 		{
-			random = new Random();
+			random = new Random(DateTime.Now.Millisecond);
 			switch (random.Next(15))
 			{
 				case 1:

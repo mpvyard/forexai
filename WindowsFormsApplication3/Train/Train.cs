@@ -255,9 +255,6 @@ namespace FinancePermutator.Train
 			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
 				Program.Form.setBigLabel($"[SETUP FUNCTION #{i}]");
-				//ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
-				//Thread.Yield();
-				//Thread.Sleep(ThreadSleepTime);
 
 				int unixTimestamp = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
 
@@ -626,6 +623,12 @@ namespace FinancePermutator.Train
 				{
 					saveTestHitRatio = TestHitRatio;
 					SaveNetwork();
+				}
+
+				if (currentEpoch >= 20 && (TestHitRatio == 0 || TrainHitRatio == 0))
+				{
+					debug("fail to train, bad network");
+					break;
 				}
 
 				Program.Form.chart.Invoke((MethodInvoker) (() =>

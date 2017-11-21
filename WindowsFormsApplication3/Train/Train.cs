@@ -330,8 +330,22 @@ namespace FinancePermutator.Train
 			{
 				var output = net.Run(input);
 
-				var output0 = desired_outputs[curX][0] == -1 ? Math.Floor(output[0]) : Math.Ceiling(output[0]);
-				var output1 = desired_outputs[curX][1] == -1 ? Math.Floor(output[1]) : Math.Ceiling(output[1]);
+				//var output0 = desired_outputs[curX][0] == -1 ? Math.Floor(output[0]) : Math.Ceiling(output[0]);
+				//var output1 = desired_outputs[curX][1] == -1 ? Math.Floor(output[1]) : Math.Ceiling(output[1]);
+				double output0, output1;
+				if (output[0] >= 0.5)
+					output0 = 1.0;
+				else if (output[0] <= -0.5)
+					output0 = -1.0;
+				else
+					output0 = 0;
+
+				if (output[1] >= 0.5)
+					output1 = 1.0;
+				else if (output[1] <= -0.5)
+					output1 = -1.0;
+				else
+					output1 = 0;
 
 				if (output0 == desired_outputs[curX][0] && output1 == desired_outputs[curX][1])
 				{

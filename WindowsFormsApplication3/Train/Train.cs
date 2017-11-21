@@ -45,7 +45,9 @@ namespace FinancePermutator.Train
 		private static double[][] testSetInput;
 		private static double[][] trainSetOutput;
 		private static double[][] trainSetInput;
-
+		TrainingData trainData;
+		TrainingData testData;
+		uint testDataOffset;
 		static double[] combinedResult;
 		static double[] result;
 		static int numRecord;
@@ -361,7 +363,7 @@ namespace FinancePermutator.Train
 			return ((double) hits / (double) inputs.Length) * 100.0;
 		}
 
-		private bool CheckInputDataIsCorrect(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
+		private bool InputDataIsCorrect(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
 		{
 			Program.Form.setStatus($"Checking training data: input {inputSetsLocal?.Length} output {outputSetsLocal?.Length} ...");
 
@@ -405,8 +407,6 @@ namespace FinancePermutator.Train
 					if (double.IsPositiveInfinity(cell) || double.IsNegativeInfinity(cell) || double.IsInfinity(cell) || double.IsNaN(cell))
 					{
 						debug($"inputSetsLocal: error in CELL {j}:{k}  {cell}");
-						/*MessageBox.Show($"inputSetsLocal: error in CELL {j}:{k} {cell}", "input", MessageBoxButtons.RetryCancel,
-						    MessageBoxIcon.Error);*/
 						return false;
 					}
 					k++;
@@ -429,8 +429,6 @@ namespace FinancePermutator.Train
 					if (double.IsPositiveInfinity(cell) || double.IsNegativeInfinity(cell) || double.IsInfinity(cell) || double.IsNaN(cell))
 					{
 						debug($"outputSetsLocal: error in CELL {j}:{k} {cell}");
-						/*MessageBox.Show($"outputSetsLocal: error in CELL {j}:{k} {cell}", "output", MessageBoxButtons.RetryCancel,
-						    MessageBoxIcon.Error);*/
 						return false;
 					}
 					k++;
@@ -449,42 +447,8 @@ namespace FinancePermutator.Train
 			numRecord = 0;
 		}
 
-		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
+		private void AssignTrainData(double[][] inputSetsLocal, double[][] outputSetsLocal)
 		{
-			double testMse = 0;
-			double trainMse = 0;
-
-			Program.Form.setBigLabel($"[CHECK {inputSetsLocal.Length} DATA ROWS]");
-			if (!CheckInputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
-			{
-				debug($"ERROR: data check failed");
-				ClearParameters();
-				return -1;
-			}
-
-			/*			 *
-			░░ ♡ ▄▀▀▀▄░░░ 
-			▄███▀░◐░░░▌░░░░░░░ 
-			░░░░▌░░░░░▐░░░░░░░ 
-			░░░░▐░░░░░▐░░░░░░░ 
-			░░░░▌░░░░░▐▄▄░░░░░ 
-			░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
-			░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
-			░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-			░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-			░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
-			░░░░░░░░░░░▌▌░▌▌░░░░░ 
-			░░░░░░░░░░░▌▌░▌▌░░░░░ 
-			░░░░░░░░░▄▄▌▌▄▌▌░░░░░
-			-----------
-			*/
-
-			// load train data
-			debug($"SetTrainData: inpustSetsLocal.Length: {inputSetsLocal.Length} outputSetsLocal.Length: {outputSetsLocal.Length} ");
-
-			TrainingData trainData;
-			TrainingData testData;
-			uint testDataOffset;
 			try
 			{
 				trainData = new TrainingData();
@@ -507,19 +471,14 @@ namespace FinancePermutator.Train
 			{
 				debug($"Exception '{e.Message}' while working with train data");
 				Program.Form.setStatus($"Exception '{e.Message}' while working with train data");
-				/*if (MessageBox.Show($"err: {e.Message} {e.StackTrace}", "error", MessageBoxButtons.RetryCancel,
-				        MessageBoxIcon.Error) == DialogResult.Cancel)
-				    throw;*/
 				ClearParameters();
-				return -1;
+				return;
 			}
+		}
 
-			Program.Form.AddConfiguration(
-				$"Info:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
-
-			debug($"class1: {class1} class2: {class2} class0: {class0}");
-
-			Program.Form.chart.Invoke((MethodInvoker) (() =>
+		private void InitChart()
+		{
+			Program.Form.chart.Invoke((MethodInvoker)(() =>
 			{
 				Program.Form.EraseBigLabel();
 				Program.Form.chart.Series.Clear();
@@ -550,7 +509,10 @@ namespace FinancePermutator.Train
 				Program.Form.chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;*/
 				Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.3;
 			}));
+		}
 
+		private void CreateNetwork()
+		{
 			// create network to hold all input data
 			var inputCount = trainData.InputCount;
 			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 - 1;
@@ -564,6 +526,51 @@ namespace FinancePermutator.Train
 
 			network.InitWeights(trainData);
 			network.SetupActivation();
+		}
+
+		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
+		{
+			double testMse = 0;
+			double trainMse = 0;
+
+			Program.Form.setBigLabel($"[CHECK {inputSetsLocal.Length} DATA ROWS]");
+			if (!InputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
+			{
+				debug($"ERROR: data check failed");
+				ClearParameters();
+				return -1;
+			}
+
+			/*			 *
+			░░ ♡ ▄▀▀▀▄░░░ 
+			▄███▀░◐░░░▌░░░░░░░ 
+			░░░░▌░░░░░▐░░░░░░░ 
+			░░░░▐░░░░░▐░░░░░░░ 
+			░░░░▌░░░░░▐▄▄░░░░░ 
+			░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
+			░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
+			░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+			░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+			░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
+			░░░░░░░░░░░▌▌░▌▌░░░░░ 
+			░░░░░░░░░░░▌▌░▌▌░░░░░ 
+			░░░░░░░░░▄▄▌▌▄▌▌░░░░░
+			-----------
+			*/
+
+			// load train data
+			debug($"SetTrainData: inpustSetsLocal.Length: {inputSetsLocal.Length} outputSetsLocal.Length: {outputSetsLocal.Length} ");
+
+			AssignTrainData(inputSetsLocal, outputSetsLocal);
+
+			Program.Form.AddConfiguration(
+				$"Info:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
+
+			debug($"class1: {class1} class2: {class2} class0: {class0}");
+
+			InitChart();
+
+			CreateNetwork();
 
 			debug($"starting train on network {network.GetHashCode()}");
 
@@ -686,13 +693,13 @@ namespace FinancePermutator.Train
 		{
 			double[] priceOpen = ForexPrices.GetClose(inputDimension, offset);
 
-			if (priceOpen[inputDimension - 1] > priceOpen[inputDimension > 10 ? inputDimension - 10 : inputDimension - 1])
+			if (priceOpen[inputDimension - 1] > priceOpen[inputDimension - Configuration.OutputIndex])
 			{
 				outputSets[numRecordLocal][0] = 1;
 				outputSets[numRecordLocal][1] = -1;
 				class1++;
 			}
-			else if (priceOpen[inputDimension - 1] <= priceOpen[inputDimension > 10 ? inputDimension - 10 : inputDimension - 1])
+			else if (priceOpen[inputDimension - 1] <= priceOpen[inputDimension - Configuration.OutputIndex])
 			{
 				outputSets[numRecordLocal][0] = -1;
 				outputSets[numRecordLocal][1] = 1;

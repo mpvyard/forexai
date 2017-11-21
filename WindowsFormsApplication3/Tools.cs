@@ -28,6 +28,7 @@ namespace FinancePermutator
 			{
 				if (Messages.Count == 0)
 					return;
+				
 				Program.Form.debugView.Invoke((MethodInvoker) (() =>
 				{
 					Program.Form.debugView.BeginUpdate();

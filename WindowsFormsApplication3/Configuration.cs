@@ -14,7 +14,7 @@ namespace FinancePermutator
 		public const string LogFileName = @"d:\temp\forexAI\forexAI.log";
 		public const int InputDimension = 128;
 		public const double MinSaveTestMSE = 0.09;
-		public const double MinSaveHit = 85;
+		public const double MinSaveHit = 88;
 		public const int MinSaveEpoch = 20;
 		public const int MinTaFunctionsCount = 3;
 		public const int TestDataAmountPerc = 6;
@@ -22,7 +22,7 @@ namespace FinancePermutator
 		public static uint DefaultHiddenNeurons = 0;
 		public const int SleepTime = 300;
 		public const int SleepCheckTime = 10000;
-
+		public const int OutputIndex = 5;
 		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP; //TRAIN_QUICKPROP;//TRAIN_RPROP;
 		//TRAIN_BATCH;//TRAIN_INCREMENTAL;//TRAIN_SARPROP;
 	}

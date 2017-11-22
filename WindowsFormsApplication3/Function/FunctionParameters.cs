@@ -9,7 +9,7 @@ namespace FinancePermutator.Function
 {
 	class FunctionParameters
 	{
-		public Random random;
+		public XRandom XRandom;
 		public int ParamIndex;
 		public int NumData;
 		public int OutBegIdx = 0;
@@ -41,8 +41,6 @@ namespace FinancePermutator.Function
 		{
 			NumData = numdata;
 			Offset = offset;
-			int internalSeed = DateTime.Now.Millisecond + offset + numdata + methodInfo.GetHashCode();
-			random = new Random(internalSeed);
 			parametersMap = new StringBuilder();
 
 			// DumpParams(methodInfo);
@@ -83,12 +81,12 @@ namespace FinancePermutator.Function
 					case "optInMinPeriod":
 					case "optInMaxPeriod":
 					case "optInSignalPeriod":
-						Arguments[ParamIndex] = MaTypeGen.GetRandom(random.Next(255));
+						Arguments[ParamIndex] = MaTypeGen.GetRandom(XRandom.next(255));
 						paramComment = $"MaTypeGen";
 						// debug($"{param.Name} optInSignalPeriod=" + arguments[paramIndex]);
 						break;
 					case "optInMAType":
-						Arguments[ParamIndex] = MaTypeGen.GetRandom(random.Next(255));
+						Arguments[ParamIndex] = MaTypeGen.GetRandom(XRandom.next(255));
 						paramComment = $"MaTypeGen";
 						// debug($"{param.Name} optInMAType=" + arguments[paramIndex]);
 						break;
@@ -98,7 +96,7 @@ namespace FinancePermutator.Function
 					case "inReal0":
 					case "inReal1":
 					case "inReal":
-						var index = random.Next(3);
+						var index = XRandom.next(3);
 						switch (index)
 						{
 							case 0:
@@ -127,7 +125,7 @@ namespace FinancePermutator.Function
 					case "optInSlowD_MAType":
 					case "optInFastD_MAType":
 					case "optInSlowK_MAType":
-						Arguments[ParamIndex] = MaTypeGen.GetRandom(random.Next(255));
+						Arguments[ParamIndex] = MaTypeGen.GetRandom(XRandom.next(255));
 						paramComment = $"MaTypeGen";
 						// debug($"{param.Name} optMAtype=" + arguments[paramIndex]);
 						break;
@@ -148,13 +146,13 @@ namespace FinancePermutator.Function
 					case "optInFastK_Period":
 					case "optInSlowD_Period":
 					case "optInFastD_Period":
-						Arguments[ParamIndex] = MaGen.GetRandom(random.Next(255));
+						Arguments[ParamIndex] = MaGen.GetRandom(XRandom.next(255));
 						paramComment = $"MaTypeGen";
 						// debug($"{param.Name} optDKPeriod=" + arguments[paramIndex]);
 						break;
 					case "optInSlowPeriod":
 					case "optInFastPeriod":
-						Arguments[ParamIndex] = MaGen.GetRandom(random.Next(255));
+						Arguments[ParamIndex] = MaGen.GetRandom(XRandom.next(255));
 						paramComment = $"MaTypeGen";
 						// debug($"{param.Name} optSlowFastPeriod=" + arguments[paramIndex]);
 						break;
@@ -163,7 +161,7 @@ namespace FinancePermutator.Function
 					case "optInTimePeriod3":
 					case "optInTimePeriod2":
 					case "optInTimePeriod":
-						Arguments[ParamIndex] = MaGen.GetRandom(random.Next(255));
+						Arguments[ParamIndex] = MaGen.GetRandom(XRandom.next(255));
 						paramComment = $"MaTypeGen";
 						// debug($"{param.Name} optInTimePeriod=" + arguments[paramIndex]);
 						break;

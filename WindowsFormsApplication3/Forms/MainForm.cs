@@ -45,6 +45,7 @@ namespace FinancePermutator.Forms
 		public Form1()
 		{
 			InitializeComponent();
+			XRandom.Init();
 		}
 
 		private void LoadPricesButtonClick(object sender, EventArgs e)
@@ -156,7 +157,7 @@ namespace FinancePermutator.Forms
 
 		private void TimeFastTick(object sender, EventArgs e)
 		{
-			lock (Tools.writeMessagesBlock)
+			lock (writeMessagesBlock)
 			{
 				if (Messages.Any())
 					WriteMessages();

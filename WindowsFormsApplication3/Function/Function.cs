@@ -23,7 +23,7 @@ namespace FinancePermutator.Function
 		public double[] Execute(FunctionParameters parameters, out Core.RetCode code)
 		{
 			Core.SetCompatibility(Core.Compatibility.Metastock);
-			Core.SetUnstablePeriod(Core.FuncUnstId.FuncUnstAll, 0);
+			//Core.SetUnstablePeriod(Core.FuncUnstId.FuncUnstAll, 255);
 
 			var retCode = Core.RetCode.UnknownErr;
 			try

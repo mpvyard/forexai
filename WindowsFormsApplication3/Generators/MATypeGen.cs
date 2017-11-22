@@ -5,12 +5,9 @@ namespace FinancePermutator.Generators
 {
 	internal static class MaTypeGen
 	{
-		private static Random random;
-
 		public static Core.MAType GetRandom(int seed)
 		{
-			random = new Random(DateTime.Now.Millisecond + seed);
-			switch (random.Next(9))
+			switch (XRandom.next(9))
 			{
 				case 0:
 					return Core.MAType.Sma;

@@ -12,7 +12,7 @@ namespace FinancePermutator
 	{
 		public const string PriceFileName = @"d:\temp\forexAI\GBPUSD.csv";
 		public const string LogFileName = @"d:\temp\forexAI\forexAI.log";
-		public const int InputDimension = 128;
+		public const int InputDimension = 64;
 		public const double MinSaveTestMSE = 0.09;
 		public const double MinSaveHit = 88;
 		public const int MinSaveEpoch = 20;

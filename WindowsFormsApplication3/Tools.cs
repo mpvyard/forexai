@@ -31,11 +31,21 @@ namespace FinancePermutator
 				
 				Program.Form.debugView.Invoke((MethodInvoker) (() =>
 				{
+					StreamWriter sw;
+					if (!File.Exists(Configuration.LogFileName))
+						sw = File.CreateText(Configuration.LogFileName);
+					else
+						sw = File.AppendText(Configuration.LogFileName);
+
 					Program.Form.debugView.BeginUpdate();
 
 					LastLogTime = DateTime.Now.Second;
 					foreach (var msg in Messages)
+					{
 						Program.Form.debugView.Items.Add(msg);
+						sw.WriteLine(msg);
+					}
+					sw.Close();
 					Messages.Clear();
 
 					int visibleItems = Program.Form.debugView.ClientSize.Height / Program.Form.debugView.ItemHeight;

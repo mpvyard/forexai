@@ -79,7 +79,7 @@
 			this.loadPricesButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.loadPricesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.loadPricesButton.Font = new System.Drawing.Font("Quartz MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.loadPricesButton.ForeColor = System.Drawing.SystemColors.Highlight;
+			this.loadPricesButton.ForeColor = System.Drawing.Color.Navy;
 			this.loadPricesButton.Location = new System.Drawing.Point(611, 29);
 			this.loadPricesButton.Margin = new System.Windows.Forms.Padding(7);
 			this.loadPricesButton.Name = "loadPricesButton";
@@ -149,14 +149,14 @@
 			// statusLabel
 			// 
 			this.statusLabel.AutoSize = true;
-			this.statusLabel.BackColor = System.Drawing.Color.Honeydew;
-			this.statusLabel.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.statusLabel.BackColor = System.Drawing.Color.LawnGreen;
+			this.statusLabel.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.statusLabel.ForeColor = System.Drawing.Color.MidnightBlue;
 			this.statusLabel.Location = new System.Drawing.Point(2, 457);
 			this.statusLabel.MaximumSize = new System.Drawing.Size(0, 19);
 			this.statusLabel.MinimumSize = new System.Drawing.Size(800, 0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(800, 13);
+			this.statusLabel.Size = new System.Drawing.Size(800, 15);
 			this.statusLabel.TabIndex = 6;
 			this.statusLabel.Text = "idle";
 			// 
@@ -260,7 +260,7 @@
 			this.configurationTab.BackColor = System.Drawing.Color.FloralWhite;
 			this.configurationTab.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.configurationTab.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.configurationTab.ForeColor = System.Drawing.Color.DarkCyan;
+			this.configurationTab.ForeColor = System.Drawing.Color.DarkGoldenrod;
 			this.configurationTab.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.configurationTab.Location = new System.Drawing.Point(0, 0);
 			this.configurationTab.Margin = new System.Windows.Forms.Padding(0);
@@ -283,7 +283,7 @@
 			this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.button3.Font = new System.Drawing.Font("Quartz MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button3.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+			this.button3.ForeColor = System.Drawing.Color.Navy;
 			this.button3.Location = new System.Drawing.Point(611, 171);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(103, 35);
@@ -303,7 +303,7 @@
 			this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.button2.Font = new System.Drawing.Font("Quartz MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button2.ForeColor = System.Drawing.SystemColors.Highlight;
+			this.button2.ForeColor = System.Drawing.Color.Navy;
 			this.button2.Location = new System.Drawing.Point(611, 136);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(103, 29);
@@ -324,7 +324,7 @@
 			this.buttonExecute.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.buttonExecute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.buttonExecute.Font = new System.Drawing.Font("Quartz MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.buttonExecute.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+			this.buttonExecute.ForeColor = System.Drawing.Color.Navy;
 			this.buttonExecute.Location = new System.Drawing.Point(611, 103);
 			this.buttonExecute.Name = "buttonExecute";
 			this.buttonExecute.Size = new System.Drawing.Size(103, 28);
@@ -346,7 +346,7 @@
 			this.loadTAButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.loadTAButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.loadTAButton.Font = new System.Drawing.Font("Quartz MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.loadTAButton.ForeColor = System.Drawing.SystemColors.Highlight;
+			this.loadTAButton.ForeColor = System.Drawing.Color.Navy;
 			this.loadTAButton.Location = new System.Drawing.Point(611, 67);
 			this.loadTAButton.Margin = new System.Windows.Forms.Padding(7);
 			this.loadTAButton.Name = "loadTAButton";
@@ -385,7 +385,7 @@
 			this.funcListLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.funcListLabel.Cursor = System.Windows.Forms.Cursors.Default;
 			this.funcListLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.funcListLabel.ForeColor = System.Drawing.Color.DarkCyan;
+			this.funcListLabel.ForeColor = System.Drawing.Color.Blue;
 			this.funcListLabel.Location = new System.Drawing.Point(611, 473);
 			this.funcListLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.funcListLabel.MaximumSize = new System.Drawing.Size(800, 999);

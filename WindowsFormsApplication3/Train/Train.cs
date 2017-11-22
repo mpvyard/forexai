@@ -38,7 +38,8 @@ namespace FinancePermutator.Train
 {
 	class Train
 	{
-		static int InputDimension = Configuration.InputDimension;
+		double saveTestHitRatio = 0;
+		static int inputDimension = Configuration.InputDimension;
 		static double[][] inputSets = new double[1][];
 		static double[][] outputSets = new double[1][];
 		private static double[][] testSetOutput;
@@ -56,15 +57,15 @@ namespace FinancePermutator.Train
 		public static int class1;
 		public static int class2;
 		public static int class0;
-		private static Thread thread;
+		private static Thread generateFunctionsThread;
 		private static Network network;
 		private int randomSeed;
 		private static LASTINPUTINFO lastInPutNfo;
-		public static int ThreadSleepTime;
-		double TestHitRatio = 0.0, TrainHitRatio = 0.0;
+		public static int threadSleepTime;
+		double testHitRatio = 0.0, trainHitRatio = 0.0;
 		double testMse = 0;
 		double trainMse = 0;
-		
+
 		[DllImport("User32.dll")]
 		private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
 
@@ -77,28 +78,27 @@ namespace FinancePermutator.Train
 		public Train()
 		{
 			randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
-			thread = new Thread(GenerateFunctions);
+			generateFunctionsThread = new Thread(GenerateFunctions);
 		}
 
 		public void Stop()
 		{
-			thread.Abort();
+			generateFunctionsThread.Abort();
 		}
 
 		public void Start()
 		{
 			ClearParameters();
 
-			ThreadSleepTime = Configuration.SleepTime;
-
+			threadSleepTime = Configuration.SleepTime;
 			RunScan = true;
-			thread.Priority = ThreadPriority.Lowest;
-			thread.Start();
+			generateFunctionsThread.Priority = ThreadPriority.Lowest;
+			generateFunctionsThread.Start();
 		}
 
 		public static int GetIdleTickCount()
 		{
-			return (Environment.TickCount - GetLastInputTime());
+			return Environment.TickCount - GetLastInputTime();
 		}
 
 		public static int GetLastInputTime()
@@ -112,7 +112,10 @@ namespace FinancePermutator.Train
 
 		public void EraseBigLabel()
 		{
-			Program.Form.debugView.Invoke((MethodInvoker) (() => { Data.chartBigLabel = string.Empty; }));
+			Program.Form.debugView.Invoke((MethodInvoker) (() =>
+			{
+				Program.Form.debugView.Invoke((MethodInvoker) (() => { Data.chartBigLabel = string.Empty; }));
+			}));
 		}
 
 		public void SetBigLabel(string text = "")
@@ -145,9 +148,9 @@ namespace FinancePermutator.Train
 
 				again:
 
-				ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
+				threadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
-				Program.Form.setStatus($"generating functions list, sleepTime={ThreadSleepTime}");
+				Program.Form.setStatus($"generating functions list, sleepTime={threadSleepTime}");
 
 				class1 = class2 = class0 = 0;
 				Data.FunctionsBase.Clear();
@@ -155,16 +158,17 @@ namespace FinancePermutator.Train
 
 				SetupFunctions(randomSeed);
 
-				InputDimension = XRandom.next(8, (XRandom.next(9, Configuration.InputDimension)));
-				Program.Form.AddConfiguration($"\r\nInputDimension: {InputDimension}\r\n");
+				inputDimension = XRandom.next(8, (XRandom.next(9, Configuration.InputDimension)));
+				Program.Form.AddConfiguration($"\r\nInputDimension: {inputDimension}\r\n");
 
-				debug($"function setup done, generating data [inputDimension={InputDimension}] ...");
+				debug($"function setup done, generating data [inputDimension={inputDimension}] ...");
 
-				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
+				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += inputDimension)
 				{
 					Program.Form.setBigLabel($"Generating train/test data ...");
 					if (offset % 55 == 0)
-						Program.Form.setStatus($"Generating train && test data [{offset} - {offset + InputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
+						Program.Form.setStatus(
+							$"Generating train && test data [{offset} - {offset + inputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
 
 					combinedResult = new double[] { };
 
@@ -173,7 +177,7 @@ namespace FinancePermutator.Train
 						var functionInfo = funct.Value;
 
 						randomSeed = (int) functionInfo["randomseed"];
-						FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], InputDimension, offset);
+						FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], inputDimension, offset);
 
 						// execute function
 						Function.Function function = new Function.Function((MethodInfo) functionInfo["methodInfo"]);
@@ -207,7 +211,7 @@ namespace FinancePermutator.Train
 
 					Array.Copy(combinedResult, inputSets[numRecord], combinedResult.Length);
 
-					SetOutputResult(InputDimension, offset, numRecord);
+					SetOutputResult(inputDimension, offset, numRecord);
 
 					numRecord++;
 				}
@@ -267,14 +271,14 @@ namespace FinancePermutator.Train
 				debug($"Selected function #{i}: {methodInfo.Name} unixTimestamp: {unixTimestamp}");
 				if (Data.FunctionsBase.ContainsKey(methodInfo.Name))
 				{
-					debug("this functions already exist");
+					debug($"function {methodInfo.Name} already exist");
 					if (i > 0)
 						i--;
 					continue;
 				}
 
 				// generate parameters
-				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0);
+				FunctionParameters functionParameters = new FunctionParameters(methodInfo, inputDimension, 0);
 
 				// execute function 
 				var function = new Function.Function(methodInfo);
@@ -285,7 +289,7 @@ namespace FinancePermutator.Train
 				{
 					DumpValues(methodInfo, result);
 					debug(
-						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={InputDimension}], need {Configuration.MinTaFunctionsCount - i}");
+						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={inputDimension}], need {Configuration.MinTaFunctionsCount - i}");
 					if (i > 0)
 						i--;
 					continue;
@@ -561,7 +565,7 @@ namespace FinancePermutator.Train
 
 			debug($"starting train on network {network.GetHashCode()}");
 
-			double saveTestHitRatio = 0;
+			saveTestHitRatio = 0;
 
 			for (var currentEpoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
 			{
@@ -575,7 +579,7 @@ namespace FinancePermutator.Train
 				}
 
 				// stop if no progress
-				if (currentEpoch >= 35 && (TestHitRatio <= 3 && TrainHitRatio <= 3))
+				if (currentEpoch >= 35 && (testHitRatio <= 3 && trainHitRatio <= 3))
 				{
 					debug("fail to train, bad network");
 					break;
@@ -591,8 +595,8 @@ namespace FinancePermutator.Train
 				// sleep for delay seconds (if enabled)
 				if (Program.Form.nodelayCheckbox.Checked == false)
 				{
-					ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
-					Thread.Sleep(ThreadSleepTime);
+					threadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
+					Thread.Sleep(threadSleepTime);
 				}
 
 				// DO TRAIN
@@ -606,14 +610,14 @@ namespace FinancePermutator.Train
 					debug($"error test {network.ErrNo}: {network.ErrStr}");
 
 				// Calcuate hit ratio in percentage
-				TestHitRatio = CalculateHitRatio(network, testSetInput, testSetOutput);
-				TrainHitRatio = CalculateHitRatio(network, trainSetInput, trainSetOutput);
+				testHitRatio = CalculateHitRatio(network, testSetInput, testSetOutput);
+				trainHitRatio = CalculateHitRatio(network, trainSetInput, trainSetOutput);
 
 				// save network if hit ratio reached
-				if ((testMse <= Configuration.MinSaveTestMSE || TestHitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch &&
-				    saveTestHitRatio < TestHitRatio)
+				if ((testMse <= Configuration.MinSaveTestMSE || testHitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch &&
+				    saveTestHitRatio < testHitRatio)
 				{
-					saveTestHitRatio = TestHitRatio;
+					saveTestHitRatio = testHitRatio;
 					SaveNetwork();
 				}
 
@@ -626,9 +630,11 @@ namespace FinancePermutator.Train
 				}));
 
 				// set various statuses
+				string training = epoch % 2 == 0 ? "TRAINING" : "        ";
 				Program.Form.setStatus(
-					$"[Training] TrainMSE {trainMse,-7:0.#####} {TrainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {TestHitRatio,-5:0.##}% DELAY {ThreadSleepTime}  ");
-				debug($"train: epoch #{currentEpoch,-3:0} trainMse {trainMse,8:0.#####} {TrainHitRatio,-4:0.##}% testmse {testMse,8:0.#####} {TestHitRatio,-4:0.##}%");
+					$"[{training}] TrainMSE {trainMse,-7:0.#####} {trainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {testHitRatio,-5:0.##}% ");
+				debug(
+					$"train: epoch #{currentEpoch,-3:0} trainMse {trainMse,8:0.#####} {trainHitRatio,-4:0.##}% testmse {testMse,8:0.#####} {testHitRatio,-4:0.##}%");
 			}
 
 			var output = network.Run(inputSetsLocal[0]);
@@ -685,19 +691,19 @@ namespace FinancePermutator.Train
 			}));
 		}
 
-		private static void SetOutputResult(int inputDimension, int offset, int numRecordLocal)
+		private static void SetOutputResult(int inputDimensionLocal, int offset, int numRecordLocal)
 		{
-			double[] priceOpen = ForexPrices.GetClose(inputDimension, offset);
+			double[] priceOpen = ForexPrices.GetClose(inputDimensionLocal, offset);
 
-			if (priceOpen[inputDimension - (inputDimension > Configuration.OutputIndex ? Configuration.OutputIndex : inputDimension)] >
-			    priceOpen[inputDimension - 1])
+			if (priceOpen[inputDimensionLocal - (inputDimensionLocal > Configuration.OutputIndex ? Configuration.OutputIndex : inputDimensionLocal)] >
+			    priceOpen[inputDimensionLocal - 1])
 			{
 				outputSets[numRecordLocal][0] = 1;
 				outputSets[numRecordLocal][1] = -1;
 				class1++;
 			}
-			else if (priceOpen[inputDimension - (inputDimension > Configuration.OutputIndex ? Configuration.OutputIndex : inputDimension)] <=
-			         priceOpen[inputDimension - 1])
+			else if (priceOpen[inputDimensionLocal - (inputDimensionLocal > Configuration.OutputIndex ? Configuration.OutputIndex : inputDimensionLocal)] <=
+			         priceOpen[inputDimensionLocal - 1])
 			{
 				outputSets[numRecordLocal][0] = -1;
 				outputSets[numRecordLocal][1] = 1;

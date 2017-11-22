@@ -153,7 +153,7 @@ namespace FinancePermutator.Train
 				SetupFunctions(randomSeed);
 
 				InputDimension = XRandom.next(8, (XRandom.next(9, Configuration.InputDimension)));
-				Program.Form.AddConfiguration($"InputDimension: {InputDimension}\r\n");
+				Program.Form.AddConfiguration($"\r\nInputDimension: {InputDimension}\r\n");
 
 				debug($"function setup done, generating data [inputDimension={InputDimension}] ...");
 
@@ -161,7 +161,7 @@ namespace FinancePermutator.Train
 				{
 					Program.Form.setBigLabel($"Generating train/test data ...");
 					if (offset % 155 == 0)
-						Program.Form.setStatus($"Generating train&&test data [{offset} - {offset + InputDimension}] ...");
+						Program.Form.setStatus($"Generating train && test data [{offset} - {offset + InputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
 
 					combinedResult = new double[] { };
 
@@ -288,7 +288,7 @@ namespace FinancePermutator.Train
 					continue;
 				}
 
-				Program.Form.AddConfiguration($" {methodInfo.Name} seed={randomSeedLocal}\r\n{functionParameters.parametersMap}");
+				Program.Form.AddConfiguration($" {methodInfo.Name} \r\n{functionParameters.parametersMap}");
 
 				// record info
 				Data.FunctionsBase[methodInfo.Name] = new Dictionary<string, object>();
@@ -344,9 +344,7 @@ namespace FinancePermutator.Train
 					output1 = 0;
 
 				if (output0 == desired_outputs[curX][0] && output1 == desired_outputs[curX][1])
-				{
 					hits++;
-				}
 				curX++;
 			}
 			return ((double) hits / (double) inputs.Length) * 100.0;
@@ -506,7 +504,7 @@ namespace FinancePermutator.Train
 			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 - 1;
 			debug($"new network: numinputs: {inputCount} neurons: {numNeurons}");
 
-			Program.Form.AddConfiguration($"Network:\r\n inputs: {inputCount} neurons: {numNeurons}");
+			Program.Form.AddConfiguration($"Config hash: {XRandom.randomString()}\r\nNetwork:\r\n inputs: {inputCount} neurons: {numNeurons}");
 
 			network = new Network(inputCount, numNeurons, 2);
 
@@ -552,7 +550,7 @@ namespace FinancePermutator.Train
 			AssignTrainData(inputSetsLocal, outputSetsLocal);
 
 			Program.Form.AddConfiguration(
-				$"Conf hash: {XRandom.RandomString()}\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
+				$"\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
 
 			debug($"class1: {class1} class2: {class2} class0: {class0}");
 

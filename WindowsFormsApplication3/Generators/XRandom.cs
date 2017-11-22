@@ -14,15 +14,15 @@ namespace FinancePermutator.Generators
 
 		public static int next(int n)
 		{
-			return Between(0, n);
+			return between(0, n);
 		}
 
 		public static int next(int n, int m)
 		{
-			return Between(Math.Min(n, m), Math.Max(n, m));
+			return between(Math.Min(n, m), Math.Max(n, m));
 		}
 
-		public static int Between(int minimumValue, int maximumValue)
+		public static int between(int minimumValue, int maximumValue)
 		{
 			byte[] randomNumber = new byte[1];
 
@@ -43,7 +43,7 @@ namespace FinancePermutator.Generators
 			return (int)(minimumValue + randomValueInRange);
 		}
 		
-		public static string RandomString()
+		public static string randomString()
 		{
 			// create a stronger hash code using RNGCryptoServiceProvider
 			byte[] randomLocal = new byte[64];

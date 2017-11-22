@@ -58,7 +58,6 @@ namespace FinancePermutator.Train
 		public static int class0;
 		private static Thread thread;
 		private static Network network;
-		public XRandom XRandom;
 		private int randomSeed;
 		private static LASTINPUTINFO lastInPutNfo;
 		public static int ThreadSleepTime;
@@ -75,7 +74,7 @@ namespace FinancePermutator.Train
 		public Train()
 		{
 			randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
-			thread = new Thread(ProcessScan);
+			thread = new Thread(GenerateFunctions);
 		}
 
 		public void Stop()
@@ -132,7 +131,7 @@ namespace FinancePermutator.Train
 		   `+------+     +------+     +------+     +------+     +------+'
 		*/
 
-		public void ProcessScan()
+		public void GenerateFunctions()
 		{
 			if (!Data.TALibMethods.Any())
 				return;
@@ -282,10 +281,9 @@ namespace FinancePermutator.Train
 				    double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayAllZeros(result))
 				{
 					DumpValues(methodInfo, result);
-					debug($"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code}], need {Configuration.MinTaFunctionsCount - i}");
+					debug($"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={InputDimension}], need {Configuration.MinTaFunctionsCount - i}");
 					if (i > 0)
 						i--;
-					randomSeedLocal = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
 					continue;
 				}
 
@@ -606,9 +604,9 @@ namespace FinancePermutator.Train
 
 				debug($"train: epoch #{currentEpoch} trainMse {trainMse,7:0.#####} {TrainHitRatio,3:0.##}% testmse {testMse,7:0.#####} {TestHitRatio,3:0.##}%");
 
-				var mse = trainMse;
-				var mse1 = testMse;
-				var epoch1 = currentEpoch;
+				double mse = trainMse;
+				double mse1 = testMse;
+				int epoch1 = currentEpoch;
 
 				if (trainMse <= 0.01 && currentEpoch > Configuration.MinSaveEpoch)
 				{
@@ -623,7 +621,7 @@ namespace FinancePermutator.Train
 					SaveNetwork();
 				}
 
-				if (currentEpoch >= 25 && (TestHitRatio <= 3 || TrainHitRatio <= 3))
+				if (currentEpoch >= 15 && (TestHitRatio <= 3 && TrainHitRatio <= 3))
 				{
 					debug("fail to train, bad network");
 					break;

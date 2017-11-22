@@ -12,6 +12,7 @@ using FinancePermutator.Prices;
 using System.Drawing;
 using System.Drawing.Text;
 using FANNCSharp.Double;
+using FinancePermutator.Generators;
 using static FANNCSharp.TrainingAlgorithm;
 using FinancePermutator.Networks;
 using static FinancePermutator.Tools;

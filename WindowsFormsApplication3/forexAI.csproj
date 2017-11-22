@@ -155,7 +155,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prices\LoadPrices.cs" />
-    <Compile Include="XRandom.cs" />
+    <Compile Include="Generators\XRandom.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Train\Train.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">

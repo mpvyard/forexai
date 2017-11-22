@@ -1,5 +1,6 @@
 ﻿using System;
 using FANNCSharp;
+using FinancePermutator.Generators;
 
 namespace FinancePermutator.Networks
 {

@@ -9,7 +9,6 @@ namespace FinancePermutator.Function
 {
 	class FunctionParameters
 	{
-		public XRandom XRandom;
 		public int ParamIndex;
 		public int NumData;
 		public int OutBegIdx = 0;

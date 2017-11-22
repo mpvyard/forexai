@@ -6,8 +6,9 @@ namespace FinancePermutator.Generators
 	{
 		public static ActivationFunction GetRandomActivationFunction()
 		{
-			switch (XRandom.next(15))
+			switch (XRandom.next(14))
 			{
+				default:
 				case 1:
 					return ActivationFunction.COS_SYMMETRIC;
 				case 2:
@@ -36,7 +37,7 @@ namespace FinancePermutator.Generators
 					return ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE;
 				case 14:
 					return ActivationFunction.SIN_SYMMETRIC;
-				default:
+				case 15:
 					return ActivationFunction.THRESHOLD;
 			}
 		}

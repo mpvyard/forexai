@@ -276,7 +276,7 @@ namespace FinancePermutator.Train
 				// generate parameters
 				FunctionParameters functionParameters = new FunctionParameters(methodInfo, InputDimension, 0);
 
-				// execute function
+				// execute function 
 				var function = new Function.Function(methodInfo);
 				result = function.Execute(functionParameters, out var code);
 
@@ -490,6 +490,7 @@ namespace FinancePermutator.Train
 				Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
 				Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White;
 
+				Program.Form.chart.ChartAreas[0].AxisY.Interval = 0.1;
 				/*Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
 				Program.Form.chart.ChartAreas[0].AxisX.Interval = 1;
 				Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
@@ -608,11 +609,6 @@ namespace FinancePermutator.Train
 				TestHitRatio = CalculateHitRatio(network, testSetInput, testSetOutput);
 				TrainHitRatio = CalculateHitRatio(network, trainSetInput, trainSetOutput);
 
-				// set various statuses
-				Program.Form.setStatus(
-					$"[Training] TrainMSE {trainMse,-7:0.#####} {TrainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {TestHitRatio,-5:0.##}% DELAY {ThreadSleepTime}  ");
-				debug($"train: epoch #{currentEpoch} trainMse {trainMse,8:0.#####} {TrainHitRatio,-4:0.##}% testmse {testMse,8:0.#####} {TestHitRatio,-4:0.##}%");
-
 				// save network if hit ratio reached
 				if ((testMse <= Configuration.MinSaveTestMSE || TestHitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch &&
 				    saveTestHitRatio < TestHitRatio)
@@ -628,6 +624,11 @@ namespace FinancePermutator.Train
 					Program.Form.chart.Series["train"].Points.AddXY(epoch, trainMse);
 					Program.Form.chart.Series["test"].Points.AddXY(epoch, testMse);
 				}));
+
+				// set various statuses
+				Program.Form.setStatus(
+					$"[Training] TrainMSE {trainMse,-7:0.#####} {TrainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {TestHitRatio,-5:0.##}% DELAY {ThreadSleepTime}  ");
+				debug($"train: epoch #{currentEpoch,-3:0} trainMse {trainMse,8:0.#####} {TrainHitRatio,-4:0.##}% testmse {testMse,8:0.#####} {TestHitRatio,-4:0.##}%");
 			}
 
 			var output = network.Run(inputSetsLocal[0]);

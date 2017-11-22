@@ -60,7 +60,7 @@ namespace FinancePermutator
 					{
 						num = 0;
 						debug($"[{method.Name}] values {sb}");
-						sb.Clear();
+						sb.Clear(); 
 					}
 				}
 			}

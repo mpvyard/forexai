@@ -46,7 +46,7 @@ namespace FinancePermutator.Forms
 		public Form1()
 		{
 			InitializeComponent();
-			XRandom.Init();
+			XRandom.init();
 		}
 
 		private void LoadPricesButtonClick(object sender, EventArgs e)

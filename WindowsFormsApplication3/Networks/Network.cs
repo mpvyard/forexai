@@ -15,13 +15,9 @@ namespace FinancePermutator.Networks
 	class Network
 	{
 		private NeuralNet network;
-
 		public float MSE => this.network.MSE;
-
 		public uint ErrNo => this.network.ErrNo;
-
 		public string ErrStr => this.network.ErrStr;
-
 		public uint BitFail => this.network.BitFail;
 
 		public double Test(TrainingData testData)

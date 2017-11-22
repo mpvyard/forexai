@@ -7,7 +7,8 @@ namespace FinancePermutator.Generators
 	{
 		public static Random random;
 		private static readonly RNGCryptoServiceProvider _generator = new RNGCryptoServiceProvider();
-		public static void Init()
+		
+		public static void init()
 		{
 			random = new Random(DateTime.Now.Millisecond);
 		}

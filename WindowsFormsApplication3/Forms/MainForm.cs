@@ -11,6 +11,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using FinancePermutator.Prices;
 using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using FANNCSharp.Double;
 using FinancePermutator.Generators;
 using static FANNCSharp.TrainingAlgorithm;
@@ -26,7 +27,6 @@ namespace FinancePermutator.Forms
 	public partial class Form1 : Form
 	{
 		int methodNum;
-		
 		Train.Train threadProcessScan;
 		internal bool DoingSearch;
 
@@ -45,6 +45,7 @@ namespace FinancePermutator.Forms
 
 		public Form1()
 		{
+			File.Delete(Configuration.LogFileName);
 			InitializeComponent();
 			XRandom.init();
 		}

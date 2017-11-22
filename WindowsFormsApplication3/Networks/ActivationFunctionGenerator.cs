@@ -4,13 +4,10 @@ using FinancePermutator.Generators;
 
 namespace FinancePermutator.Networks
 {
-	class ActivationFunctionGeneration
+	static class ActivationFunctionGenerator
 	{
-		
-
 		public static ActivationFunction GetRandomActivationFunction()
 		{
-			
 			switch (XRandom.next(15))
 			{
 				case 1:

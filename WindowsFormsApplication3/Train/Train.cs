@@ -152,7 +152,7 @@ namespace FinancePermutator.Train
 
 				SetupFunctions(randomSeed);
 
-				InputDimension = XRandom.next(8, (XRandom.next(8 + Configuration.InputDimension)));
+				InputDimension = XRandom.next(8, (XRandom.next(9, Configuration.InputDimension)));
 				Program.Form.AddConfiguration($"InputDimension: {InputDimension}\r\n");
 
 				debug($"function setup done, generating data [inputDimension={InputDimension}] ...");
@@ -281,7 +281,8 @@ namespace FinancePermutator.Train
 				    double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayAllZeros(result))
 				{
 					DumpValues(methodInfo, result);
-					debug($"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={InputDimension}], need {Configuration.MinTaFunctionsCount - i}");
+					debug(
+						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={InputDimension}], need {Configuration.MinTaFunctionsCount - i}");
 					if (i > 0)
 						i--;
 					continue;
@@ -326,9 +327,7 @@ namespace FinancePermutator.Train
 			{
 				var output = net.Run(input);
 
-				//var output0 = desired_outputs[curX][0] == -1 ? Math.Floor(output[0]) : Math.Ceiling(output[0]);
-				//var output1 = desired_outputs[curX][1] == -1 ? Math.Floor(output[1]) : Math.Ceiling(output[1]);
-				double output0, output1;
+				double output0;
 				if (output[0] >= 0.5)
 					output0 = 1.0;
 				else if (output[0] <= -0.5)
@@ -336,6 +335,7 @@ namespace FinancePermutator.Train
 				else
 					output0 = 0;
 
+				double output1;
 				if (output[1] >= 0.5)
 					output1 = 1.0;
 				else if (output[1] <= -0.5)
@@ -346,11 +346,6 @@ namespace FinancePermutator.Train
 				if (output0 == desired_outputs[curX][0] && output1 == desired_outputs[curX][1])
 				{
 					hits++;
-				}
-				else
-				{
-					//debug($"output[0]({output[0]}/{Math.Ceiling(output[0])}) != desired[0]({desired_outputs[curX][0]})");
-					//debug($"output[1]({output[1]}/{Math.Ceiling(output[1])}) != desired[1]({desired_outputs[curX][1]})");
 				}
 				curX++;
 			}
@@ -602,7 +597,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus(
 					$"[Training] TrainMSE {trainMse,-7:0.#####} {TrainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {TestHitRatio,-5:0.##}% DELAY {ThreadSleepTime}  ");
 
-				debug($"train: epoch #{currentEpoch} trainMse {trainMse,7:0.#####} {TrainHitRatio,3:0.##}% testmse {testMse,7:0.#####} {TestHitRatio,3:0.##}%");
+				debug($"train: epoch #{currentEpoch} trainMse {trainMse,8:0.#####} {TrainHitRatio,-4:0.##}% testmse {testMse,8:0.#####} {TestHitRatio,-4:0.##}%");
 
 				double mse = trainMse;
 				double mse1 = testMse;

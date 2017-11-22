@@ -63,10 +63,10 @@ namespace FinancePermutator.Networks
 				░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 		public void SetupActivation()
 		{
-			var activationFunc = ActivationFunctionGeneration.GetRandomActivationFunction();
+			var activationFunc = ActivationFunctionGenerator.GetRandomActivationFunction();
 			Program.Form.AddConfiguration($"\r\n  InputActivationFunc: {activationFunc}");
 			this.network.SetActivationFunctionLayer(activationFunc, 1); 
-			activationFunc = ActivationFunctionGeneration.GetRandomActivationFunction();
+			activationFunc = ActivationFunctionGenerator.GetRandomActivationFunction();
 			Program.Form.AddConfiguration($" LayerActivationFunc: {activationFunc}");
 			this.network.SetActivationFunctionLayer(activationFunc, 2);
 		}

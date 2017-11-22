@@ -42,5 +42,19 @@ namespace FinancePermutator.Generators
 
 			return (int)(minimumValue + randomValueInRange);
 		}
+		
+		public static string RandomString()
+		{
+			// create a stronger hash code using RNGCryptoServiceProvider
+			byte[] randomLocal = new byte[64];
+			RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+			// populate with random bytes
+			rng.GetBytes(randomLocal);
+
+			// convert random bytes to string
+			string randomBase64 = Convert.ToBase64String(randomLocal);
+			// display
+			return randomBase64;
+		}
 	}
 }

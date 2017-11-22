@@ -1,8 +1,6 @@
-﻿using System;
-using FANNCSharp;
-using FinancePermutator.Generators;
+﻿using FANNCSharp;
 
-namespace FinancePermutator.Networks
+namespace FinancePermutator.Generators
 {
 	static class ActivationFunctionGenerator
 	{

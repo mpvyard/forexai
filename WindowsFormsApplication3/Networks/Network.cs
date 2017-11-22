@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using dotless.Core.Parser.Tree;
 using FANNCSharp;
 using FANNCSharp.Double;
+using FinancePermutator.Generators;
 using static FinancePermutator.Tools;
 
 namespace FinancePermutator.Networks
@@ -63,7 +64,7 @@ namespace FinancePermutator.Networks
 				░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 		public void SetupActivation()
 		{
-			var activationFunc = ActivationFunctionGenerator.GetRandomActivationFunction();
+			var activationFunc = ActivationFunction.SIGMOID_SYMMETRIC;
 			Program.Form.AddConfiguration($"\r\n  InputActivationFunc: {activationFunc}");
 			this.network.SetActivationFunctionLayer(activationFunc, 1); 
 			activationFunc = ActivationFunctionGenerator.GetRandomActivationFunction();

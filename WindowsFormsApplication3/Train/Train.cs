@@ -552,7 +552,7 @@ namespace FinancePermutator.Train
 			AssignTrainData(inputSetsLocal, outputSetsLocal);
 
 			Program.Form.AddConfiguration(
-				$"Info:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
+				$"Conf hash: {XRandom.RandomString()}\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
 
 			debug($"class1: {class1} class2: {class2} class0: {class0}");
 

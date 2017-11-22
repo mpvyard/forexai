@@ -45,7 +45,14 @@ namespace FinancePermutator.Forms
 
 		public Form1()
 		{
-			File.Delete(Configuration.LogFileName);
+			try
+			{
+				File.Delete(Configuration.LogFileName);
+			}
+			catch (Exception e)
+			{
+				debug($"exception while delete: {e}");
+			}
 			InitializeComponent();
 			XRandom.init();
 		}

@@ -250,11 +250,9 @@ namespace FinancePermutator.Train
 
 			debug($"selecting functions Count={functionsCount}");
 			Program.Form.ConfigurationClear();
-
 			Program.Form.AddConfiguration("Functions:\r\n");
 
 			Program.Form.EraseBigLabel();
-
 			Program.Form.setBigLabel("[SETTING FUNCTIONS UP]");
 
 			for (int i = 0; i < functionsCount && RunScan; i++)
@@ -267,8 +265,8 @@ namespace FinancePermutator.Train
 				var methodInfo = Methods.GetRandomMethod(unixTimestamp);
 
 				Program.Form.setStatus($"Setup function #{i} <{methodInfo.Name}> ...");
-
 				debug($"Selected function #{i}: {methodInfo.Name} unixTimestamp: {unixTimestamp}");
+				
 				if (Data.FunctionsBase.ContainsKey(methodInfo.Name))
 				{
 					debug($"function {methodInfo.Name} already exist");

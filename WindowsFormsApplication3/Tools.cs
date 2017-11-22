@@ -16,26 +16,38 @@ namespace FinancePermutator
 		public static extern void OutputDebugString(string message);
 
 		public static List<string> Messages = new List<string>();
+		private static bool runningMessagePump;
 
 		public static int LastLogTime { get; private set; }
-
+		private static StreamWriter sw = null;
 		public static object writeMessagesBlock = new object();
 
 		public static void WriteMessages()
 		{
+			if (runningMessagePump)
+				return;
+
 			// hello
 			lock (writeMessagesBlock)
 			{
-				if (Messages.Count == 0)
+				if (Messages.Count == 0 || Program.Form.debugView == null)
 					return;
-				
+				runningMessagePump = true;
+
 				Program.Form.debugView.Invoke((MethodInvoker) (() =>
 				{
-					StreamWriter sw;
-					if (!File.Exists(Configuration.LogFileName))
-						sw = File.CreateText(Configuration.LogFileName);
-					else
-						sw = File.AppendText(Configuration.LogFileName);
+					
+					try
+					{
+						if (!File.Exists(Configuration.LogFileName))
+							sw = File.CreateText(Configuration.LogFileName);
+						else
+							sw = File.AppendText(Configuration.LogFileName);
+					}
+					catch (Exception e)
+					{
+						OutputDebugString($"error log file open: {e}");
+					}
 
 					Program.Form.debugView.BeginUpdate();
 
@@ -43,15 +55,18 @@ namespace FinancePermutator
 					foreach (var msg in Messages)
 					{
 						Program.Form.debugView.Items.Add(msg);
-						sw.WriteLine(msg);
+						if (sw != null)
+							sw.WriteLine(msg);
 					}
-					sw.Close();
+					if (sw != null)
+						sw.Close();
 					Messages.Clear();
 
 					int visibleItems = Program.Form.debugView.ClientSize.Height / Program.Form.debugView.ItemHeight;
 					Program.Form.debugView.TopIndex = Math.Max(Program.Form.debugView.Items.Count - visibleItems + 1, 0);
 					Program.Form.debugView.EndUpdate();
 				}));
+				runningMessagePump = false;
 			}
 		}
 
@@ -70,7 +85,7 @@ namespace FinancePermutator
 					{
 						num = 0;
 						debug($"[{method.Name}] values {sb}");
-						sb.Clear(); 
+						sb.Clear();
 					}
 				}
 			}

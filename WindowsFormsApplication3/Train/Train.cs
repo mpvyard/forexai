@@ -61,7 +61,10 @@ namespace FinancePermutator.Train
 		private int randomSeed;
 		private static LASTINPUTINFO lastInPutNfo;
 		public static int ThreadSleepTime;
-
+		double TestHitRatio = 0.0, TrainHitRatio = 0.0;
+		double testMse = 0;
+		double trainMse = 0;
+		
 		[DllImport("User32.dll")]
 		private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
 
@@ -160,7 +163,7 @@ namespace FinancePermutator.Train
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += InputDimension)
 				{
 					Program.Form.setBigLabel($"Generating train/test data ...");
-					if (offset % 155 == 0)
+					if (offset % 55 == 0)
 						Program.Form.setStatus($"Generating train && test data [{offset} - {offset + InputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
 
 					combinedResult = new double[] { };
@@ -504,7 +507,7 @@ namespace FinancePermutator.Train
 			uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 - 1;
 			debug($"new network: numinputs: {inputCount} neurons: {numNeurons}");
 
-			Program.Form.AddConfiguration($"Config hash: {XRandom.randomString()}\r\nNetwork:\r\n inputs: {inputCount} neurons: {numNeurons}");
+			Program.Form.AddConfiguration($"\r\nConfig hash: {XRandom.randomString()}\r\n\r\nNetwork:\r\n inputs: {inputCount} neurons: {numNeurons}");
 
 			network = new Network(inputCount, numNeurons, 2);
 
@@ -516,9 +519,6 @@ namespace FinancePermutator.Train
 
 		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
 		{
-			double testMse = 0;
-			double trainMse = 0;
-
 			Program.Form.setBigLabel($"[CHECK {inputSetsLocal.Length} DATA ROWS]");
 			if (!InputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
 			{
@@ -564,7 +564,7 @@ namespace FinancePermutator.Train
 
 			for (var currentEpoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
 			{
-				double TestHitRatio = 0.0, TrainHitRatio = 0.0;
+				// stop if max epoch reached
 				if (currentEpoch >= Configuration.TrainLimitEpochs)
 				{
 					debug("[AUTO-RESTART]");
@@ -573,10 +573,24 @@ namespace FinancePermutator.Train
 					return -1;
 				}
 
+				// stop if no progress
+				if (currentEpoch >= 35 && (TestHitRatio <= 3 && TrainHitRatio <= 3))
+				{
+					debug("fail to train, bad network");
+					break;
+				}
+
+				// stop if reached low train mse
+				if (trainMse <= 0.01 && currentEpoch > Configuration.MinSaveEpoch)
+				{
+					debug($"finished training, reached corner trainmse={trainMse} testmse={testMse}");
+					break;
+				}
+
+				// sleep for delay seconds (if enabled)
 				if (Program.Form.nodelayCheckbox.Checked == false)
 				{
 					ThreadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
-
 					Thread.Sleep(ThreadSleepTime);
 				}
 
@@ -585,28 +599,21 @@ namespace FinancePermutator.Train
 				if (network.ErrNo > 0)
 					debug($"error {network.ErrNo}: {network.ErrStr}");
 
+				// DO TEST
 				testMse = network.Test(testData);
 				if (network.ErrNo > 0)
 					debug($"error test {network.ErrNo}: {network.ErrStr}");
 
+				// Calcuate hit ratio in percentage
 				TestHitRatio = CalculateHitRatio(network, testSetInput, testSetOutput);
 				TrainHitRatio = CalculateHitRatio(network, trainSetInput, trainSetOutput);
 
+				// set various statuses
 				Program.Form.setStatus(
 					$"[Training] TrainMSE {trainMse,-7:0.#####} {TrainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {TestHitRatio,-5:0.##}% DELAY {ThreadSleepTime}  ");
-
 				debug($"train: epoch #{currentEpoch} trainMse {trainMse,8:0.#####} {TrainHitRatio,-4:0.##}% testmse {testMse,8:0.#####} {TestHitRatio,-4:0.##}%");
 
-				double mse = trainMse;
-				double mse1 = testMse;
-				int epoch1 = currentEpoch;
-
-				if (trainMse <= 0.01 && currentEpoch > Configuration.MinSaveEpoch)
-				{
-					debug($"finished training, reached corner trainmse={trainMse} testmse={testMse}");
-					break;
-				}
-
+				// save network if hit ratio reached
 				if ((testMse <= Configuration.MinSaveTestMSE || TestHitRatio >= Configuration.MinSaveHit) && currentEpoch > Configuration.MinSaveEpoch &&
 				    saveTestHitRatio < TestHitRatio)
 				{
@@ -614,16 +621,12 @@ namespace FinancePermutator.Train
 					SaveNetwork();
 				}
 
-				if (currentEpoch >= 15 && (TestHitRatio <= 3 && TrainHitRatio <= 3))
-				{
-					debug("fail to train, bad network");
-					break;
-				}
-
+				// draw graphics
+				var epoch = currentEpoch;
 				Program.Form.chart.Invoke((MethodInvoker) (() =>
 				{
-					Program.Form.chart.Series["train"].Points.AddXY(epoch1, mse);
-					Program.Form.chart.Series["test"].Points.AddXY(epoch1, mse1);
+					Program.Form.chart.Series["train"].Points.AddXY(epoch, trainMse);
+					Program.Form.chart.Series["test"].Points.AddXY(epoch, testMse);
 				}));
 			}
 

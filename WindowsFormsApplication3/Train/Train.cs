@@ -27,6 +27,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using FANNCSharp;
 using FANNCSharp.Double;
 using FinancePermutator.Function;
 using FinancePermutator.Generators;
@@ -153,7 +154,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus($"generating functions list, sleepTime={threadSleepTime}");
 
 				class1 = class2 = class0 = 0;
-				Data.FunctionsBase.Clear();
+				Data.FunctionBase.Clear();
 				Program.Form.debugView.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
 
 				SetupFunctions(randomSeed);
@@ -174,7 +175,7 @@ namespace FinancePermutator.Train
 
 					combinedResult = new double[] { };
 
-					foreach (var funct in Data.FunctionsBase)
+					foreach (var funct in Data.FunctionBase)
 					{
 						var functionInfo = funct.Value;
 
@@ -269,7 +270,7 @@ namespace FinancePermutator.Train
 				Program.Form.setStatus($"Setup function #{i} <{methodInfo.Name}> ...");
 				debug($"Selected function #{i}: {methodInfo.Name} unixTimestamp: {unixTimestamp}");
 
-				if (Data.FunctionsBase.ContainsKey(methodInfo.Name))
+				if (Data.FunctionBase.ContainsKey(methodInfo.Name))
 				{
 					debug($"function {methodInfo.Name} already exist");
 					if (i > 0)
@@ -298,18 +299,18 @@ namespace FinancePermutator.Train
 				Program.Form.AddConfiguration($" {methodInfo.Name} \r\n{functionParameters.parametersMap}");
 
 				// record info
-				Data.FunctionsBase[methodInfo.Name] = new Dictionary<string, object>();
-				Data.FunctionsBase[methodInfo.Name]["parameters"] = functionParameters;
-				Data.FunctionsBase[methodInfo.Name]["result"] = result;
-				Data.FunctionsBase[methodInfo.Name]["randomseed"] = randomSeedLocal;
-				Data.FunctionsBase[methodInfo.Name]["methodInfo"] = methodInfo;
+				Data.FunctionBase[methodInfo.Name] = new Dictionary<string, object>();
+				Data.FunctionBase[methodInfo.Name]["parameters"] = functionParameters;
+				Data.FunctionBase[methodInfo.Name]["result"] = result;
+				Data.FunctionBase[methodInfo.Name]["randomseed"] = randomSeedLocal;
+				Data.FunctionBase[methodInfo.Name]["methodInfo"] = methodInfo;
 
 				randomSeedLocal = unixTimestamp + XRandom.next(255);
 			}
 
 			var functions = new StringBuilder();
 
-			foreach (var func in Data.FunctionsBase)
+			foreach (var func in Data.FunctionBase)
 				functions.Append($"[{func.Key}] ");
 
 			Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
@@ -354,7 +355,7 @@ namespace FinancePermutator.Train
 					hits++;
 				curX++;
 			}
-			return ((double) hits / (double) inputs.Length) * 100.0;
+			return ((double) hits / (double) inputs.Length) * 100.0d;
 		}
 
 		private bool AssertInputDataIsCorrect(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
@@ -515,7 +516,8 @@ namespace FinancePermutator.Train
 
 			Program.Form.AddConfiguration($"\r\nConfig hash: {XRandom.randomString()}\r\n\r\nNetwork:\r\n inputs: {inputCount} neurons: {numNeurons}");
 
-			network = new Network(inputCount, numNeurons, 2);
+			NetworkType layer = NetworkType.SHORTCUT;
+			network = new Network(layer, inputCount, numNeurons, 2);
 
 			network.TrainingAlgorithm = Configuration.TrainAlgo;
 
@@ -633,9 +635,9 @@ namespace FinancePermutator.Train
 				// set various statuses
 				string training = epoch % 2 == 0 ? "TRAINING" : "        ";
 				Program.Form.setStatus(
-					$"[{training}] TrainMSE {trainMse,-7:0.#####} {trainHitRatio,-5:0.##}% TestMSE {testMse,-7:0.#####} {testHitRatio,-5:0.##}% ");
+					$"[{training}] TrainMSE {trainMse,7:0.#####} {trainHitRatio,4:0.##}% TestMSE {testMse,7:0.#####} {testHitRatio,4:0.##}% ");
 				debug(
-					$"train: epoch #{currentEpoch,-3:0} trainMse {trainMse,8:0.#####} {trainHitRatio,-4:0.##}% testmse {testMse,8:0.#####} {testHitRatio,-4:0.##}%");
+					$"train: epoch #{currentEpoch,-4:0} trainMse {trainMse,8:0.#####} {trainHitRatio,4:0.##}% testmse {testMse,8:0.#####} {testHitRatio,4:0.##}%");
 			}
 
 			var output = network.Run(inputSetsLocal[0]);

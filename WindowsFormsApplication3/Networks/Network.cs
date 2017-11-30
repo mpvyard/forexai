@@ -63,7 +63,7 @@ namespace FinancePermutator.Networks
 			var activationFunc = ActivationFunction.SIGMOID_SYMMETRIC;
 			Program.Form.AddConfiguration($"\r\n InputActFunc: {activationFunc}");
 			this.network.SetActivationFunctionLayer(activationFunc, 1); 
-			activationFunc = ActivationFunctionGenerator.GetRandomActivationFunction();
+			activationFunc = ActivationFunctionGenerator.GetRandomFunction();
 			Program.Form.AddConfiguration($" LayerActFunc: {activationFunc}");
 			this.network.SetActivationFunctionLayer(activationFunc, 2);
 		}
@@ -73,9 +73,9 @@ namespace FinancePermutator.Networks
 			this.network.InitWeights(td);
 		}
 
-		public Network(uint numInput, uint numHidden, uint numOutput)
+		public Network(NetworkType layer, uint numInput, uint numHidden, uint numOutput)
 		{
-			network = new NeuralNet(NetworkType.LAYER, 3, numInput, numHidden, numOutput);
+			network = new NeuralNet(layer, 3, numInput, numHidden, numOutput);
 			debug($"network {this.network} input: {numInput} numHidden: {numHidden} output: {numOutput}");
 		}
 
@@ -97,7 +97,7 @@ namespace FinancePermutator.Networks
 
 		public void Save(string name)
 		{
-			debug($"saving network {this.network.GetHashCode()} as {name}");
+			debug($"saving network 0x{this.network.GetHashCode()} as {name}");
 			this.network.Save(name);
 		}
 	}

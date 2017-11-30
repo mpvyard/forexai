@@ -148,15 +148,16 @@
 			// 
 			// statusLabel
 			// 
-			this.statusLabel.AutoSize = true;
-			this.statusLabel.BackColor = System.Drawing.Color.LawnGreen;
-			this.statusLabel.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.statusLabel.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+			this.statusLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.statusLabel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.statusLabel.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.statusLabel.ForeColor = System.Drawing.Color.MidnightBlue;
-			this.statusLabel.Location = new System.Drawing.Point(-4, 457);
+			this.statusLabel.Location = new System.Drawing.Point(2, 459);
 			this.statusLabel.MaximumSize = new System.Drawing.Size(0, 19);
 			this.statusLabel.MinimumSize = new System.Drawing.Size(800, 0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(800, 13);
+			this.statusLabel.Size = new System.Drawing.Size(800, 19);
 			this.statusLabel.TabIndex = 6;
 			this.statusLabel.Text = "idle";
 			// 
@@ -359,7 +360,7 @@
 			// timeFast
 			// 
 			this.timeFast.Enabled = true;
-			this.timeFast.Interval = 150;
+			this.timeFast.Interval = 350;
 			this.timeFast.Tick += new System.EventHandler(this.TimeFastTick);
 			// 
 			// debugView
@@ -435,7 +436,6 @@
 			this.Resize += new System.EventHandler(this.Form1Resize);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();

@@ -4,7 +4,7 @@ namespace FinancePermutator.Generators
 {
 	static class ActivationFunctionGenerator
 	{
-		public static ActivationFunction GetRandomActivationFunction()
+		public static ActivationFunction GetRandomFunction()
 		{
 			switch (XRandom.next(14))
 			{

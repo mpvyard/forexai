@@ -78,7 +78,7 @@ namespace FinancePermutator.Train
 		public Train()
 		{
 			randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
-			generateFunctionsThread = new Thread(GenerateFunctions);
+			generateFunctionsThread = new Thread(LoopGenerateFunctions);
 		}
 
 		public void Stop()
@@ -88,7 +88,7 @@ namespace FinancePermutator.Train
 
 		public void Start()
 		{
-			ClearParameters();
+			ClearAllParameters();
 
 			threadSleepTime = Configuration.SleepTime;
 			RunScan = true;
@@ -137,7 +137,7 @@ namespace FinancePermutator.Train
 		   `+------+     +------+     +------+     +------+     +------+'
 		*/
 
-		public void GenerateFunctions()
+		public void LoopGenerateFunctions()
 		{
 			if (!Data.TALibMethods.Any())
 				return;
@@ -167,7 +167,7 @@ namespace FinancePermutator.Train
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += inputDimension)
 				{
 					Program.Form.setBigLabel($"Generating train/test data ...");
-					
+
 					if (offset % 55 == 0)
 						Program.Form.setStatus(
 							$"Generating train && test data [{offset} - {offset + inputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
@@ -268,7 +268,7 @@ namespace FinancePermutator.Train
 
 				Program.Form.setStatus($"Setup function #{i} <{methodInfo.Name}> ...");
 				debug($"Selected function #{i}: {methodInfo.Name} unixTimestamp: {unixTimestamp}");
-				
+
 				if (Data.FunctionsBase.ContainsKey(methodInfo.Name))
 				{
 					debug($"function {methodInfo.Name} already exist");
@@ -357,7 +357,7 @@ namespace FinancePermutator.Train
 			return ((double) hits / (double) inputs.Length) * 100.0;
 		}
 
-		private bool InputDataIsCorrect(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
+		private bool AssertInputDataIsCorrect(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
 		{
 			Program.Form.setStatus($"Checking training data: input {inputSetsLocal?.Length} output {outputSetsLocal?.Length} ...");
 
@@ -434,14 +434,14 @@ namespace FinancePermutator.Train
 			return true;
 		}
 
-		private void ClearParameters()
+		private void ClearAllParameters()
 		{
 			outputSets = null;
 			inputSets = null;
 			numRecord = 0;
 		}
 
-		private void AssignTrainData(double[][] inputSetsLocal, double[][] outputSetsLocal)
+		private void CreateTrainAndTestData(double[][] inputSetsLocal, double[][] outputSetsLocal)
 		{
 			try
 			{
@@ -465,7 +465,7 @@ namespace FinancePermutator.Train
 			{
 				debug($"Exception '{e.Message}' while working with train data");
 				Program.Form.setStatus($"Exception '{e.Message}' while working with train data");
-				ClearParameters();
+				ClearAllParameters();
 			}
 		}
 
@@ -474,6 +474,7 @@ namespace FinancePermutator.Train
 			Program.Form.chart.Invoke((MethodInvoker) (() =>
 			{
 				Program.Form.EraseBigLabel();
+				
 				Program.Form.chart.Series.Clear();
 				Program.Form.chart.Series.Add("train");
 				Program.Form.chart.Series.Add("test");
@@ -522,37 +523,37 @@ namespace FinancePermutator.Train
 			network.SetupActivation();
 		}
 
+		/*			 *
+		░░ ♡ ▄▀▀▀▄░░░ 
+		▄███▀░◐░░░▌░░░░░░░ 
+		░░░░▌░░░░░▐░░░░░░░ 
+		░░░░▐░░░░░▐░░░░░░░ 
+		░░░░▌░░░░░▐▄▄░░░░░ 
+		░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
+		░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
+		░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+		░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+		░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
+		░░░░░░░░░░░▌▌░▌▌░░░░░ 
+		░░░░░░░░░░░▌▌░▌▌░░░░░ 
+		░░░░░░░░░▄▄▌▌▄▌▌░░░░░
+		-----------
+		*/
+
 		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
 		{
 			Program.Form.setBigLabel($"[CHECK {inputSetsLocal.Length} DATA ROWS]");
-			if (!InputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
+			if (!AssertInputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
 			{
 				debug($"ERROR: data check failed");
-				ClearParameters();
+				ClearAllParameters();
 				return -1;
 			}
-
-			/*			 *
-			░░ ♡ ▄▀▀▀▄░░░ 
-			▄███▀░◐░░░▌░░░░░░░ 
-			░░░░▌░░░░░▐░░░░░░░ 
-			░░░░▐░░░░░▐░░░░░░░ 
-			░░░░▌░░░░░▐▄▄░░░░░ 
-			░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
-			░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
-			░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-			░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-			░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
-			░░░░░░░░░░░▌▌░▌▌░░░░░ 
-			░░░░░░░░░░░▌▌░▌▌░░░░░ 
-			░░░░░░░░░▄▄▌▌▄▌▌░░░░░
-			-----------
-			*/
 
 			// load train data
 			debug($"SetTrainData: inpustSetsLocal.Length: {inputSetsLocal.Length} outputSetsLocal.Length: {outputSetsLocal.Length} ");
 
-			AssignTrainData(inputSetsLocal, outputSetsLocal);
+			CreateTrainAndTestData(inputSetsLocal, outputSetsLocal);
 
 			Program.Form.AddConfiguration(
 				$"\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
@@ -574,7 +575,7 @@ namespace FinancePermutator.Train
 				{
 					debug("[AUTO-RESTART]");
 					Program.Form.setStatus("AUTO-RESTARTING ...");
-					ClearParameters();
+					ClearAllParameters();
 					return -1;
 				}
 

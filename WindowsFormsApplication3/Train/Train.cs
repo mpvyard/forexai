@@ -159,6 +159,7 @@ namespace FinancePermutator.Train
 				SetupFunctions(randomSeed);
 
 				inputDimension = XRandom.next(8, (XRandom.next(9, Configuration.InputDimension)));
+
 				Program.Form.AddConfiguration($"\r\nInputDimension: {inputDimension}\r\n");
 
 				debug($"function setup done, generating data [inputDimension={inputDimension}] ...");
@@ -166,6 +167,7 @@ namespace FinancePermutator.Train
 				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += inputDimension)
 				{
 					Program.Form.setBigLabel($"Generating train/test data ...");
+					
 					if (offset % 55 == 0)
 						Program.Form.setStatus(
 							$"Generating train && test data [{offset} - {offset + inputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");

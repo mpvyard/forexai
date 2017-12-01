@@ -372,8 +372,10 @@ namespace FinancePermutator.Train
 			foreach (double[] set in inputSetsLocal)
 			{
 				int setLength = set.Length;
+
 				if (firstValue == 0)
 					firstValue = setLength;
+				
 				if (setLength != firstValue)
 				{
 					debug("ERROR: check same input size failed");
@@ -383,10 +385,17 @@ namespace FinancePermutator.Train
 
 			for (var i = 0; i < inputSetsLocal.Length; i++)
 				if (inputSetsLocal[i] == null || inputSetsLocal[i].Length == 0)
+				{
 					debug($"ERROR: input {i} is NULL! (Length:{inputSetsLocal.Length})");
+					return false;
+				}
+			
 			for (var i = 0; i < outputSetsLocal.Length; i++)
 				if (outputSetsLocal[i] == null || outputSetsLocal[i].Length == 0)
+				{
 					debug($"ERROR: output {i} is NULL! (Length:{outputSetsLocal.Length})");
+					return false;
+				}
 
 			// check input
 			int j = 0, k = 0;
@@ -479,14 +488,15 @@ namespace FinancePermutator.Train
 				Program.Form.chart.Series.Clear();
 				Program.Form.chart.Series.Add("train");
 				Program.Form.chart.Series.Add("test");
-				Program.Form.chart.Series["test"].ChartType = SeriesChartType.Line;
+				
 				Program.Form.chart.Series["train"].ChartType = SeriesChartType.Line;
+				Program.Form.chart.Series["test"].ChartType = SeriesChartType.FastLine;
 
 				Program.Form.chart.Series["train"].BorderWidth = 2;
 				Program.Form.chart.Series["test"].BorderWidth = 2;
 
-				Program.Form.chart.Series[0].Color = Color.Green;
-				Program.Form.chart.Series[1].Color = Color.Blue;
+				Program.Form.chart.Series["train"].Color = Color.Green;
+				Program.Form.chart.Series["test"].Color = Color.Blue;
 
 				Program.Form.chart.ChartAreas[0].AxisX.LineColor = Color.White;
 				Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
@@ -516,11 +526,9 @@ namespace FinancePermutator.Train
 
 			Program.Form.AddConfiguration($"\r\nConfig hash: {XRandom.randomString()}\r\n\r\nNetwork:\r\n inputs: {inputCount} neurons: {numNeurons}");
 
-			NetworkType layer = NetworkType.SHORTCUT;
+			NetworkType layer = NetworkType.LAYER;
 			network = new Network(layer, inputCount, numNeurons, 2);
-
 			network.TrainingAlgorithm = Configuration.TrainAlgo;
-
 			network.InitWeights(trainData);
 			network.SetupActivation();
 		}
@@ -630,6 +638,9 @@ namespace FinancePermutator.Train
 				{
 					Program.Form.chart.Series["train"].Points.AddXY(epoch, trainMse);
 					Program.Form.chart.Series["test"].Points.AddXY(epoch, testMse);
+
+					Program.Form.chart.Series["train"].LegendText = $"Train {trainHitRatio,2:0.##}%";
+					Program.Form.chart.Series["test"].LegendText = $"Test {testHitRatio,2:0.##}%";
 				}));
 
 				// set various statuses
@@ -667,7 +678,7 @@ namespace FinancePermutator.Train
 
 		private static void SaveNetwork()
 		{
-			string netDirectory = $"{network.GetHashCode():x}";
+			string netDirectory = $"NET_{network.GetHashCode():x}";
 
 			if (!Directory.Exists($"d:\\temp\\forexAI\\{netDirectory}"))
 				Directory.CreateDirectory($"d:\\temp\\forexAI\\{netDirectory}");

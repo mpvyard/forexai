@@ -6,11 +6,11 @@ namespace FinancePermutator.Generators
 	{
 		public static ActivationFunction GetRandomFunction()
 		{
-			switch (XRandom.next(14))
+			switch (XRandom.next(12))
 			{
 				default:
 				case 1:
-					return ActivationFunction.COS_SYMMETRIC;
+					return ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE;
 				case 2:
 					return ActivationFunction.ELLIOT;
 				case 3:
@@ -34,7 +34,7 @@ namespace FinancePermutator.Generators
 				case 12:
 					return ActivationFunction.SIGMOID_SYMMETRIC;
 				case 13:
-					return ActivationFunction.SIGMOID_SYMMETRIC_STEPWISE;
+					return ActivationFunction.COS_SYMMETRIC;
 				case 14:
 					return ActivationFunction.SIN_SYMMETRIC;
 				case 15:

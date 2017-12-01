@@ -53,9 +53,9 @@ namespace FinancePermutator.Forms
 			{
 				debug($"exception while delete: {e}");
 			}
-			
+
 			InitializeComponent();
-			
+
 			XRandom.init();
 		}
 
@@ -207,7 +207,7 @@ namespace FinancePermutator.Forms
 			switch (DoingSearch)
 			{
 				case true:
-					threadProcessScan.RunScan = false;
+					threadProcessScan.runScan = false;
 
 					// threadProcessScan.Stop();
 					debug("stop scan");
@@ -310,16 +310,13 @@ namespace FinancePermutator.Forms
 
 		public void EraseBigLabel()
 		{
-			Program.Form.chart.Invoke((MethodInvoker)(() =>
-			{
-				Program.Form.chart.Series.Clear();
-			}));
-			Program.Form.debugView.Invoke((MethodInvoker)(() => { Data.chartBigLabel = string.Empty; }));
+			Program.Form.chart.Invoke((MethodInvoker) (() => { Program.Form.chart.Series.Clear(); }));
+			Program.Form.debugView.Invoke((MethodInvoker) (() => { Data.chartBigLabel = string.Empty; }));
 		}
 
 		public void setBigLabel(string text)
 		{
-			Program.Form.debugView.Invoke((MethodInvoker)(() =>
+			Program.Form.debugView.Invoke((MethodInvoker) (() =>
 			{
 				Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
 			}));
@@ -330,9 +327,7 @@ namespace FinancePermutator.Forms
 			if (Data.chartBigLabel.Length <= 1)
 				return;
 
-			//MessageBox.Show($"paint {Data.chartBigLabel}");
-
-			Font drawFont = new Font("Consolas", 15);
+			Font drawFont = new Font("Consolas", 12);
 			SolidBrush drawBrush = new SolidBrush(Color.BlueViolet);
 
 			// Create rectangle for drawing.
@@ -341,13 +336,13 @@ namespace FinancePermutator.Forms
 			float width = 300.0F;
 			float height = 250.0F;
 			RectangleF drawRect = new RectangleF(x, y, width, height);
-		
+
 			// Draw rectangle to screen.
-			Pen blackPen = new Pen(Color.Black);
+			Pen blackPen = new Pen(Color.DeepSkyBlue);
 			e.ChartGraphics.Graphics.DrawRectangle(blackPen, x, y, width, height);
 
 			// Set format of string.
-			StringFormat drawFormat = new StringFormat();
+			StringFormat drawFormat = new StringFormat(StringFormatFlags.FitBlackBox);
 			drawFormat.Alignment = StringAlignment.Center;
 			e.ChartGraphics.Graphics.DrawString(Data.chartBigLabel, drawFont, drawBrush, drawRect, drawFormat);
 		}

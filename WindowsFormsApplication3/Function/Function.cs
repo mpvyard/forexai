@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using TicTacTec.TA.Library;
 using static FinancePermutator.Tools;
 
-namespace FinancePermutator.Function
+namespace FinancePermutator
 {
 	internal class Function
 	{

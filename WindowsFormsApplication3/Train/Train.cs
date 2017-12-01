@@ -29,7 +29,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using FANNCSharp;
 using FANNCSharp.Double;
-using FinancePermutator.Function;
+using FinancePermutator;
 using FinancePermutator.Generators;
 using FinancePermutator.Networks;
 using FinancePermutator.Prices;
@@ -59,7 +59,7 @@ namespace FinancePermutator.Train
 		static double[] result;
 		static int numRecord;
 		static int prevOffset;
-		public bool RunScan = true;
+		public bool runScan = true;
 		public static int class1;
 		public static int class2;
 		public static int class0;
@@ -97,7 +97,7 @@ namespace FinancePermutator.Train
 			ClearAllParameters();
 
 			threadSleepTime = Configuration.SleepTime;
-			RunScan = true;
+			runScan = true;
 			generateFunctionsThread.Priority = ThreadPriority.Lowest;
 			generateFunctionsThread.Start();
 		}
@@ -150,9 +150,8 @@ namespace FinancePermutator.Train
 
 			do
 			{
-				Program.Form.ConfigurationClear();
-
 				again:
+				Program.Form.ConfigurationClear();
 
 				threadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
@@ -170,7 +169,7 @@ namespace FinancePermutator.Train
 
 				debug($"function setup done, generating data [inputDimension={inputDimension}] ...");
 
-				for (int offset = 0; offset < Data.ForexPrices.Count && RunScan; offset += inputDimension)
+				for (int offset = 0; offset < Data.ForexPrices.Count && runScan; offset += inputDimension)
 				{
 					Program.Form.setBigLabel($"Generating train/test data ...");
 
@@ -188,7 +187,7 @@ namespace FinancePermutator.Train
 						FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], inputDimension, offset);
 
 						// execute function
-						Function.Function function = new Function.Function((MethodInfo) functionInfo["methodInfo"]);
+						FinancePermutator.Function function = new FinancePermutator.Function((MethodInfo) functionInfo["methodInfo"]);
 						result = function.Execute(functionParameters, out var code);
 
 						// check function output
@@ -198,7 +197,6 @@ namespace FinancePermutator.Train
 							debug($"WARNING: skip {((MethodInfo) functionInfo["methodInfo"]).Name} due to bad output [len={result.Length}, code={code}]");
 							Program.Form.setStatus($"ERROR: bad output for {((MethodInfo) functionInfo["methodInfo"]).Name}");
 							numberOfBrokenData++;
-
 							goto again;
 						}
 
@@ -229,7 +227,7 @@ namespace FinancePermutator.Train
 				}
 
 				TrainNetwork(ref inputSets, ref outputSets);
-			} while (RunScan);
+			} while (runScan);
 
 			// goto again;
 			Program.Form.DoingSearch = false;
@@ -265,7 +263,7 @@ namespace FinancePermutator.Train
 			Program.Form.EraseBigLabel();
 			Program.Form.setBigLabel("[SETTING FUNCTIONS UP]");
 
-			for (int i = 0; i < functionsCount && RunScan; i++)
+			for (int i = 0; i < functionsCount && runScan; i++)
 			{
 				SetStats();
 				Program.Form.setBigLabel($"[SETUP FUNCTION #{i}]");
@@ -291,7 +289,7 @@ namespace FinancePermutator.Train
 				FunctionParameters functionParameters = new FunctionParameters(methodInfo, inputDimension, 0);
 
 				// execute function 
-				var function = new Function.Function(methodInfo);
+				var function = new FinancePermutator.Function(methodInfo);
 				result = function.Execute(functionParameters, out var code);
 
 				if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) || double.IsPositiveInfinity(result[0]) ||
@@ -345,21 +343,17 @@ namespace FinancePermutator.Train
 			{
 				var output = net.Run(input);
 
-				double output0;
-				if (output[0] >= 0.5)
+				double output0 = 0;
+				if (output[0] >= 0.0)
 					output0 = 1.0;
-				else if (output[0] <= -0.5)
+				else if (output[0] < -0.0)
 					output0 = -1.0;
-				else
-					output0 = 0;
 
-				double output1;
-				if (output[1] >= 0.5)
+				double output1 = 0;
+				if (output[1] >= 0.0)
 					output1 = 1.0;
-				else if (output[1] <= -0.5)
+				else if (output[1] < -0.0)
 					output1 = -1.0;
-				else
-					output1 = 0;
 
 				if (output0 == desired_outputs[curX][0] && output1 == desired_outputs[curX][1])
 					hits++;
@@ -562,8 +556,9 @@ namespace FinancePermutator.Train
 
 		public static void SetStats()
 		{
-			Program.Form.SetStats($"Networks processed: {Train.networksProcessed}\r\nUnsuccessfull networks: {Train.networksBad}\r\nSuccessful networks: {Train.networksSuccess}" +
-			                      $"\r\nNumber of broken data: {Train.numberOfBrokenData}" + $"\r\nNumber of failed functions: {Train.numberOfFailedFunctions}");
+			Program.Form.SetStats($"{Train.networksProcessed,6:0} networks processed \r\n{Train.networksBad,6:0} bad networks \r\n" +
+			                      $"{Train.networksSuccess,6:0} successful networks " + $"\r\n{Train.numberOfBrokenData,6:0} broken data " +
+			                      $"\r\n{Train.numberOfFailedFunctions,6:0} failed functions");
 		}
 
 		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
@@ -579,24 +574,19 @@ namespace FinancePermutator.Train
 
 			// load train data
 			debug($"SetTrainData: inpustSetsLocal.Length: {inputSetsLocal.Length} outputSetsLocal.Length: {outputSetsLocal.Length} ");
-
 			CreateTrainAndTestData(inputSetsLocal, outputSetsLocal);
 
 			Program.Form.AddConfiguration(
 				$"\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
 
 			debug($"class1: {class1} class2: {class2} class0: {class0}");
-
 			InitChart();
-
 			CreateNetwork();
-
 			networksProcessed++;
-
-			debug($"starting train on network #{networksProcessed} id:{network.GetHashCode():X}");
+			debug($"starting train on network #{networksProcessed} id: 0x{network.GetHashCode():X}");
 			saveTestHitRatio = 0;
 
-			for (var currentEpoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
+			for (var currentEpoch = 0; runScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
 			{
 				// stop if max epoch reached
 				if (currentEpoch >= Configuration.TrainLimitEpochs)
@@ -696,7 +686,6 @@ namespace FinancePermutator.Train
 				  ### ###
 			'' """  """"  "'"""""
 */
-
 		private static void SaveNetwork()
 		{
 			string netDirectory = $"NET_{network.GetHashCode():X}";

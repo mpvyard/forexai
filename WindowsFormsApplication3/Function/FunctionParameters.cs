@@ -5,7 +5,7 @@ using System.Text;
 using FinancePermutator.Generators;
 using FinancePermutator.Prices;
 
-namespace FinancePermutator.Function
+namespace FinancePermutator
 {
 	class FunctionParameters
 	{

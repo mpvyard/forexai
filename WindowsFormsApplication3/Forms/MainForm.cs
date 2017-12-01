@@ -300,6 +300,11 @@ namespace FinancePermutator.Forms
 			debug("Form1 LOAD");
 		}
 
+		public void SetStats(string text)
+		{
+			Program.Form.statsBox.Invoke((MethodInvoker) (() => { statsBox.Text = text; }));
+		}
+
 		public void EraseBigLabel()
 		{
 			Program.Form.chart.Invoke((MethodInvoker)(() =>

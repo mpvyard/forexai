@@ -39,7 +39,10 @@ namespace FinancePermutator.Train
 {
 	class Train
 	{
+		public int numberNetworksTryed = 0;
+		private int networksBad = 0;
 		double saveTestHitRatio = 0;
+		private int numberOfBrokenData = 0;
 		static int inputDimension = Configuration.InputDimension;
 		static double[][] inputSets = new double[1][];
 		static double[][] outputSets = new double[1][];
@@ -47,6 +50,7 @@ namespace FinancePermutator.Train
 		private static double[][] testSetInput;
 		private static double[][] trainSetOutput;
 		private static double[][] trainSetInput;
+		public int successNetworks = 0;
 		TrainingData trainData;
 		TrainingData testData;
 		uint testDataOffset;
@@ -79,7 +83,7 @@ namespace FinancePermutator.Train
 		public Train()
 		{
 			randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
-			generateFunctionsThread = new Thread(LoopGenerateFunctions);
+			generateFunctionsThread = new Thread(LoopGenerate);
 		}
 
 		public void Stop()
@@ -138,7 +142,7 @@ namespace FinancePermutator.Train
 		   `+------+     +------+     +------+     +------+     +------+'
 		*/
 
-		public void LoopGenerateFunctions()
+		public void LoopGenerate()
 		{
 			if (!Data.TALibMethods.Any())
 				return;
@@ -557,6 +561,7 @@ namespace FinancePermutator.Train
 			{
 				debug($"ERROR: data check failed");
 				ClearAllParameters();
+				numberOfBrokenData++;
 				return -1;
 			}
 
@@ -574,7 +579,11 @@ namespace FinancePermutator.Train
 
 			CreateNetwork();
 
-			debug($"starting train on network {network.GetHashCode()}");
+			numberNetworksTryed++;
+
+			debug($"starting train on network #{numberNetworksTryed} id:{network.GetHashCode():X}");
+			Program.Form.SetStats($"Networks done: {numberNetworksTryed}\r\nSuccess: {successNetworks}\r\nNumber of broken data: {numberOfBrokenData}"+
+								  $"\r\nBad networks: {networksBad}");
 
 			saveTestHitRatio = 0;
 
@@ -586,6 +595,7 @@ namespace FinancePermutator.Train
 					debug("[AUTO-RESTART]");
 					Program.Form.setStatus("AUTO-RESTARTING ...");
 					ClearAllParameters();
+					networksBad++;
 					return -1;
 				}
 
@@ -593,6 +603,7 @@ namespace FinancePermutator.Train
 				if (currentEpoch >= 35 && (testHitRatio <= 3 && trainHitRatio <= 3))
 				{
 					debug("fail to train, bad network");
+					networksBad++;
 					break;
 				}
 
@@ -600,6 +611,7 @@ namespace FinancePermutator.Train
 				if (trainMse <= 0.01 && currentEpoch > Configuration.MinSaveEpoch)
 				{
 					debug($"finished training, reached corner trainmse={trainMse} testmse={testMse}");
+					networksBad++;
 					break;
 				}
 
@@ -630,6 +642,7 @@ namespace FinancePermutator.Train
 				{
 					saveTestHitRatio = testHitRatio;
 					SaveNetwork();
+					successNetworks++;
 				}
 
 				// draw graphics
@@ -678,7 +691,7 @@ namespace FinancePermutator.Train
 
 		private static void SaveNetwork()
 		{
-			string netDirectory = $"NET_{network.GetHashCode():x}";
+			string netDirectory = $"NET_{network.GetHashCode():X}";
 
 			if (!Directory.Exists($"d:\\temp\\forexAI\\{netDirectory}"))
 				Directory.CreateDirectory($"d:\\temp\\forexAI\\{netDirectory}");

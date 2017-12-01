@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using static FinancePermutator.Tools;
 
 namespace FinancePermutator.Prices
 {
@@ -12,8 +13,8 @@ namespace FinancePermutator.Prices
 		{
 			long length = new FileInfo(Configuration.PriceFileName).Length;
 
-			Tools.debug($"ManagedThreadId: {Thread.CurrentThread.ManagedThreadId.ToString("00000").PadRight(10)}");
-			Tools.debug($"Length: {length.ToString().PadLeft(10)}");
+			debug($"ManagedThreadId: {Thread.CurrentThread.ManagedThreadId.ToString("00000").PadRight(10)}");
+			debug($"Length: {length.ToString().PadLeft(10)}");
 
 			int lineNum = 0;
 			DateTime first = new DateTime();
@@ -46,15 +47,15 @@ namespace FinancePermutator.Prices
 
 				if (lineNum % 1850 == 0)
 				{
-					Tools.debug($"load {lineNum} {timeDate}");
+					debug($"load {lineNum} {timeDate}");
 					Program.Form.chart.Invoke((MethodInvoker) (() => Program.Form.chart.Series["Series1"].Points.AddXY(priceEntry.Date, priceEntry.Open)));
 				}
 
 				lineNum++;
 			}
 
-			Tools.debug($"lines: {lineNum}");
-			Tools.debug($"first time: {first}");
+			debug($"lines: {lineNum}");
+			debug($"first time: {first}");
 
 			Program.Form.loadPricesButton.Invoke((MethodInvoker) (() => Program.Form.loadPricesButton.Text = lineNum + @" OK"));
 		}).Start();

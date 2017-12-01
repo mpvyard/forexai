@@ -23,7 +23,6 @@ namespace FinancePermutator
 		public const int SleepTime = 300;
 		public const int SleepCheckTime = 10000;
 		public const int OutputIndex = 5;
-		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP; //TRAIN_QUICKPROP;//TRAIN_RPROP;
-		//TRAIN_BATCH;//TRAIN_INCREMENTAL;//TRAIN_SARPROP;
+		public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;
 	}
 }

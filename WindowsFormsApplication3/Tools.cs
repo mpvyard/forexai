@@ -27,7 +27,6 @@ namespace FinancePermutator
 			if (runningMessagePump)
 				return;
 
-			// hello
 			lock (writeMessagesBlock)
 			{
 				if (Messages.Count == 0 || Program.Form.debugView == null)
@@ -36,7 +35,6 @@ namespace FinancePermutator
 
 				Program.Form.debugView.Invoke((MethodInvoker) (() =>
 				{
-					
 					try
 					{
 						if (!File.Exists(Configuration.LogFileName))
@@ -91,10 +89,11 @@ namespace FinancePermutator
 			}
 		}
 
-		public static bool IsArrayAllZeros(double[] input)
+		public static bool IsArrayRepeating(double[] input)
 		{
-			for (int i = 0; i < input.Length; i++)
-				if (i != 0)
+			double value = input[0];
+			for (int i = 1; i < input.Length; i++)
+				if (input[i] != value)
 					return false;
 			return true;
 		}

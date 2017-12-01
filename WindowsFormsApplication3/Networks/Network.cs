@@ -10,6 +10,21 @@ using FANNCSharp.Double;
 using FinancePermutator.Generators;
 using static FinancePermutator.Tools;
 
+/*
+				░░ ♡ ▄▀▀▀▄░░░ 
+		▄███▀░◐░░░▌░░░░░░░ 
+		░░░░▌░░░░░▐░░░░░░░ 
+		░░░░▐░░░░░▐░░░░░░░ 
+		░░░░▌░░░░░▐▄▄░░░░░ 
+		░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
+		░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
+		░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+		░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+		░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
+		░░░░░░░░░░░▌▌░▌▌░░░░░ 
+		░░░░░░░░░░░▌▌░▌▌░░░░░ 
+		░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
+
 namespace FinancePermutator.Networks
 {
 	class Network
@@ -44,20 +59,6 @@ namespace FinancePermutator.Networks
 			set { this.network.SarpropTemperature = value; }
 		}
 
-		/*
-						░░ ♡ ▄▀▀▀▄░░░ 
-				▄███▀░◐░░░▌░░░░░░░ 
-				░░░░▌░░░░░▐░░░░░░░ 
-				░░░░▐░░░░░▐░░░░░░░ 
-				░░░░▌░░░░░▐▄▄░░░░░ 
-				░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
-				░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
-				░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-				░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-				░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
-				░░░░░░░░░░░▌▌░▌▌░░░░░ 
-				░░░░░░░░░░░▌▌░▌▌░░░░░ 
-				░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 		public void SetupActivation()
 		{
 			var activationFunc = ActivationFunction.SIGMOID_SYMMETRIC;
@@ -68,9 +69,9 @@ namespace FinancePermutator.Networks
 			this.network.SetActivationFunctionLayer(activationFunc, 2);
 		}
 
-		public void InitWeights(TrainingData td)
+		public void InitWeights(TrainingData trainData)
 		{
-			this.network.InitWeights(td);
+			this.network.InitWeights(trainData);
 		}
 
 		public Network(NetworkType layer, uint numInput, uint numHidden, uint numOutput)
@@ -91,7 +92,7 @@ namespace FinancePermutator.Networks
 
 		public double[] Run(double[] input)
 		{
-			var outputData = this.network.Run(input);
+			double[] outputData = this.network.Run(input);
 			return outputData;
 		}
 

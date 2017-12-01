@@ -45,13 +45,13 @@
 			this.showValues = new System.Windows.Forms.CheckBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.statusLabel = new System.Windows.Forms.Label();
 			this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.configurationTab = new System.Windows.Forms.TextBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.statsBox = new System.Windows.Forms.RichTextBox();
+			this.statusLabel = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.buttonExecute = new System.Windows.Forms.Button();
@@ -128,12 +128,12 @@
 			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Controls.Add(this.tabPage4);
 			this.tabControl1.Font = new System.Drawing.Font("Quartz MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Location = new System.Drawing.Point(1, 0);
 			this.tabControl1.Margin = new System.Windows.Forms.Padding(9);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.Padding = new System.Drawing.Point(9, 3);
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(609, 513);
+			this.tabControl1.Size = new System.Drawing.Size(609, 464);
 			this.tabControl1.TabIndex = 2;
 			// 
 			// tabPage1
@@ -141,29 +141,13 @@
 			this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
 			this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tabPage1.Controls.Add(this.statusLabel);
 			this.tabPage1.Controls.Add(this.chart);
 			this.tabPage1.Location = new System.Drawing.Point(4, 25);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(601, 484);
+			this.tabPage1.Size = new System.Drawing.Size(601, 435);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Preload";
-			// 
-			// statusLabel
-			// 
-			this.statusLabel.BackColor = System.Drawing.Color.LightGoldenrodYellow;
-			this.statusLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.statusLabel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.statusLabel.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.statusLabel.ForeColor = System.Drawing.Color.MidnightBlue;
-			this.statusLabel.Location = new System.Drawing.Point(2, 459);
-			this.statusLabel.MaximumSize = new System.Drawing.Size(0, 19);
-			this.statusLabel.MinimumSize = new System.Drawing.Size(800, 0);
-			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(800, 19);
-			this.statusLabel.TabIndex = 6;
-			this.statusLabel.Text = "idle";
 			// 
 			// chart
 			// 
@@ -222,7 +206,7 @@
 			series1.Name = "Series1";
 			series1.YValuesPerPoint = 6;
 			this.chart.Series.Add(series1);
-			this.chart.Size = new System.Drawing.Size(594, 451);
+			this.chart.Size = new System.Drawing.Size(594, 432);
 			this.chart.TabIndex = 5;
 			this.chart.Text = "chart1";
 			this.chart.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.SystemDefault;
@@ -240,7 +224,7 @@
 			this.tabPage2.Location = new System.Drawing.Point(4, 25);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(601, 484);
+			this.tabPage2.Size = new System.Drawing.Size(601, 435);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "options";
 			// 
@@ -252,7 +236,7 @@
 			this.tabPage3.Location = new System.Drawing.Point(4, 25);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(601, 484);
+			this.tabPage3.Size = new System.Drawing.Size(601, 435);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "configuration";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -262,19 +246,19 @@
 			this.configurationTab.AcceptsReturn = true;
 			this.configurationTab.AcceptsTab = true;
 			this.configurationTab.AccessibleRole = System.Windows.Forms.AccessibleRole.Table;
-			this.configurationTab.BackColor = System.Drawing.Color.FloralWhite;
+			this.configurationTab.BackColor = System.Drawing.Color.LightSteelBlue;
 			this.configurationTab.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.configurationTab.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.configurationTab.ForeColor = System.Drawing.Color.ForestGreen;
+			this.configurationTab.ForeColor = System.Drawing.Color.DarkSlateBlue;
 			this.configurationTab.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.configurationTab.Location = new System.Drawing.Point(0, 0);
 			this.configurationTab.Margin = new System.Windows.Forms.Padding(0);
 			this.configurationTab.Multiline = true;
 			this.configurationTab.Name = "configurationTab";
 			this.configurationTab.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.configurationTab.Size = new System.Drawing.Size(598, 466);
+			this.configurationTab.Size = new System.Drawing.Size(598, 432);
 			this.configurationTab.TabIndex = 0;
-			this.configurationTab.Text = "<configuration>";
+			this.configurationTab.Text = resources.GetString("configurationTab.Text");
 			// 
 			// tabPage4
 			// 
@@ -289,20 +273,35 @@
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.tabPage4.Size = new System.Drawing.Size(601, 484);
+			this.tabPage4.Size = new System.Drawing.Size(601, 435);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "stats";
 			// 
 			// statsBox
 			// 
-			this.statsBox.BackColor = System.Drawing.SystemColors.Info;
-			this.statsBox.Font = new System.Drawing.Font("Myanmar Text", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.statsBox.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-			this.statsBox.Location = new System.Drawing.Point(6, 3);
+			this.statsBox.BackColor = System.Drawing.SystemColors.GrayText;
+			this.statsBox.Font = new System.Drawing.Font("Segoe UI Mono", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.statsBox.ForeColor = System.Drawing.Color.Azure;
+			this.statsBox.Location = new System.Drawing.Point(4, 3);
 			this.statsBox.Name = "statsBox";
-			this.statsBox.Size = new System.Drawing.Size(587, 473);
+			this.statsBox.Size = new System.Drawing.Size(587, 424);
 			this.statsBox.TabIndex = 0;
-			this.statsBox.Text = "dfgdfgdfg\ngdgfdg";
+			this.statsBox.Text = "Networks done: 2\nSuccess: 0\nNumber of broken data: 3\nBad networks: 1";
+			// 
+			// statusLabel
+			// 
+			this.statusLabel.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+			this.statusLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.statusLabel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.statusLabel.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.statusLabel.ForeColor = System.Drawing.Color.MidnightBlue;
+			this.statusLabel.Location = new System.Drawing.Point(10, 473);
+			this.statusLabel.MaximumSize = new System.Drawing.Size(0, 19);
+			this.statusLabel.MinimumSize = new System.Drawing.Size(800, 0);
+			this.statusLabel.Name = "statusLabel";
+			this.statusLabel.Size = new System.Drawing.Size(800, 19);
+			this.statusLabel.TabIndex = 6;
+			this.statusLabel.Text = "idle";
 			// 
 			// button3
 			// 
@@ -392,23 +391,40 @@
 			// timeFast
 			// 
 			this.timeFast.Enabled = true;
-			this.timeFast.Interval = 350;
+			this.timeFast.Interval = 750;
 			this.timeFast.Tick += new System.EventHandler(this.TimeFastTick);
 			// 
 			// debugView
 			// 
-			this.debugView.BackColor = System.Drawing.SystemColors.Info;
-			this.debugView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.debugView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
 			this.debugView.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.debugView.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.debugView.ForeColor = System.Drawing.Color.SeaGreen;
+			this.debugView.ForeColor = System.Drawing.Color.LimeGreen;
 			this.debugView.HorizontalScrollbar = true;
 			this.debugView.ItemHeight = 11;
+			this.debugView.Items.AddRange(new object[] {
+            "Functions:",
+            " Atan ",
+            "  arg 0 startIdx: 0 ",
+            "  arg 1 endIdx: 7 ",
+            "  arg 2 inReal: System.Double[] %Close% 8",
+            "  arg 3 outBegIdx: 0 ",
+            "  arg 4 outNBElement: 0 ",
+            "  arg 5 outReal: System.Double[] ",
+            " Tan ",
+            "  arg 0 startIdx: 0 ",
+            "  arg 1 endIdx: 7 ",
+            "  arg 2 inReal: System.Double[] %Open% 8",
+            "  arg 3 outBegIdx: 0 ",
+            "  arg 4 outNBElement: 0 ",
+            "  arg 5 outReal: System.Double[] ",
+            "",
+            "InputDimension: 13"});
 			this.debugView.Location = new System.Drawing.Point(717, 22);
 			this.debugView.Margin = new System.Windows.Forms.Padding(0);
 			this.debugView.Name = "debugView";
 			this.debugView.ScrollAlwaysVisible = true;
-			this.debugView.Size = new System.Drawing.Size(695, 442);
+			this.debugView.Size = new System.Drawing.Size(695, 433);
 			this.debugView.TabIndex = 3;
 			this.debugView.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.DebugView_Draw);
 			// 
@@ -448,6 +464,7 @@
 			this.BackColor = System.Drawing.SystemColors.Menu;
 			this.BackgroundImage = global::FinancePermutator.Properties.Resources.nicebg;
 			this.ClientSize = new System.Drawing.Size(1421, 500);
+			this.Controls.Add(this.statusLabel);
 			this.Controls.Add(this.nodelayCheckbox);
 			this.Controls.Add(this.funcListLabel);
 			this.Controls.Add(this.button3);

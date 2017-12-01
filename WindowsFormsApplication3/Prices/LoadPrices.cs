@@ -42,7 +42,7 @@ namespace FinancePermutator.Prices
 					Vol = double.Parse(tokens[6], CultureInfo.InvariantCulture),
 					Date = DateTime.Parse(tokens[0] + " " + tokens[1])
 				};
-
+				 
 				Data.ForexPrices.Add(priceEntry);
 
 				if (lineNum % 1850 == 0)

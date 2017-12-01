@@ -39,10 +39,11 @@ namespace FinancePermutator.Train
 {
 	class Train
 	{
-		public int numberNetworksTryed = 0;
-		private int networksBad = 0;
+		public static int networksProcessed = 0;
+		public static int networksBad = 0;
+		public static int numberOfFailedFunctions = 0;
 		double saveTestHitRatio = 0;
-		private int numberOfBrokenData = 0;
+		public static int numberOfBrokenData = 0;
 		static int inputDimension = Configuration.InputDimension;
 		static double[][] inputSets = new double[1][];
 		static double[][] outputSets = new double[1][];
@@ -50,7 +51,7 @@ namespace FinancePermutator.Train
 		private static double[][] testSetInput;
 		private static double[][] trainSetOutput;
 		private static double[][] trainSetInput;
-		public int successNetworks = 0;
+		public static int networksSuccess = 0;
 		TrainingData trainData;
 		TrainingData testData;
 		uint testDataOffset;
@@ -189,11 +190,15 @@ namespace FinancePermutator.Train
 						// execute function
 						Function.Function function = new Function.Function((MethodInfo) functionInfo["methodInfo"]);
 						result = function.Execute(functionParameters, out var code);
+
+						// check function output
 						if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) || double.IsPositiveInfinity(result[0]) ||
-						    double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayAllZeros(result))
+						    double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayRepeating(result))
 						{
 							debug($"WARNING: skip {((MethodInfo) functionInfo["methodInfo"]).Name} due to bad output [len={result.Length}, code={code}]");
 							Program.Form.setStatus($"ERROR: bad output for {((MethodInfo) functionInfo["methodInfo"]).Name}");
+							numberOfBrokenData++;
+
 							goto again;
 						}
 
@@ -223,9 +228,6 @@ namespace FinancePermutator.Train
 					numRecord++;
 				}
 
-				if (!RunScan)
-					return;
-
 				TrainNetwork(ref inputSets, ref outputSets);
 			} while (RunScan);
 
@@ -253,6 +255,7 @@ namespace FinancePermutator.Train
 
 		private void SetupFunctions(int randomSeedLocal)
 		{
+			SetStats();
 			int functionsCount = XRandom.next(Configuration.MinTaFunctionsCount, Configuration.MinTaFunctionsCount + 8);
 
 			debug($"selecting functions Count={functionsCount}");
@@ -264,6 +267,7 @@ namespace FinancePermutator.Train
 
 			for (int i = 0; i < functionsCount && RunScan; i++)
 			{
+				SetStats();
 				Program.Form.setBigLabel($"[SETUP FUNCTION #{i}]");
 
 				int unixTimestamp = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
@@ -279,6 +283,7 @@ namespace FinancePermutator.Train
 					debug($"function {methodInfo.Name} already exist");
 					if (i > 0)
 						i--;
+					numberOfFailedFunctions++;
 					continue;
 				}
 
@@ -290,13 +295,14 @@ namespace FinancePermutator.Train
 				result = function.Execute(functionParameters, out var code);
 
 				if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) || double.IsPositiveInfinity(result[0]) ||
-				    double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayAllZeros(result))
+				    double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayRepeating(result))
 				{
 					DumpValues(methodInfo, result);
 					debug(
 						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={inputDimension}], need {Configuration.MinTaFunctionsCount - i}");
 					if (i > 0)
 						i--;
+					numberOfFailedFunctions++;
 					continue;
 				}
 
@@ -379,7 +385,7 @@ namespace FinancePermutator.Train
 
 				if (firstValue == 0)
 					firstValue = setLength;
-				
+
 				if (setLength != firstValue)
 				{
 					debug("ERROR: check same input size failed");
@@ -393,7 +399,7 @@ namespace FinancePermutator.Train
 					debug($"ERROR: input {i} is NULL! (Length:{inputSetsLocal.Length})");
 					return false;
 				}
-			
+
 			for (var i = 0; i < outputSetsLocal.Length; i++)
 				if (outputSetsLocal[i] == null || outputSetsLocal[i].Length == 0)
 				{
@@ -488,11 +494,11 @@ namespace FinancePermutator.Train
 			Program.Form.chart.Invoke((MethodInvoker) (() =>
 			{
 				Program.Form.EraseBigLabel();
-				
+
 				Program.Form.chart.Series.Clear();
 				Program.Form.chart.Series.Add("train");
 				Program.Form.chart.Series.Add("test");
-				
+
 				Program.Form.chart.Series["train"].ChartType = SeriesChartType.Line;
 				Program.Form.chart.Series["test"].ChartType = SeriesChartType.FastLine;
 
@@ -554,6 +560,12 @@ namespace FinancePermutator.Train
 		-----------
 		*/
 
+		public static void SetStats()
+		{
+			Program.Form.SetStats($"Networks processed: {Train.networksProcessed}\r\nUnsuccessfull networks: {Train.networksBad}\r\nSuccessful networks: {Train.networksSuccess}" +
+			                      $"\r\nNumber of broken data: {Train.numberOfBrokenData}" + $"\r\nNumber of failed functions: {Train.numberOfFailedFunctions}");
+		}
+
 		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
 		{
 			Program.Form.setBigLabel($"[CHECK {inputSetsLocal.Length} DATA ROWS]");
@@ -579,12 +591,9 @@ namespace FinancePermutator.Train
 
 			CreateNetwork();
 
-			numberNetworksTryed++;
+			networksProcessed++;
 
-			debug($"starting train on network #{numberNetworksTryed} id:{network.GetHashCode():X}");
-			Program.Form.SetStats($"Networks done: {numberNetworksTryed}\r\nSuccess: {successNetworks}\r\nNumber of broken data: {numberOfBrokenData}"+
-								  $"\r\nBad networks: {networksBad}");
-
+			debug($"starting train on network #{networksProcessed} id:{network.GetHashCode():X}");
 			saveTestHitRatio = 0;
 
 			for (var currentEpoch = 0; RunScan && inputSetsLocal != null && outputSetsLocal != null; currentEpoch++)
@@ -642,7 +651,7 @@ namespace FinancePermutator.Train
 				{
 					saveTestHitRatio = testHitRatio;
 					SaveNetwork();
-					successNetworks++;
+					networksSuccess++;
 				}
 
 				// draw graphics
@@ -658,8 +667,7 @@ namespace FinancePermutator.Train
 
 				// set various statuses
 				string training = epoch % 2 == 0 ? "TRAINING" : "        ";
-				Program.Form.setStatus(
-					$"[{training}] TrainMSE {trainMse,7:0.#####} {trainHitRatio,4:0.##}% TestMSE {testMse,7:0.#####} {testHitRatio,4:0.##}% ");
+				Program.Form.setStatus($"[{training}] TrainMSE {trainMse,7:0.#####} {trainHitRatio,4:0.##}% TestMSE {testMse,7:0.#####} {testHitRatio,4:0.##}% ");
 				debug(
 					$"train: epoch #{currentEpoch,-4:0} trainMse {trainMse,8:0.#####} {trainHitRatio,4:0.##}% testmse {testMse,8:0.#####} {testHitRatio,4:0.##}%");
 			}

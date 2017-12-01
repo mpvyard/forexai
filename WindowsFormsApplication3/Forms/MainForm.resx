@@ -946,6 +946,25 @@
         HwAAwwMAAOADAADgBwAA+AcAAP4PAAD/nwAA
 </value>
   </data>
+  <data name="configurationTab.Text" xml:space="preserve">
+    <value>Functions:
+ Atan 
+  arg 0 startIdx: 0 
+  arg 1 endIdx: 7 
+  arg 2 inReal: System.Double[] %Close% 8
+  arg 3 outBegIdx: 0 
+  arg 4 outNBElement: 0 
+  arg 5 outReal: System.Double[] 
+ Tan 
+  arg 0 startIdx: 0 
+  arg 1 endIdx: 7 
+  arg 2 inReal: System.Double[] %Open% 8
+  arg 3 outBegIdx: 0 
+  arg 4 outNBElement: 0 
+  arg 5 outReal: System.Double[] 
+
+InputDimension: 13</value>
+  </data>
   <metadata name="timeFast.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>130, 17</value>
   </metadata>

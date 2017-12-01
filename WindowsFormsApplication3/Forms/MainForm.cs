@@ -53,7 +53,9 @@ namespace FinancePermutator.Forms
 			{
 				debug($"exception while delete: {e}");
 			}
+			
 			InitializeComponent();
+			
 			XRandom.init();
 		}
 
@@ -171,6 +173,7 @@ namespace FinancePermutator.Forms
 				if (Messages.Any())
 					WriteMessages();
 			}
+			FinancePermutator.Train.Train.SetStats();
 		}
 
 		internal static void DrawResults(string name, double[] data, bool clearCurrent = true)

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace FinancePermutator
@@ -47,22 +48,26 @@ namespace FinancePermutator
 						OutputDebugString($"error log file open: {e}");
 					}
 
-					Program.Form.debugView.BeginUpdate();
+				//	Program.Form.debugView.BeginUpdate();
 
 					LastLogTime = DateTime.Now.Second;
-					foreach (var msg in Messages)
+					object[] tempItems = new object[Messages.Count];
+					int i = 0;
+					foreach (string msg in Messages)
 					{
-						Program.Form.debugView.Items.Add(msg);
+						//Program.Form.debugView.Items.Add(msg);
+						tempItems[i++] = msg;
 						if (sw != null)
 							sw.WriteLine(msg);
 					}
+					Program.Form.debugView.Items.AddRange(tempItems);
 					if (sw != null)
 						sw.Close();
 					Messages.Clear();
 
 					int visibleItems = Program.Form.debugView.ClientSize.Height / Program.Form.debugView.ItemHeight;
 					Program.Form.debugView.TopIndex = Math.Max(Program.Form.debugView.Items.Count - visibleItems + 1, 0);
-					Program.Form.debugView.EndUpdate();
+				//	Program.Form.debugView.EndUpdate();
 				}));
 				runningMessagePump = false;
 			}

@@ -19,6 +19,20 @@ using FinancePermutator.Networks;
 using static FinancePermutator.Tools;
 using TicTacTec.TA.Library;
 
+/*
+				░░ ♡ ▄▀▀▀▄░░░ 
+		▄███▀░◐░░░▌░░░░░░░ 
+		░░░░▌░░░░░▐░░░░░░░ 
+		░░░░▐░░░░░▐░░░░░░░ 
+		░░░░▌░░░░░▐▄▄░░░░░ 
+		░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
+		░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
+		░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+		░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
+		░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
+		░░░░░░░░░░░▌▌░▌▌░░░░░ 
+		░░░░░░░░░░░▌▌░▌▌░░░░░ 
+		░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 namespace FinancePermutator.Forms
 {
 	/// <summary>
@@ -97,20 +111,6 @@ namespace FinancePermutator.Forms
 			debug($"checkbox: {showValues.CheckState == CheckState.Checked}");
 		}
 
-		/*
-						░░ ♡ ▄▀▀▀▄░░░ 
-				▄███▀░◐░░░▌░░░░░░░ 
-				░░░░▌░░░░░▐░░░░░░░ 
-				░░░░▐░░░░░▐░░░░░░░ 
-				░░░░▌░░░░░▐▄▄░░░░░ 
-				░░░░▌░░░░▄▀▒▒▀▀▀▀▄ 
-				░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ 
-				░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-				░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ 
-				░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ 
-				░░░░░░░░░░░▌▌░▌▌░░░░░ 
-				░░░░░░░░░░░▌▌░▌▌░░░░░ 
-				░░░░░░░░░▄▄▌▌▄▌▌░░░░░*/
 		private static bool IsGoodMethod(MethodInfo method)
 		{
 			/*if (method.ToString().Contains("Cdl"))

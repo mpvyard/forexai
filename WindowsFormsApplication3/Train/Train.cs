@@ -336,7 +336,7 @@ namespace FinancePermutator.Train
 		   ( 0 )|===******||( 0 )( 0 )||-  o              '( 0 )( 0 )( 0 )||
 ----'-'--------------'-'--'-'-----------------------'-'--'-'--'-'--------------*/
 
-		public double CalculateHitRatio(Network net, double[][] inputs, double[][] desired_outputs)
+		public double CalculateHitRatio(Network net, double[][] inputs, double[][] desiredOutputs)
 		{
 			int hits = 0, curX = 0;
 			foreach (double[] input in inputs)
@@ -355,7 +355,7 @@ namespace FinancePermutator.Train
 				else if (output[1] < -0.0)
 					output1 = -1.0;
 
-				if (output0 == desired_outputs[curX][0] && output1 == desired_outputs[curX][1])
+				if (output0 == desiredOutputs[curX][0] && output1 == desiredOutputs[curX][1])
 					hits++;
 				curX++;
 			}
@@ -561,7 +561,7 @@ namespace FinancePermutator.Train
 			                      $"\r\n{Train.numberOfFailedFunctions,6:0} failed functions");
 		}
 
-		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
+		private int PrepareNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
 		{
 			Program.Form.setBigLabel($"[CHECK {inputSetsLocal.Length} DATA ROWS]");
 			if (!AssertInputDataIsCorrect(ref inputSetsLocal, ref outputSetsLocal))
@@ -577,12 +577,22 @@ namespace FinancePermutator.Train
 			CreateTrainAndTestData(inputSetsLocal, outputSetsLocal);
 
 			Program.Form.AddConfiguration(
-				$"\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n");
+				$"\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n" +
+				$" class1: {class1} class2: {class2} class0: {class0}");
 
 			debug($"class1: {class1} class2: {class2} class0: {class0}");
 			InitChart();
 			CreateNetwork();
 			networksProcessed++;
+
+			return 0;
+		}
+
+		private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
+		{
+			if (PrepareNetwork(ref inputSetsLocal, ref outputSetsLocal) == -1)
+				return -1;
+
 			debug($"starting train on network #{networksProcessed} id: 0x{network.GetHashCode():X}");
 			saveTestHitRatio = 0;
 

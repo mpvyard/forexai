@@ -42,13 +42,13 @@ namespace FinancePermutator.Prices
 					Vol = double.Parse(tokens[6], CultureInfo.InvariantCulture),
 					Date = DateTime.Parse(tokens[0] + " " + tokens[1])
 				};
-				 
+
 				Data.ForexPrices.Add(priceEntry);
 
 				if (lineNum % 1850 == 0)
 				{
 					debug($"load {lineNum} {timeDate}");
-					Program.Form.chart.Invoke((MethodInvoker) (() => Program.Form.chart.Series["Series1"].Points.AddXY(priceEntry.Date, priceEntry.Open)));
+					Program.Form.chart.Invoke((MethodInvoker)(() => Program.Form.chart.Series["Series1"].Points.AddXY(priceEntry.Date, priceEntry.Open)));
 				}
 
 				lineNum++;
@@ -57,7 +57,7 @@ namespace FinancePermutator.Prices
 			debug($"lines: {lineNum}");
 			debug($"first time: {first}");
 
-			Program.Form.loadPricesButton.Invoke((MethodInvoker) (() => Program.Form.loadPricesButton.Text = lineNum + @" OK"));
+			Program.Form.loadPricesButton.Invoke((MethodInvoker)(() => Program.Form.loadPricesButton.Text = lineNum + @" OK"));
 		}).Start();
 	}
 }

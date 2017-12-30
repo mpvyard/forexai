@@ -32,9 +32,10 @@ namespace FinancePermutator
 			{
 				if (Messages.Count == 0 || Program.Form.debugView == null)
 					return;
+				
 				runningMessagePump = true;
 
-				Program.Form.debugView.Invoke((MethodInvoker) (() =>
+				Program.Form.debugView.Invoke((MethodInvoker)(() =>
 				{
 					try
 					{
@@ -48,26 +49,25 @@ namespace FinancePermutator
 						OutputDebugString($"error log file open: {e}");
 					}
 
-				//	Program.Form.debugView.BeginUpdate();
-
 					LastLogTime = DateTime.Now.Second;
 					object[] tempItems = new object[Messages.Count];
 					int i = 0;
 					foreach (string msg in Messages)
 					{
-						//Program.Form.debugView.Items.Add(msg);
 						tempItems[i++] = msg;
 						if (sw != null)
 							sw.WriteLine(msg);
 					}
+
 					Program.Form.debugView.Items.AddRange(tempItems);
+
 					if (sw != null)
 						sw.Close();
+
 					Messages.Clear();
 
 					int visibleItems = Program.Form.debugView.ClientSize.Height / Program.Form.debugView.ItemHeight;
 					Program.Form.debugView.TopIndex = Math.Max(Program.Form.debugView.Items.Count - visibleItems + 1, 0);
-				//	Program.Form.debugView.EndUpdate();
 				}));
 				runningMessagePump = false;
 			}

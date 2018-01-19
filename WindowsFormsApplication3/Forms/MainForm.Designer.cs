@@ -212,7 +212,7 @@
 			this.chart.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.SystemDefault;
 			title1.Name = "Title1";
 			this.chart.Titles.Add(title1);
-			this.chart.PostPaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.chart_PostPaint);
+			this.chart.PostPaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.Chart_PostPaint);
 			this.chart.Click += new System.EventHandler(this.ChartClick);
 			// 
 			// tabPage2

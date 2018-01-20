@@ -18,7 +18,7 @@ namespace FinancePermutator
 		public const int MinSaveEpoch = 20;
 		public const int MinTaFunctionsCount = 2;
 		public const int TestDataAmountPerc = 6;
-		public const int TrainLimitEpochs = 450;
+		public const int TrainLimitEpochs = 650;
 		public static uint DefaultHiddenNeurons = 0;
 		public const int SleepTime = 300;
 		public const int SleepCheckTime = 10000;

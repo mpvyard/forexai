@@ -727,7 +727,7 @@ namespace FinancePermutator.Train
 
         private static void SetOutputResult(int inputDimensionLocal, int offset, int numRecordLocal)
         {
-            double[] priceOpen = ForexPrices.GetClose(inputDimensionLocal, offset);
+            double[] priceOpen = ForexPrices.GetOpen(inputDimensionLocal, offset);
 
             if (priceOpen[inputDimensionLocal - (inputDimensionLocal > Configuration.OutputIndex ? Configuration.OutputIndex : inputDimensionLocal)] >
                 priceOpen[inputDimensionLocal - 1])

@@ -14,8 +14,8 @@ namespace FinancePermutator
         public int NumData;
         public int OutBegIdx = 0;
         public int Offset;
-        public int[] OutInteger = new int[1000];
-        public double[] OutReal = new double[1000];
+        //public int[] OutInteger = new int[1000];
+        //public double[] OutReal = new double[1000];
         public StringBuilder parametersMap;
 
         public object[] Arguments { get; }
@@ -80,13 +80,13 @@ namespace FinancePermutator
                     case "optInMinPeriod":
                     case "optInMaxPeriod":
                     case "optInSignalPeriod":
-                        Arguments[ParamIndex] = MaTypeGen.GetRandom(XRandom.next(255));
+                        Arguments[ParamIndex] = MaTypeGen.GetRandom();
                         paramComment = $"MaTypeGen";
 
                         // debug($"{param.Name} optInSignalPeriod=" + arguments[paramIndex]);
                         break;
                     case "optInMAType":
-                        Arguments[ParamIndex] = MaTypeGen.GetRandom(XRandom.next(255));
+                        Arguments[ParamIndex] = MaTypeGen.GetRandom();
                         paramComment = $"MaTypeGen";
 
                         // debug($"{param.Name} optInMAType=" + arguments[paramIndex]);
@@ -126,7 +126,7 @@ namespace FinancePermutator
                     case "optInSlowD_MAType":
                     case "optInFastD_MAType":
                     case "optInSlowK_MAType":
-                        Arguments[ParamIndex] = MaTypeGen.GetRandom(XRandom.next(255));
+                        Arguments[ParamIndex] = MaTypeGen.GetRandom();
                         paramComment = $"MaTypeGen";
 
                         // debug($"{param.Name} optMAtype=" + arguments[paramIndex]);
@@ -148,27 +148,24 @@ namespace FinancePermutator
                     case "optInFastK_Period":
                     case "optInSlowD_Period":
                     case "optInFastD_Period":
-                        Arguments[ParamIndex] = MaGen.GetRandom(XRandom.next(255));
+                        Arguments[ParamIndex] = MaGen.GetRandom(NumData);
                         paramComment = $"MaTypeGen";
-
-                        // debug($"{param.Name} optDKPeriod=" + arguments[paramIndex]);
                         break;
                     case "optInSlowPeriod":
+                        Arguments[ParamIndex] = XRandom.next(Convert.ToInt32(NumData / 2)+1, NumData - 1);
+                        break;
                     case "optInFastPeriod":
-                        Arguments[ParamIndex] = MaGen.GetRandom(XRandom.next(255));
-                        paramComment = $"MaTypeGen";
+                        Arguments[ParamIndex] = MaGen.GetRandom(Convert.ToInt32(NumData / 2));
+                        break;
 
-                        // debug($"{param.Name} optSlowFastPeriod=" + arguments[paramIndex]);
+                    case "optInTimePeriod":
+                        Arguments[ParamIndex] = 2;
                         break;
 
                     case "optInTimePeriod1":
                     case "optInTimePeriod3":
                     case "optInTimePeriod2":
-                    case "optInTimePeriod":
-                        Arguments[ParamIndex] = MaGen.GetRandom(XRandom.next(255));
-                        paramComment = $"MaTypeGen";
-
-                        // debug($"{param.Name} optInTimePeriod=" + arguments[paramIndex]);
+                        Arguments[ParamIndex] = MaGen.GetRandom(NumData);
                         break;
                     case "optInPenetration":
                         Arguments[ParamIndex] = 0;
@@ -210,11 +207,11 @@ namespace FinancePermutator
                         OutNbElement = ParamIndex;
                         break;
                     case "outInteger":
-                        Arguments[ParamIndex] = OutInteger;
+                        Arguments[ParamIndex] = new int[NumData];
                         OutIndex = ParamIndex;
                         break;
                     case "outReal":
-                        Arguments[ParamIndex] = OutReal;
+                        Arguments[ParamIndex] = new double[NumData];
                         OutIndex = ParamIndex;
                         break;
                     case "outAroonUp":
@@ -239,7 +236,7 @@ namespace FinancePermutator
                 ParamIndex++;
             }
 
-            // 	DumpArguments();
+            //DumpArguments();
         }
 
         private void DumpArguments()

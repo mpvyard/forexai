@@ -5,9 +5,9 @@ namespace FinancePermutator.Generators
 {
 	internal static class MaTypeGen
 	{
-		public static Core.MAType GetRandom(int seed)
+		public static Core.MAType GetRandom()
 		{
-			switch (XRandom.next(9))
+			switch (XRandom.next(8))
 			{
 				case 0:
 					return Core.MAType.Sma;
@@ -25,8 +25,8 @@ namespace FinancePermutator.Generators
 					return Core.MAType.Tema;
 				case 7:
 					return Core.MAType.Trima;
-				default:
-					return Core.MAType.Wma;
+                default:
+                    return Core.MAType.Wma;
 			}
 		}
 	}

@@ -16,7 +16,7 @@ namespace FinancePermutator
 		public const double MinSaveTestMSE = 0.02;
 		public const double MinSaveHit = 87;
 		public const int MinSaveEpoch = 20;
-		public const int MinTaFunctionsCount = 2;
+		public const int MinTaFunctionsCount = 3;
 		public const int TestDataAmountPerc = 6;
 		public const int TrainLimitEpochs = 650;
 		public static uint DefaultHiddenNeurons = 0;

@@ -33,6 +33,7 @@ using FinancePermutator;
 using FinancePermutator.Generators;
 using FinancePermutator.Networks;
 using FinancePermutator.Prices;
+using Newtonsoft.Json;
 using static FinancePermutator.Tools;
 
 namespace FinancePermutator.Train
@@ -187,7 +188,7 @@ namespace FinancePermutator.Train
                         FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], inputDimension, offset);
 
                         // execute function
-                        FinancePermutator.Function function = new FinancePermutator.Function((MethodInfo) functionInfo["methodInfo"]);
+                        Function function = new Function((MethodInfo) functionInfo["methodInfo"]);
                         result = function.Execute(functionParameters, out var code);
 
                         // check function output
@@ -322,6 +323,9 @@ namespace FinancePermutator.Train
                 functions.Append($"[{func.Key}] ");
 
             Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
+
+            //debug($"{JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented)}");
+            //Thread.Sleep(500000);
         }
 
         /*		_______________________________________________________
@@ -722,6 +726,12 @@ namespace FinancePermutator.Train
                 {
                     cf.WriteLine(Program.Form.configurationTab.Text);
                 }
+
+                using (var cf = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\functions.json"))
+                {
+                    cf.WriteLine(JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented));
+                }
+                
             }));
         }
 

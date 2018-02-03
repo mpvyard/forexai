@@ -160,6 +160,9 @@ namespace FinancePermutator
                         break;
 
                     case "optInTimePeriod":
+                        Arguments[ParamIndex] = 2;
+                        break;
+
                     case "optInTimePeriod1":
                     case "optInTimePeriod3":
                     case "optInTimePeriod2":

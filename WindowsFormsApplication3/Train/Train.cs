@@ -184,7 +184,6 @@ namespace FinancePermutator.Train
                     {
                         var functionInfo = funct.Value;
 
-                        randomSeed = (int) functionInfo["randomseed"];
                         FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], inputDimension, offset);
 
                         // execute function
@@ -310,8 +309,6 @@ namespace FinancePermutator.Train
                 // record info
                 Data.FunctionBase[methodInfo.Name] = new Dictionary<string, object>();
                 Data.FunctionBase[methodInfo.Name]["parameters"] = functionParameters;
-                Data.FunctionBase[methodInfo.Name]["result"] = result;
-                Data.FunctionBase[methodInfo.Name]["randomseed"] = randomSeedLocal;
                 Data.FunctionBase[methodInfo.Name]["methodInfo"] = methodInfo;
 
                 randomSeedLocal = unixTimestamp + XRandom.next(255);

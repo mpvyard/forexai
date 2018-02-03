@@ -258,7 +258,7 @@ namespace FinancePermutator.Train
 
             debug($"selecting functions Count={functionsCount}");
             Program.Form.ConfigurationClear();
-            Program.Form.AddConfiguration("Functions:\r\n");
+            //Program.Form.AddConfiguration("Functions:\r\n");
 
             Program.Form.EraseBigLabel();
             Program.Form.SetBigLabel("[SETTING FUNCTIONS UP]");
@@ -304,7 +304,7 @@ namespace FinancePermutator.Train
                     continue;
                 }
 
-                Program.Form.AddConfiguration($" [{methodInfo.Name} \r\n{functionParameters.parametersMap}] \r\n =====================\r\n");
+                //Program.Form.AddConfiguration($" [{methodInfo.Name} \r\n{functionParameters.parametersMap}] \r\n =====================\r\n");
 
                 // record info
                 Data.FunctionBase[methodInfo.Name] = new Dictionary<string, object>();

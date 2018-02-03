@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
@@ -16,9 +17,9 @@ namespace FinancePermutator
         public int Offset;
         //public int[] OutInteger = new int[1000];
         //public double[] OutReal = new double[1000];
-        public StringBuilder parametersMap;
+        public List<string> parametersMap;
 
-        public object[] Arguments { get; }
+        public object[] Arguments;
 
         public int OutIndex { get; }
 
@@ -41,7 +42,7 @@ namespace FinancePermutator
         {
             NumData = numdata;
             Offset = offset;
-            parametersMap = new StringBuilder();
+            parametersMap = new List<string>();
 
             // DumpParams(methodInfo);
             Arguments = new object[methodInfo.GetParameters().Length];
@@ -152,7 +153,7 @@ namespace FinancePermutator
                         paramComment = $"MaTypeGen";
                         break;
                     case "optInSlowPeriod":
-                        Arguments[ParamIndex] = XRandom.next(Convert.ToInt32(NumData / 2)+1, NumData - 1);
+                        Arguments[ParamIndex] = XRandom.next(Convert.ToInt32(NumData / 2) + 1, NumData - 1);
                         break;
                     case "optInFastPeriod":
                         Arguments[ParamIndex] = MaGen.GetRandom(Convert.ToInt32(NumData / 2));
@@ -232,11 +233,9 @@ namespace FinancePermutator
                         break;
                 }
 
-                parametersMap.Append($"  arg{ParamIndex, 2:0} {param.Name}: {Arguments[ParamIndex]} {paramComment}\r\n");
+                parametersMap.Add($"{ParamIndex}|{param.Name}|{Arguments[ParamIndex]}|{paramComment}");
                 ParamIndex++;
             }
-
-            //DumpArguments();
         }
 
         private void DumpArguments()
@@ -245,14 +244,14 @@ namespace FinancePermutator
             int argIdx = 0;
             foreach (object o in Arguments)
                 if (o != null)
-                    Tools.debug($" +arg{argIdx++, -2:00} {o.GetType()} {o}");
+                    Tools.debug($" +arg{argIdx++,-2:00} {o.GetType()} {o}");
         }
 
         private static void DumpParams(MethodInfo methodInfo)
         {
             int idx = 0;
             foreach (var pi in methodInfo.GetParameters())
-                Tools.debug($" prm{idx++, 2:00} {pi.ParameterType} {pi.Name}");
+                Tools.debug($" prm{idx++,2:00} {pi.ParameterType} {pi.Name}");
         }
     }
 }

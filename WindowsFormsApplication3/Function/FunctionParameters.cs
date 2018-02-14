@@ -103,19 +103,19 @@ namespace FinancePermutator
                         {
                             case 0:
                                 Arguments[ParamIndex] = ForexPrices.GetOpen(NumData, Offset);
-                                paramComment = $"%Open% {NumData}";
+                                paramComment = $"Open {NumData}";
                                 break;
                             case 1:
                                 Arguments[ParamIndex] = ForexPrices.GetClose(numdata, Offset);
-                                paramComment = $"%Close% {NumData}";
+                                paramComment = $"Close {NumData}";
                                 break;
                             case 2:
                                 Arguments[ParamIndex] = ForexPrices.GetHigh(NumData, Offset);
-                                paramComment = $"%High% {NumData}";
+                                paramComment = $"High {NumData}";
                                 break;
                             case 3:
                                 Arguments[ParamIndex] = ForexPrices.GetLow(NumData, Offset);
-                                paramComment = $"%Low% {NumData}";
+                                paramComment = $"Low {NumData}";
                                 break;
                         }
 

@@ -184,7 +184,8 @@ namespace FinancePermutator.Train
                     {
                         var functionInfo = funct.Value;
 
-                        FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"], inputDimension, offset);
+                        FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"],
+                            inputDimension, offset);
 
                         // execute function
                         Function function = new Function((MethodInfo) functionInfo["methodInfo"]);
@@ -234,22 +235,22 @@ namespace FinancePermutator.Train
             debug($"done scan: numRecord={numRecord} i:{inputSets?.Length} o:{outputSets?.Length}");
         }
 
-/*
-        ／ イ(((ヽ
-        (ﾉ ￣Ｙ＼
-        |　(＼　(. /) ｜ )
-        ヽ ヽ` ( ͡° ͜ʖ ͡°) _ノ /
-        ＼ |　⌒Ｙ⌒　/ /
-        ｜ヽ　 ｜　 ﾉ ／
-        ＼トー仝ーイ
-        ｜ ミ土彡/
-        )\ ° /
-        ( \ /
-        / / ѼΞΞΞΞΞΞΞD
-        / / / \ \ \ 
-        (( ). ) ).)
-        ( ). ( | | 
-        | / \ |*/
+        /*
+                ／ イ(((ヽ
+                (ﾉ ￣Ｙ＼
+                |　(＼　(. /) ｜ )
+                ヽ ヽ` ( ͡° ͜ʖ ͡°) _ノ /
+                ＼ |　⌒Ｙ⌒　/ /
+                ｜ヽ　 ｜　 ﾉ ／
+                ＼トー仝ーイ
+                ｜ ミ土彡/
+                )\ ° /
+                ( \ /
+                / / ѼΞΞΞΞΞΞΞD
+                / / / \ \ \ 
+                (( ). ) ).)
+                ( ). ( | | 
+                | / \ |*/
 
         private void SetupFunctions(int randomSeedLocal)
         {
@@ -686,18 +687,18 @@ namespace FinancePermutator.Train
             return 0;
         }
 
-/*
-                \\         //
-                 \\     //
-                   \\ //
-                    (O)
-                   //#\\
-                 // ### \\
-               //  #####  \\
-                  #######
-                  ### ###
-            '' """  """"  "'"""""
-*/
+        /*
+                        \\         //
+                         \\     //
+                           \\ //
+                            (O)
+                           //#\\
+                         // ### \\
+                       //  #####  \\
+                          #######
+                          ### ###
+                    '' """  """"  "'"""""
+        */
         private static void SaveNetwork()
         {
             string netDirectory = $"NET_{network.GetHashCode():X}";
@@ -729,7 +730,7 @@ namespace FinancePermutator.Train
                 {
                     cf.WriteLine(JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented));
                 }
-                
+
             }));
         }
 

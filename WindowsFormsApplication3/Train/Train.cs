@@ -526,6 +526,7 @@ namespace FinancePermutator.Train
         {
             // create network to hold all input data
             var inputCount = trainData.InputCount;
+            // TODO: это бред, надо исправить
             uint numNeurons = Configuration.DefaultHiddenNeurons > 0 ? Configuration.DefaultHiddenNeurons : inputCount / 2 - 1;
             debug($"new network: numinputs: {inputCount} neurons: {numNeurons}");
 

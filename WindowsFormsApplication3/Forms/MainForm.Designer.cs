@@ -47,6 +47,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.minSavePercTextBox = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.configurationTab = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -60,7 +61,8 @@
             this.debugView = new System.Windows.Forms.ListBox();
             this.funcListLabel = new System.Windows.Forms.TextBox();
             this.nodelayCheckbox = new System.Windows.Forms.CheckBox();
-            this.minSavePercTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
@@ -107,11 +109,11 @@
             // showValues
             // 
             this.showValues.AutoSize = true;
-            this.showValues.BackColor = System.Drawing.Color.Azure;
+            this.showValues.BackColor = System.Drawing.Color.RoyalBlue;
             this.showValues.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.showValues.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.showValues.ForeColor = System.Drawing.Color.CadetBlue;
-            this.showValues.Location = new System.Drawing.Point(8, 57);
+            this.showValues.ForeColor = System.Drawing.Color.OldLace;
+            this.showValues.Location = new System.Drawing.Point(143, 24);
             this.showValues.Margin = new System.Windows.Forms.Padding(0);
             this.showValues.Name = "showValues";
             this.showValues.Size = new System.Drawing.Size(110, 20);
@@ -221,6 +223,8 @@
             this.tabPage2.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.tabPage2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Controls.Add(this.minSavePercTextBox);
             this.tabPage2.Controls.Add(this.showValues);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
@@ -229,6 +233,19 @@
             this.tabPage2.Size = new System.Drawing.Size(601, 435);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "options";
+            // 
+            // minSavePercTextBox
+            // 
+            this.minSavePercTextBox.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.minSavePercTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.minSavePercTextBox.Cursor = System.Windows.Forms.Cursors.UpArrow;
+            this.minSavePercTextBox.ForeColor = System.Drawing.SystemColors.Info;
+            this.minSavePercTextBox.Location = new System.Drawing.Point(143, 54);
+            this.minSavePercTextBox.Name = "minSavePercTextBox";
+            this.minSavePercTextBox.Size = new System.Drawing.Size(100, 23);
+            this.minSavePercTextBox.TabIndex = 2;
+            this.minSavePercTextBox.Text = "86";
+            this.minSavePercTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tabPage3
             // 
@@ -458,17 +475,25 @@
             this.nodelayCheckbox.Text = "no delay";
             this.nodelayCheckbox.UseVisualStyleBackColor = true;
             // 
-            // minSavePercTextBox
+            // label1
             // 
-            this.minSavePercTextBox.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.minSavePercTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.minSavePercTextBox.Cursor = System.Windows.Forms.Cursors.UpArrow;
-            this.minSavePercTextBox.Location = new System.Drawing.Point(8, 93);
-            this.minSavePercTextBox.Name = "minSavePercTextBox";
-            this.minSavePercTextBox.Size = new System.Drawing.Size(100, 23);
-            this.minSavePercTextBox.TabIndex = 2;
-            this.minSavePercTextBox.Text = "86";
-            this.minSavePercTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(1, 56);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(139, 17);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "MinSaveHitPercent (%)";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(26, 24);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(112, 17);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Show input values";
             // 
             // Form1
             // 
@@ -533,6 +558,8 @@
 		public TabPage tabPage4;
 		public RichTextBox statsBox;
         public TextBox minSavePercTextBox;
+        private Label label2;
+        private Label label1;
     }
 }
 

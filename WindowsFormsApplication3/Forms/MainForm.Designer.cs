@@ -163,8 +163,9 @@
             this.chart.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Bottom;
             this.chart.BackImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.chart.BackSecondaryColor = System.Drawing.Color.Transparent;
-            this.chart.BorderlineColor = System.Drawing.Color.Cyan;
+            this.chart.BorderlineColor = System.Drawing.Color.OrangeRed;
             this.chart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            this.chart.BorderlineWidth = 4;
             this.chart.BorderSkin.BackColor = System.Drawing.Color.Maroon;
             this.chart.BorderSkin.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart.BorderSkin.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.Cross;
@@ -199,7 +200,7 @@
             legend1.Name = "xxx";
             legend1.TitleFont = new System.Drawing.Font("Quartz MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chart.Legends.Add(legend1);
-            this.chart.Location = new System.Drawing.Point(-5, 6);
+            this.chart.Location = new System.Drawing.Point(-2, 6);
             this.chart.Margin = new System.Windows.Forms.Padding(0);
             this.chart.Name = "chart";
             this.chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
@@ -415,10 +416,11 @@
             // 
             // debugView
             // 
-            this.debugView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.debugView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.debugView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.debugView.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.debugView.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.debugView.ForeColor = System.Drawing.Color.LimeGreen;
+            this.debugView.ForeColor = System.Drawing.Color.DarkOliveGreen;
             this.debugView.HorizontalScrollbar = true;
             this.debugView.ItemHeight = 11;
             this.debugView.Items.AddRange(new object[] {
@@ -443,7 +445,7 @@
             this.debugView.Margin = new System.Windows.Forms.Padding(0);
             this.debugView.Name = "debugView";
             this.debugView.ScrollAlwaysVisible = true;
-            this.debugView.Size = new System.Drawing.Size(695, 433);
+            this.debugView.Size = new System.Drawing.Size(695, 431);
             this.debugView.TabIndex = 3;
             this.debugView.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.DebugView_Draw);
             // 

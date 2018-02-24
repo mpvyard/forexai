@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -29,7 +28,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using FANNCSharp;
 using FANNCSharp.Double;
-using FinancePermutator;
 using FinancePermutator.Generators;
 using FinancePermutator.Networks;
 using FinancePermutator.Prices;
@@ -466,7 +464,7 @@ namespace FinancePermutator.Train
                 trainData.ScaleTrainData(-1.0, 1.0);
 
                 testData = new TrainingData(trainData);
-                testDataOffset = trainData.TrainDataLength / Configuration.TestDataAmountPerc;
+                testDataOffset = trainData.TrainDataLength / (uint) Configuration.TestDataAmountPerc;
                 testData.SubsetTrainData(0, testDataOffset);
                 testData.SaveTrain(@"d:\temp\testdata.dat");
                 testSetInput = testData.Input;

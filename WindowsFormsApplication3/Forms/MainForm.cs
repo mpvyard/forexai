@@ -8,21 +8,15 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-
-using FANNCSharp.Double;
-
 //using FANNCSharp.TrainingAlgorithm;
 
 using FinancePermutator.Generators;
-using FinancePermutator.Networks;
 using FinancePermutator.Prices;
-using static FinancePermutator.Tools;
 using Newtonsoft.Json;
-
 using TicTacTec.TA.Library;
+using static FinancePermutator.Tools;
 
 /*
                 ░░ ♡ ▄▀▀▀▄░░░
@@ -463,6 +457,15 @@ namespace FinancePermutator.Forms
             StringFormat drawFormat = new StringFormat(StringFormatFlags.FitBlackBox);
             drawFormat.Alignment = StringAlignment.Center;
             e.ChartGraphics.Graphics.DrawString(Data.chartBigLabel, drawFont, drawBrush, drawRect, drawFormat);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            int savePerc = 0;
+
+            int.TryParse(Program.Form.minSavePercTextBox.Text, out savePerc);
+            debug($"minSavePerc changed => {savePerc}%");
+            Configuration.MinSaveHit = savePerc;
         }
     }
 }

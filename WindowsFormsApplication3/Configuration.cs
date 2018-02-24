@@ -4,19 +4,19 @@ namespace FinancePermutator
 {
     public static class Configuration
     {
-        public const string PriceFileName = @"d:\temp\forexAI\GBPUSD15.csv";
-        public const string LogFileName = @"d:\temp\forexAI\forexAI.log";
-        public const int InputDimension = 64;
-        public const double MinSaveTestMSE = 0.02;
-        public const double MinSaveHit = 89;
-        public const int MinSaveEpoch = 20;
-        public const int MinTaFunctionsCount = 3;
-        public const int TestDataAmountPerc = 6;
-        public const int TrainLimitEpochs = 650;
+        public static string PriceFileName = @"d:\temp\forexAI\GBPUSD15.csv";
+        public static string LogFileName = @"d:\temp\forexAI\forexAI.log";
+        public static int InputDimension = 64;
+        public static double MinSaveTestMSE = 0.02;
+        public static double MinSaveHit = 85;
+        public static int MinSaveEpoch = 20;
+        public static int MinTaFunctionsCount = 3;
+        public static int TestDataAmountPerc = 6;
+        public static int TrainLimitEpochs = 650;
         public static uint DefaultHiddenNeurons = 0;
-        public const int SleepTime = 300;
-        public const int SleepCheckTime = 10000;
-        public const int OutputIndex = 5;
-        public const TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;
+        public static int SleepTime = 300;
+        public static int SleepCheckTime = 10000;
+        public static int OutputIndex = 5;
+        public static TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;
     }
 }

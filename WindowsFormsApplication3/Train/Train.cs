@@ -70,6 +70,7 @@ namespace FinancePermutator.Train
         double testHitRatio = 0.0, trainHitRatio = 0.0;
         double testMse = 0;
         double trainMse = 0;
+        bool noDelayEnabled;
 
         [DllImport("User32.dll")]
         private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
@@ -82,7 +83,7 @@ namespace FinancePermutator.Train
 
         public Train()
         {
-            randomSeed = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
+            randomSeed = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
             generateFunctionsThread = new Thread(LoopGenerate);
         }
 
@@ -108,27 +109,27 @@ namespace FinancePermutator.Train
 
         public static int GetLastInputTime()
         {
-            lastInPutNfo.cbSize = (uint) Marshal.SizeOf(lastInPutNfo);
+            lastInPutNfo.cbSize = (uint)Marshal.SizeOf(lastInPutNfo);
             if (!GetLastInputInfo(ref lastInPutNfo))
                 debug($"ERROR: GetLastInputInfo: {Marshal.GetLastWin32Error()}");
 
-            return (int) lastInPutNfo.dwTime;
+            return (int)lastInPutNfo.dwTime;
         }
 
         public void EraseBigLabel()
         {
-            Program.Form.debugView.Invoke((MethodInvoker) (() =>
-            {
-                Program.Form.debugView.Invoke((MethodInvoker) (() => { Data.chartBigLabel = string.Empty; }));
-            }));
+            Program.Form.debugView.Invoke((MethodInvoker)(() =>
+           {
+               Program.Form.debugView.Invoke((MethodInvoker)(() => { Data.chartBigLabel = string.Empty; }));
+           }));
         }
 
         public void SetBigLabel(string text = "")
         {
-            Program.Form.debugView.Invoke((MethodInvoker) (() =>
-            {
-                Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
-            }));
+            Program.Form.debugView.Invoke((MethodInvoker)(() =>
+           {
+               Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
+           }));
         }
 
         /*
@@ -146,11 +147,17 @@ namespace FinancePermutator.Train
         {
             if (!Data.TALibMethods.Any())
                 return;
-
+           
             do
             {
-                again:
+            again:
                 Program.Form.ConfigurationClear();
+
+                Program.Form.debugView.Invoke((MethodInvoker)(() =>
+                {
+                    noDelayEnabled = Program.Form.nodelayCheckbox.Checked;
+                }));
+
 
                 threadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
@@ -158,7 +165,7 @@ namespace FinancePermutator.Train
 
                 class1 = class2 = class0 = 0;
                 Data.FunctionBase.Clear();
-                Program.Form.debugView.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
+                Program.Form.debugView.Invoke((MethodInvoker)(() => { Program.Form.debugView.Items.Clear(); }));
 
                 SetupFunctions(randomSeed);
 
@@ -174,27 +181,30 @@ namespace FinancePermutator.Train
 
                     if (offset % 55 == 0)
                         Program.Form.SetStatus(
-                            $"Generating train && test data [{offset} - {offset + inputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
+                            $"Generating train && test data [{offset} - {offset + inputDimension}] {(double)offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
 
                     combinedResult = new double[] { };
 
                     foreach (var funct in Data.FunctionBase)
                     {
+                        if (noDelayEnabled == false)
+                            Thread.Sleep(1);
+
                         var functionInfo = funct.Value;
 
-                        FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"],
+                        FunctionParameters functionParameters = new FunctionParameters((MethodInfo)functionInfo["methodInfo"],
                             inputDimension, offset);
 
                         // execute function
-                        Function function = new Function((MethodInfo) functionInfo["methodInfo"]);
+                        Function function = new Function((MethodInfo)functionInfo["methodInfo"]);
                         result = function.Execute(functionParameters, out var code);
 
                         // check function output
                         if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) || double.IsPositiveInfinity(result[0]) ||
                             double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayRepeating(result))
                         {
-                            debug($"WARNING: skip {((MethodInfo) functionInfo["methodInfo"]).Name} due to bad output [len={result.Length}, code={code}]");
-                            Program.Form.SetStatus($"ERROR: bad output for {((MethodInfo) functionInfo["methodInfo"]).Name}");
+                            debug($"WARNING: skip {((MethodInfo)functionInfo["methodInfo"]).Name} due to bad output [len={result.Length}, code={code}]");
+                            Program.Form.SetStatus($"ERROR: bad output for {((MethodInfo)functionInfo["methodInfo"]).Name}");
                             numberOfBrokenData++;
                             goto again;
                         }
@@ -214,7 +224,7 @@ namespace FinancePermutator.Train
                     inputSets[numRecord] = new double[combinedResult.Length];
                     outputSets[numRecord] = new double[2];
 
-                    if (numRecord % 145 == 0)
+                    if (numRecord % 245 == 0)
                         debug(
                             $"offset: {offset} numRecord:{numRecord} inputSets:{inputSets.Length} outputSets:{outputSets.Length} combinedResult:{combinedResult.Length}");
 
@@ -267,7 +277,7 @@ namespace FinancePermutator.Train
                 SetStats();
                 Program.Form.SetBigLabel($"[SETUP FUNCTION #{i}]");
 
-                int unixTimestamp = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
+                int unixTimestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
 
                 // get random method
                 var methodInfo = Methods.GetRandomMethod(unixTimestamp);
@@ -318,7 +328,7 @@ namespace FinancePermutator.Train
             foreach (var func in Data.FunctionBase)
                 functions.Append($"[{func.Key}] ");
 
-            Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
+            Program.Form.funcListLabel.Invoke((MethodInvoker)(() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
 
             //debug($"{JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented)}");
             //Thread.Sleep(500000);
@@ -359,7 +369,7 @@ namespace FinancePermutator.Train
                     hits++;
                 curX++;
             }
-            return ((double) hits / (double) inputs.Length) * 100.0d;
+            return ((double)hits / (double)inputs.Length) * 100.0d;
         }
 
         private bool AssertInputDataIsCorrect(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
@@ -464,7 +474,7 @@ namespace FinancePermutator.Train
                 trainData.ScaleTrainData(-1.0, 1.0);
 
                 testData = new TrainingData(trainData);
-                testDataOffset = trainData.TrainDataLength / (uint) Configuration.TestDataAmountPerc;
+                testDataOffset = trainData.TrainDataLength / (uint)Configuration.TestDataAmountPerc;
                 testData.SubsetTrainData(0, testDataOffset);
                 testData.SaveTrain(@"d:\temp\testdata.dat");
                 testSetInput = testData.Input;
@@ -485,40 +495,40 @@ namespace FinancePermutator.Train
 
         private void InitChart()
         {
-            Program.Form.chart.Invoke((MethodInvoker) (() =>
-            {
-                Program.Form.EraseBigLabel();
+            Program.Form.chart.Invoke((MethodInvoker)(() =>
+           {
+               Program.Form.EraseBigLabel();
 
-                Program.Form.chart.Series.Clear();
-                Program.Form.chart.Series.Add("train");
-                Program.Form.chart.Series.Add("test");
+               Program.Form.chart.Series.Clear();
+               Program.Form.chart.Series.Add("train");
+               Program.Form.chart.Series.Add("test");
 
-                Program.Form.chart.Series["train"].ChartType = SeriesChartType.Line;
-                Program.Form.chart.Series["test"].ChartType = SeriesChartType.FastLine;
+               Program.Form.chart.Series["train"].ChartType = SeriesChartType.Line;
+               Program.Form.chart.Series["test"].ChartType = SeriesChartType.FastLine;
 
-                Program.Form.chart.Series["train"].BorderWidth = 2;
-                Program.Form.chart.Series["test"].BorderWidth = 2;
+               Program.Form.chart.Series["train"].BorderWidth = 2;
+               Program.Form.chart.Series["test"].BorderWidth = 2;
 
-                Program.Form.chart.Series["train"].Color = Color.Green;
-                Program.Form.chart.Series["test"].Color = Color.Blue;
+               Program.Form.chart.Series["train"].Color = Color.Green;
+               Program.Form.chart.Series["test"].Color = Color.Blue;
 
-                Program.Form.chart.ChartAreas[0].AxisX.LineColor = Color.White;
-                Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
-                Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.White;
+               Program.Form.chart.ChartAreas[0].AxisX.LineColor = Color.White;
+               Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+               Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.White;
 
-                Program.Form.chart.ChartAreas[0].AxisY.LineColor = Color.White;
-                Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
-                Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White;
+               Program.Form.chart.ChartAreas[0].AxisY.LineColor = Color.White;
+               Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+               Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White;
 
-                Program.Form.chart.ChartAreas[0].AxisY.Interval = 0.1;
-                /*Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
-                Program.Form.chart.ChartAreas[0].AxisX.Interval = 1;
-                Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-                Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-                Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
-                Program.Form.chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;*/
-                Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.3;
-            }));
+               Program.Form.chart.ChartAreas[0].AxisY.Interval = 0.1;
+               /*Program.Form.chart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
+               Program.Form.chart.ChartAreas[0].AxisX.Interval = 1;
+               Program.Form.chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+               Program.Form.chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+               Program.Form.chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
+               Program.Form.chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;*/
+               Program.Form.chart.ChartAreas[0].AxisX.MajorTickMark.IntervalOffset = 0.3;
+           }));
         }
 
         private void CreateNetwork()
@@ -657,14 +667,14 @@ namespace FinancePermutator.Train
 
                 // draw graphics
                 var epoch = currentEpoch;
-                Program.Form.chart.Invoke((MethodInvoker) (() =>
-                {
-                    Program.Form.chart.Series["train"].Points.AddXY(epoch, trainMse);
-                    Program.Form.chart.Series["test"].Points.AddXY(epoch, testMse);
+                Program.Form.chart.Invoke((MethodInvoker)(() =>
+               {
+                   Program.Form.chart.Series["train"].Points.AddXY(epoch, trainMse);
+                   Program.Form.chart.Series["test"].Points.AddXY(epoch, testMse);
 
-                    Program.Form.chart.Series["train"].LegendText = $"Train {trainHitRatio,2:0.##}%";
-                    Program.Form.chart.Series["test"].LegendText = $"Test {testHitRatio,2:0.##}%";
-                }));
+                   Program.Form.chart.Series["train"].LegendText = $"Train {trainHitRatio,2:0.##}%";
+                   Program.Form.chart.Series["test"].LegendText = $"Test {testHitRatio,2:0.##}%";
+               }));
 
                 // set various statuses
                 string training = epoch % 2 == 0 ? "TRAINING" : "        ";
@@ -709,27 +719,27 @@ namespace FinancePermutator.Train
             File.Copy("d:\\temp\\traindata.dat", $@"d:\temp\forexAI\{netDirectory}\traindata.dat", true);
             File.Copy("d:\\temp\\testdata.dat", $@"d:\temp\forexAI\{netDirectory}\testdata.dat", true);
 
-            Program.Form.chart.Invoke((MethodInvoker) (() =>
-            {
-                Program.Form.chart.SaveImage($@"d:\temp\forexAI\{netDirectory}\chart.jpg", ChartImageFormat.Jpeg);
+            Program.Form.chart.Invoke((MethodInvoker)(() =>
+           {
+               Program.Form.chart.SaveImage($@"d:\temp\forexAI\{netDirectory}\chart.jpg", ChartImageFormat.Jpeg);
 
-                using (var tw = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\debug.log"))
-                {
-                    foreach (var item in Program.Form.debugView.Items)
-                        tw.WriteLine(item.ToString());
-                }
+               using (var tw = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\debug.log"))
+               {
+                   foreach (var item in Program.Form.debugView.Items)
+                       tw.WriteLine(item.ToString());
+               }
 
-                using (var cf = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\configuration.txt"))
-                {
-                    cf.WriteLine(Program.Form.configurationTab.Text);
-                }
+               using (var cf = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\configuration.txt"))
+               {
+                   cf.WriteLine(Program.Form.configurationTab.Text);
+               }
 
-                using (var cf = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\functions.json"))
-                {
-                    cf.WriteLine(JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented));
-                }
+               using (var cf = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\functions.json"))
+               {
+                   cf.WriteLine(JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented));
+               }
 
-            }));
+           }));
         }
 
         private static void SetOutputResult(int inputDimensionLocal, int offset, int numRecordLocal)

@@ -1,38 +1,38 @@
 ﻿namespace FinancePermutator.Forms
 {
-	 using System.ComponentModel;
-	 using System.Windows.Forms;
-	 using System.Windows.Forms.DataVisualization.Charting;
+     using System.ComponentModel;
+     using System.Windows.Forms;
+     using System.Windows.Forms.DataVisualization.Charting;
 
-	 partial class Form1
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private IContainer components = null;
+     partial class Form1
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (this.components != null))
-			{
-				this.components.Dispose();
-			}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (this.components != null))
+            {
+                this.components.Dispose();
+            }
 
-			base.Dispose(disposing);
-		}
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		 {
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataVisualization.Charting.LineAnnotation lineAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.LineAnnotation();
@@ -535,30 +535,30 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		 }
+         }
 
-		 #endregion
+         #endregion
 
-		public Button loadPricesButton;
-		public NotifyIcon notifyIcon1;
-		public CheckBox showValues;
-		public TabControl tabControl1;
-		public TabPage tabPage1;
-		public TabPage tabPage2;
-		public Button loadTAButton;
-		public Timer timeFast;
-		public Button button2;
-		public Button buttonExecute;
-		public Button button3;
-		public Chart chart;
-		public TabPage tabPage3;
-		public ListBox debugView;
-		public TextBox funcListLabel;
-		public Label statusLabel;
-		public TextBox configurationTab;
-		public CheckBox nodelayCheckbox;
-		public TabPage tabPage4;
-		public RichTextBox statsBox;
+        public Button loadPricesButton;
+        public NotifyIcon notifyIcon1;
+        public CheckBox showValues;
+        public TabControl tabControl1;
+        public TabPage tabPage1;
+        public TabPage tabPage2;
+        public Button loadTAButton;
+        public Timer timeFast;
+        public Button button2;
+        public Button buttonExecute;
+        public Button button3;
+        public Chart chart;
+        public TabPage tabPage3;
+        public ListBox debugView;
+        public TextBox funcListLabel;
+        public Label statusLabel;
+        public TextBox configurationTab;
+        public CheckBox nodelayCheckbox;
+        public TabPage tabPage4;
+        public RichTextBox statsBox;
         public TextBox minSavePercTextBox;
         private Label label2;
         private Label label1;

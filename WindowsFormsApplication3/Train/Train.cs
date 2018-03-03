@@ -147,10 +147,10 @@ namespace FinancePermutator.Train
         {
             if (!Data.TALibMethods.Any())
                 return;
-           
+
             do
             {
-            again:
+                again:
                 Program.Form.ConfigurationClear();
 
                 Program.Form.debugView.Invoke((MethodInvoker)(() =>
@@ -533,6 +533,9 @@ namespace FinancePermutator.Train
 
         private void CreateNetwork()
         {
+            if (trainData == null)
+                return;
+
             // create network to hold all input data
             var inputCount = trainData.InputCount;
             // TODO: это бред, надо исправить
@@ -587,9 +590,10 @@ namespace FinancePermutator.Train
             debug($"SetTrainData: inpustSetsLocal.Length: {inputSetsLocal.Length} outputSetsLocal.Length: {outputSetsLocal.Length} ");
             CreateTrainAndTestData(inputSetsLocal, outputSetsLocal);
 
-            Program.Form.AddConfiguration(
-                $"\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n" +
-                $" class1: {class1} class2: {class2} class0: {class0}");
+            if (inputSetsLocal != null && outputSetsLocal != null && trainData != null)
+                Program.Form.AddConfiguration(
+                    $"\r\nInfo:\r\n inputSets: {inputSetsLocal.Length}\r\n Train: {trainData.TrainDataLength - testDataOffset} Test: {testDataOffset}\r\n" +
+                    $" class1: {class1} class2: {class2} class0: {class0}");
 
             debug($"class1: {class1} class2: {class2} class0: {class0}");
             InitChart();
@@ -602,6 +606,9 @@ namespace FinancePermutator.Train
         private int TrainNetwork(ref double[][] inputSetsLocal, ref double[][] outputSetsLocal)
         {
             if (PrepareNetwork(ref inputSetsLocal, ref outputSetsLocal) == -1)
+                return -1;
+
+            if (network == null)
                 return -1;
 
             debug($"starting train on network #{networksProcessed} id: 0x{network.GetHashCode():X}");
@@ -620,7 +627,7 @@ namespace FinancePermutator.Train
                 }
 
                 // stop if no progress
-                if (currentEpoch >= 35 && (testHitRatio <= 3 && trainHitRatio <= 3))
+                if (currentEpoch >= 95 && (testHitRatio <= 3 && trainHitRatio <= 3))
                 {
                     debug("fail to train, bad network");
                     networksBad++;
@@ -746,14 +753,14 @@ namespace FinancePermutator.Train
         {
             double[] priceOpen = ForexPrices.GetOpen(inputDimensionLocal, offset);
 
-            if (priceOpen[inputDimensionLocal - (inputDimensionLocal > Configuration.OutputIndex ? Configuration.OutputIndex : inputDimensionLocal)] >
+            if (priceOpen[inputDimensionLocal - Configuration.OutputIndex] >
                 priceOpen[inputDimensionLocal - 1])
             {
                 outputSets[numRecordLocal][0] = 1;
                 outputSets[numRecordLocal][1] = -1;
                 class1++;
             }
-            else if (priceOpen[inputDimensionLocal - (inputDimensionLocal > Configuration.OutputIndex ? Configuration.OutputIndex : inputDimensionLocal)] <=
+            else if (priceOpen[inputDimensionLocal - Configuration.OutputIndex] <=
                      priceOpen[inputDimensionLocal - 1])
             {
                 outputSets[numRecordLocal][0] = -1;

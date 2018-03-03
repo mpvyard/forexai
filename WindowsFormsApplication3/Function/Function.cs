@@ -53,7 +53,7 @@ namespace FinancePermutator
 			if (results != null)
 				Array.Copy(results, returnData, resultLen);
 
-			DumpValues(method, returnData);
+			//DumpValues(method, returnData);
 
 			return returnData;
 		}

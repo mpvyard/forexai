@@ -158,7 +158,6 @@ namespace FinancePermutator.Train
                     noDelayEnabled = Program.Form.nodelayCheckbox.Checked;
                 }));
 
-
                 threadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
                 Program.Form.SetStatus($"generating functions list, sleepTime={threadSleepTime}");

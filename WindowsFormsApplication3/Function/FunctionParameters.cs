@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
-
 using FinancePermutator.Generators;
 using FinancePermutator.Prices;
 

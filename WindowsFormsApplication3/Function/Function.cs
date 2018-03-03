@@ -27,7 +27,7 @@ namespace FinancePermutator
 
 			var retCode = Core.RetCode.UnknownErr;
 			try
-			{
+			{ 
 				retCode = (Core.RetCode) method.Invoke(null, parameters.Arguments);
 			}
 			catch (Exception e)

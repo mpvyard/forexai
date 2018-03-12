@@ -4,7 +4,7 @@ namespace FinancePermutator
 {
     public static class Configuration
     {
-        public static string PriceFileName = @"d:\temp\forexAI\GBPUSD15_3Y.csv";
+        public static string PriceFileName = @"d:\temp\forexAI\GBPUSD15.csv";
         public static string LogFileName = @"d:\temp\forexAI\forexAI.log";
         public static int InputDimension = 64;
         public static double MinSaveTestMSE = 0.02;
@@ -16,7 +16,7 @@ namespace FinancePermutator
         public static uint DefaultHiddenNeurons = 0;
         public static int SleepTime = 300;
         public static int SleepCheckTime = 10000;
-        public static int OutputIndex = 5;
+        public static int OutputIndex = 15;
         public static TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;
     }
 }

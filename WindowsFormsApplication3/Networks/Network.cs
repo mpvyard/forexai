@@ -1,4 +1,5 @@
-﻿using FANNCSharp;
+﻿using System;
+using FANNCSharp;
 using FANNCSharp.Double;
 using FinancePermutator.Generators;
 using static FinancePermutator.Tools;
@@ -75,6 +76,7 @@ namespace FinancePermutator.Networks
 
         public double Train(TrainingData trainData)
         {
+            this.network.SetScalingParams(trainData, -1.0f, 1.0f, -1.0f, 1.0f);
             return this.network.TrainEpochIrpropmParallel(trainData, 4);
         }
 
@@ -88,6 +90,11 @@ namespace FinancePermutator.Networks
         {
             debug($"saving network 0x{this.network.GetHashCode()} as {name}");
             this.network.Save(name);
+        }
+
+        internal void SetupScaling(TrainingData trainData)
+        {
+            this.network.SetScalingParams(trainData, -1.0f, 1.0f, -1.0f, 1.0f);
         }
     }
 }

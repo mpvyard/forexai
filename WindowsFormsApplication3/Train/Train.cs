@@ -718,30 +718,30 @@ namespace FinancePermutator.Train
         {
             string netDirectory = $"NET_{network.GetHashCode():X}";
 
-            if (!Directory.Exists($"d:\\temp\\forexAI\\{netDirectory}"))
-                Directory.CreateDirectory($"d:\\temp\\forexAI\\{netDirectory}");
+            if (!Directory.Exists($"d:\\forexAI\\{netDirectory}"))
+                Directory.CreateDirectory($"d:\\forexAI\\{netDirectory}");
 
-            network.Save($@"d:\temp\forexAI\{netDirectory}\FANN.net");
+            network.Save($@"d:\forexAI\{netDirectory}\FANN.net");
 
-            File.Copy("d:\\temp\\traindata.dat", $@"d:\temp\forexAI\{netDirectory}\traindata.dat", true);
-            File.Copy("d:\\temp\\testdata.dat", $@"d:\temp\forexAI\{netDirectory}\testdata.dat", true);
+            File.Copy("d:\\temp\\traindata.dat", $@"d:\forexAI\{netDirectory}\traindata.dat", true);
+            File.Copy("d:\\temp\\testdata.dat", $@"d:\forexAI\{netDirectory}\testdata.dat", true);
 
             Program.Form.chart.Invoke((MethodInvoker) (() =>
             {
-                Program.Form.chart.SaveImage($@"d:\temp\forexAI\{netDirectory}\chart.jpg", ChartImageFormat.Jpeg);
+                Program.Form.chart.SaveImage($@"d:\forexAI\{netDirectory}\chart.jpg", ChartImageFormat.Jpeg);
 
-                using (var tw = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\debug.log"))
+                using (var tw = new StreamWriter($@"d:\forexAI\{netDirectory}\debug.log"))
                 {
                     foreach (var item in Program.Form.debugView.Items)
                         tw.WriteLine(item.ToString());
                 }
 
-                using (var cf = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\configuration.txt"))
+                using (var cf = new StreamWriter($@"d:\forexAI\{netDirectory}\configuration.txt"))
                 {
                     cf.WriteLine(Program.Form.configurationTab.Text);
                 }
 
-                using (var cf = new StreamWriter($@"d:\temp\forexAI\{netDirectory}\functions.json"))
+                using (var cf = new StreamWriter($@"d:\forexAI\{netDirectory}\functions.json"))
                 {
                     cf.WriteLine(JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented));
                 }

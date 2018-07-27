@@ -164,7 +164,7 @@ namespace FinancePermutator.Train
 				Program.Form.SetStatus($"generating functions list, sleepTime={threadSleepTime}");
 
 				class1 = class2 = class0 = 0;
-				Repository.FunctionBase.Clear();
+				Repository.FunctionConfiguration.Clear();
 				Program.Form.debugView.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
 
 				SetupFunctions(randomSeed);
@@ -189,7 +189,7 @@ namespace FinancePermutator.Train
 
 					combinedResult = new double[] { };
 
-					foreach (var funct in Repository.FunctionBase)
+					foreach (var funct in Repository.FunctionConfiguration)
 					{
 						if (noDelayEnabled == false)
 							Thread.Sleep(1);
@@ -210,7 +210,7 @@ namespace FinancePermutator.Train
 							debug($"WARNING: skip {((MethodInfo) functionInfo["methodInfo"]).Name} due to bad output [len={result.Length}, code={code}]");
 							Program.Form.SetStatus($"ERROR: bad output for {((MethodInfo) functionInfo["methodInfo"]).Name}");
 							numberOfBrokenData++;
-							return;
+							goto again;
 						}
 
 						// copy new output to all data
@@ -284,14 +284,14 @@ namespace FinancePermutator.Train
 				int unixTimestamp = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds + DateTime.Now.Millisecond;
 
 				// get random method
-				var methodInfo = Methods.GetRandomMethod(unixTimestamp);
+				var selectedMethosdInfo = Methods.GetRandomMethod(unixTimestamp);
 
-				Program.Form.SetStatus($"Setup function #{i} <{methodInfo.Name}> ...");
-				debug($"Selected function #{i}: {methodInfo.Name} unixTimestamp: {unixTimestamp}");
+				Program.Form.SetStatus($"Setup function #{i} <{selectedMethosdInfo.Name}> ...");
+				debug($"Selected function #{i}: {selectedMethosdInfo.Name} unixTimestamp: {unixTimestamp}");
 
-				if (Repository.FunctionBase.ContainsKey(methodInfo.Name))
+				if (Repository.FunctionConfiguration.ContainsKey(selectedMethosdInfo.Name))
 				{
-					debug($"function {methodInfo.Name} already exist");
+					debug($"function {selectedMethosdInfo.Name} already exist");
 					if (i > 0)
 						i--;
 					numberOfFailedFunctions++;
@@ -299,18 +299,18 @@ namespace FinancePermutator.Train
 				}
 
 				// generate parameters
-				FunctionParameters functionParameters = new FunctionParameters(methodInfo, selectedInputDimension, 0);
+				FunctionParameters functionParameters = new FunctionParameters(selectedMethosdInfo, selectedInputDimension, 0);
 
 				// execute function 
-				var function = new FinancePermutator.Function(methodInfo);
+				var function = new FinancePermutator.Function(selectedMethosdInfo);
 				result = function.Execute(functionParameters, out var code);
 
 				if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) || double.IsPositiveInfinity(result[0]) ||
 					double.IsNaN(result[0]) || double.IsInfinity(result[0]) || IsArrayRepeating(result))
 				{
-					DumpValues(methodInfo, result);
+					DumpValues(selectedMethosdInfo, result);
 					debug(
-						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={selectedInputDimension}], need {Configuration.MinTaFunctionsCount - i}");
+						$"WARNING: skip {selectedMethosdInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={selectedInputDimension}], need {Configuration.MinTaFunctionsCount - i}");
 					if (i > 0)
 						i--;
 					numberOfFailedFunctions++;
@@ -320,10 +320,10 @@ namespace FinancePermutator.Train
 				//Program.Form.AddConfiguration($" [{methodInfo.Name} \r\n{functionParameters.parametersMap}] \r\n =====================\r\n");
 
 				// record info
-				Repository.FunctionBase[methodInfo.Name] = new Dictionary<string, object>
+				Repository.FunctionConfiguration[selectedMethosdInfo.Name] = new Dictionary<string, object>
 				{
 					["parameters"] = functionParameters,
-					["methodInfo"] = methodInfo
+					["methodInfo"] = selectedMethosdInfo
 				};
 
 				randomSeedLocal = unixTimestamp + XRandom.next(255);
@@ -331,7 +331,7 @@ namespace FinancePermutator.Train
 
 			var functions = new StringBuilder();
 
-			foreach (var func in Repository.FunctionBase)
+			foreach (var func in Repository.FunctionConfiguration)
 				functions.Append($"[{func.Key}] ");
 
 			Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
@@ -752,7 +752,7 @@ namespace FinancePermutator.Train
 
 				using (var cf = new StreamWriter($@"d:\forexAI\{netDirectory}\functions.json"))
 				{
-					cf.WriteLine(JsonConvert.SerializeObject(Repository.FunctionBase, Formatting.Indented));
+					cf.WriteLine(JsonConvert.SerializeObject(Repository.FunctionConfiguration, Formatting.Indented));
 				}
 
 			}));

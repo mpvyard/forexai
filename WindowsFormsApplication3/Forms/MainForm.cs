@@ -151,7 +151,7 @@ namespace FinancePermutator.Forms
         private static bool CheckUsageFunction(MethodInfo methodInfo)
         {
             //int inputDimension = XRandom.next(8, (XRandom.next(9, Configuration.InputDimension)));
-            int inputDimension = Configuration.InputDimension;
+            int inputDimension = Configuration.maxInputDimension;
 
             // generate parameters
             FunctionParameters functionParameters = new FunctionParameters(methodInfo, inputDimension, 0);
@@ -200,12 +200,9 @@ namespace FinancePermutator.Forms
         {
             double[] inHigh = { 1.22127, 1.22192, 1.22171, 1.22171, 1.22159, 1.22161, 1.22168, 1.22164, 1.22165, 1.22151, 1.22133, 1.2214, 1.22172, 1.22181, 1.22169, 1.22185, 1.22154, 1.22173, 1.22179, 1.22192, 1.22187, 1.22234, 1.22206, 1.22231, 1.22227, 1.22257, 1.22239, 1.22187, 1.22233, 1.22218, 1.2218, 1.22172, 1.22173, 1.22177, 1.22144, 1.2213, 1.22139, 1.22094, 1.22065, 1.22141, 1.22139, 1.22107, 1.22106, 1.22107, 1.22113, 1.22055, 1.22068, 1.221, 1.22144, 1.22271, 1.22281, 1.22288, 1.22453, 1.22713, 1.22618, 1.22565, 1.22422, 1.22463, 1.224, 1.2227, 1.22311, 1.22344, 1.22349, 1.22286};
             double[] inLow = { 1.22109, 1.22116, 1.22091, 1.22077, 1.22142, 1.2214, 1.22136, 1.22143, 1.2214, 1.22112, 1.22098, 1.22097, 1.22128, 1.22133, 1.2213, 1.2213, 1.22126, 1.22133, 1.22141, 1.22142, 1.22145, 1.22167, 1.22165, 1.22176, 1.22185, 1.2214, 1.22166, 1.22149, 1.22147, 1.22154, 1.22115, 1.22128, 1.22141, 1.22121, 1.22082, 1.22085, 1.22069, 1.21998, 1.22032, 1.22056, 1.22088, 1.22035, 1.22039, 1.22055, 1.22013, 1.22009, 1.22027, 1.22027, 1.22051, 1.22144, 1.22193, 1.222, 1.22285, 1.22412, 1.22494, 1.22327, 1.22312, 1.22374, 1.2209, 1.22175, 1.22223, 1.22286, 1.22277, 1.2221 };
-            int outBegin = 0;
-            int outEnd = 0;
-            double[] result = new double[64];
+			double[] result = new double[64];
 
-
-            Core.Apo(0, 63, inHigh, 5, 40, Core.MAType.T3, out outBegin, out outEnd, result);
+			Core.Apo(0, 63, inHigh, 5, 40, Core.MAType.T3, out int outBegin, out int outEnd, result);
 
             // check function output
             if (result == null || result.Length <= 1 || double.IsNegativeInfinity(result[0]) || double.IsPositiveInfinity(result[0]) ||
@@ -453,18 +450,18 @@ namespace FinancePermutator.Forms
             Pen blackPen = new Pen(Color.DeepSkyBlue);
             e.ChartGraphics.Graphics.DrawRectangle(blackPen, x, y, width, height);
 
-            // Set format of string.
-            StringFormat drawFormat = new StringFormat(StringFormatFlags.FitBlackBox);
-            drawFormat.Alignment = StringAlignment.Center;
-            e.ChartGraphics.Graphics.DrawString(Data.chartBigLabel, drawFont, drawBrush, drawRect, drawFormat);
+			// Set format of string.
+			StringFormat drawFormat = new StringFormat(StringFormatFlags.FitBlackBox)
+			{
+				Alignment = StringAlignment.Center
+			};
+			e.ChartGraphics.Graphics.DrawString(Data.chartBigLabel, drawFont, drawBrush, drawRect, drawFormat);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            int savePerc = 0;
-
-            int.TryParse(Program.Form.minSavePercTextBox.Text, out savePerc);
-            debug($"minSavePerc changed => {savePerc}%");
+			int.TryParse(Program.Form.minSavePercTextBox.Text, out int savePerc);
+			debug($"minSavePerc changed => {savePerc}%");
             Configuration.MinSaveHit = savePerc;
         }
     }

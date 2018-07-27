@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "forexAI", "WindowsFormsApplication3\forexAI.csproj", "{DF1EB9C8-D6F1-4782-935F-38A7222FA311}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForexAI", "WindowsFormsApplication3\ForexAI.csproj", "{DF1EB9C8-D6F1-4782-935F-38A7222FA311}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,7 +32,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_StartDate = 2000/1/1
 		SolutionGuid = {C15457B2-046A-4F7A-81A5-216DED0FAB9B}
+		BuildVersion_StartDate = 2000/1/1
 	EndGlobalSection
 EndGlobal

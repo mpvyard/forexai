@@ -18,35 +18,35 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FinancePermutator.Configuration">
-    <Position X="11.5" Y="1.25" Width="1.75" />
+    <Position X="11.5" Y="1.25" Width="2" />
     <TypeIdentifier>
       <HashCode>BAACEAAgICAEAAAAAAAAAEAAQAAAIAIAAAAAAAAACEE=</HashCode>
       <FileName>Configuration.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FinancePermutator.Function">
-    <Position X="3" Y="0.5" Width="1.75" />
+    <Position X="3" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACQAQAAAAAAAAAAAAAhAAAAAACAAAAA=</HashCode>
       <FileName>Function\Function.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FinancePermutator.FunctionParameters">
-    <Position X="9" Y="1.25" Width="2" />
+    <Position X="9.25" Y="1.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAAAAAAACABAAAAAAAAAAAABIAAEAAgAoBA=</HashCode>
       <FileName>Function\FunctionParameters.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FinancePermutator.Repository">
-    <Position X="15.75" Y="1.25" Width="2" />
+    <Position X="5.5" Y="3.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AQAAEAAAAQAAAAAAAAAAAAAAAAAAQAgAAAAAAAAAAAA=</HashCode>
       <FileName>Data.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FinancePermutator.Tools">
-    <Position X="13.5" Y="1.25" Width="2" />
+    <Position X="13.75" Y="1.25" Width="2" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAIAAAAAAAADAAAAAAAAAAAMAAAAQBQAAIAA=</HashCode>
       <FileName>Tools.cs</FileName>
@@ -80,8 +80,8 @@
       <FileName>Generators\Methods.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="FinancePermutator.Generators.XRandom" Collapsed="true">
-    <Position X="15.75" Y="0.5" Width="1.25" />
+  <Class Name="FinancePermutator.Generators.XRandom">
+    <Position X="7.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAASAQAIAAAA=</HashCode>
       <FileName>Generators\XRandom.cs</FileName>
@@ -95,7 +95,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FinancePermutator.Prices.ForexPrices">
-    <Position X="7" Y="1.5" Width="1.75" />
+    <Position X="7.25" Y="1.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAIAAAgAACAAAAAAIAAAAAAA=</HashCode>
       <FileName>Prices\Prices.cs</FileName>
@@ -120,8 +120,15 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
+  <Class Name="FinancePermutator.ForexExtensions">
+    <Position X="6.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Advanced\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="FinancePermutator.Prices.PriceEntry">
-    <Position X="5" Y="1.25" Width="1.75" />
+    <Position X="5.25" Y="1.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAgAAAAAAAAggAAABAAAAAACAAAA=</HashCode>
       <FileName>Prices\PriceEntry.cs</FileName>

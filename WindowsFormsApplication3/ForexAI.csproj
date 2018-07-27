@@ -169,6 +169,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Advanced\Extensions.cs" />
     <Compile Include="Generators\ActivationFunctionGenerator.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Data.cs" />

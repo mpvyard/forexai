@@ -34,6 +34,7 @@ using FinancePermutator.Prices;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using static FinancePermutator.Tools;
+using ForexExtensions;
 
 namespace FinancePermutator.Train
 {
@@ -227,6 +228,7 @@ namespace FinancePermutator.Train
 
 					inputSets[numRecord] = new double[combinedResult.Length];
 					outputSets[numRecord] = new double[2];
+
 
 					if (numRecord % 245 == 0)
 						debug(
@@ -482,12 +484,12 @@ namespace FinancePermutator.Train
 				testData = new TrainingData(trainData);
 				testDataOffset = trainData.TrainDataLength / (uint) Configuration.TestDataAmountPerc;
 				testData.SubsetTrainData(0, testDataOffset);
-				testData.SaveTrain(@"d:\temp\testdata.dat");
+				testData.SaveTrain(@"c:\temp\testdata.dat");
 				testSetInput = testData.Input;
 				testSetOutput = testData.Output;
 
 				trainData.SubsetTrainData(testDataOffset, trainData.TrainDataLength - testDataOffset);
-				trainData.SaveTrain(@"d:\temp\traindata.dat");
+				trainData.SaveTrain(@"c:\temp\traindata.dat");
 				trainSetInput = trainData.Input;
 				trainSetOutput = trainData.Output;
 			}
@@ -727,30 +729,30 @@ namespace FinancePermutator.Train
 		{
 			string netDirectory = $"NET_{network.GetHashCode():X}";
 
-			if (!Directory.Exists($"d:\\forexAI\\{netDirectory}"))
-				Directory.CreateDirectory($"d:\\forexAI\\{netDirectory}");
+			if (!Directory.Exists($"c:\\forexAI\\{netDirectory}"))
+				Directory.CreateDirectory($"c:\\forexAI\\{netDirectory}");
 
-			network.Save($@"d:\forexAI\{netDirectory}\FANN.net");
+			network.Save($@"c:\forexAI\{netDirectory}\FANN.net");
 
-			File.Copy("d:\\temp\\traindata.dat", $@"d:\forexAI\{netDirectory}\traindata.dat", true);
-			File.Copy("d:\\temp\\testdata.dat", $@"d:\forexAI\{netDirectory}\testdata.dat", true);
+			File.Copy("c:\\temp\\traindata.dat", $@"c:\forexAI\{netDirectory}\traindata.dat", true);
+			File.Copy("c:\\temp\\testdata.dat", $@"c:\forexAI\{netDirectory}\testdata.dat", true);
 
 			Program.Form.chart.Invoke((MethodInvoker) (() =>
 			{
-				Program.Form.chart.SaveImage($@"d:\forexAI\{netDirectory}\chart.jpg", ChartImageFormat.Jpeg);
+				Program.Form.chart.SaveImage($@"c:\forexAI\{netDirectory}\chart.jpg", ChartImageFormat.Jpeg);
 
-				using (var tw = new StreamWriter($@"d:\forexAI\{netDirectory}\debug.log"))
+				using (var tw = new StreamWriter($@"c:\forexAI\{netDirectory}\debug.log"))
 				{
 					foreach (var item in Program.Form.debugView.Items)
 						tw.WriteLine(item.ToString());
 				}
 
-				using (var cf = new StreamWriter($@"d:\forexAI\{netDirectory}\configuration.txt"))
+				using (var cf = new StreamWriter($@"c:\forexAI\{netDirectory}\configuration.txt"))
 				{
 					cf.WriteLine(Program.Form.configurationTab.Text);
 				}
 
-				using (var cf = new StreamWriter($@"d:\forexAI\{netDirectory}\functions.json"))
+				using (var cf = new StreamWriter($@"c:\forexAI\{netDirectory}\functions.json"))
 				{
 					cf.WriteLine(JsonConvert.SerializeObject(Repository.FunctionConfiguration, Formatting.Indented));
 				}

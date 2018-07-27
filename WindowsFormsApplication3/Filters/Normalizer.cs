@@ -6,7 +6,4 @@ using System.Threading.Tasks;
 
 namespace FinancePermutator.Filters
 {
-    class Normalizer
-    {
-    }
 }

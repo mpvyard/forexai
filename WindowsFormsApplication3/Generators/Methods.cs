@@ -7,7 +7,7 @@ namespace FinancePermutator.Generators
     {
         public static MethodInfo GetRandomMethod(int randomSeed)
         {
-            return Data.TALibMethods[XRandom.next(Data.TALibMethods.Count - 1)];
+            return Repository.TALibMethods[XRandom.next(Repository.TALibMethods.Count - 1)];
         }
     }
 }

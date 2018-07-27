@@ -44,7 +44,7 @@ namespace FinancePermutator.Train
 		public static int numberOfFailedFunctions = 0;
 		double saveTestHitRatio = 0;
 		public static int numberOfBrokenData = 0;
-		static int inputDimension = Configuration.maxInputDimension;
+		static int selectedInputDimension = Configuration.maxInputDimension;
 		static double[][] inputSets = new double[1][];
 		static double[][] outputSets = new double[1][];
 		private static double[][] testSetOutput;
@@ -121,7 +121,7 @@ namespace FinancePermutator.Train
 		{
 			Program.Form.debugView.Invoke((MethodInvoker) (() =>
 			{
-				Program.Form.debugView.Invoke((MethodInvoker) (() => { Data.chartBigLabel = string.Empty; }));
+				Program.Form.debugView.Invoke((MethodInvoker) (() => { Repository.chartBigLabel = string.Empty; }));
 			}));
 		}
 
@@ -129,7 +129,7 @@ namespace FinancePermutator.Train
 		{
 			Program.Form.debugView.Invoke((MethodInvoker) (() =>
 			{
-				Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
+				Repository.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Repository.loadPercent,4:####}%]";
 			}));
 		}
 
@@ -146,7 +146,7 @@ namespace FinancePermutator.Train
 
 		public void LoopGenerate()
 		{
-			if (!Data.TALibMethods.Any())
+			if (!Repository.TALibMethods.Any())
 				return;
 
 			do
@@ -164,31 +164,32 @@ namespace FinancePermutator.Train
 				Program.Form.SetStatus($"generating functions list, sleepTime={threadSleepTime}");
 
 				class1 = class2 = class0 = 0;
-				Data.FunctionBase.Clear();
+				Repository.FunctionBase.Clear();
 				Program.Form.debugView.Invoke((MethodInvoker) (() => { Program.Form.debugView.Items.Clear(); }));
 
 				SetupFunctions(randomSeed);
 
-				inputDimension = XRandom.next(8, (XRandom.next(9, Configuration.maxInputDimension)));
+				selectedInputDimension = XRandom.next(8, (XRandom.next(9, Configuration.maxInputDimension)));
 
-				Program.Form.AddConfiguration($"\r\nInputDimension: {inputDimension}\r\n");
+				Program.Form.AddConfiguration($"\r\nInputDimension: {selectedInputDimension}\r\n");
 
-				debug($"function setup done, generating data [inputDimension={inputDimension}] ...");
+				debug($"function setup done, generating data [inputDimension={selectedInputDimension}] ...");
 				//Parallel.For(0, Data.ForexPrices.Count / inputDimension, (offset, state) =>
 				//{
 				//	offset += inputDimension;
 				//});
-				for (int offset = 0; offset < Data.ForexPrices.Count && runScan; offset += inputDimension)
+				for (int currentOffset = 0; currentOffset < Repository.Prices.Count && runScan; currentOffset += selectedInputDimension)
 				{
 					Program.Form.SetBigLabel($"Generating train/test data ...");
 
-					if (offset % 55 == 0)
+					if (currentOffset % 55 == 0)
 						Program.Form.SetStatus(
-							$"Generating train && test data [{offset} - {offset + inputDimension}] {(double) offset / Data.ForexPrices.Count * 100.0,2:0.##}% ...");
+							$"Generating train && test data [{currentOffset} - {currentOffset + selectedInputDimension}] " +
+							$"{(double) currentOffset / Repository.Prices.Count * 100.0,2:0.##}% ...");
 
 					combinedResult = new double[] { };
 
-					foreach (var funct in Data.FunctionBase)
+					foreach (var funct in Repository.FunctionBase)
 					{
 						if (noDelayEnabled == false)
 							Thread.Sleep(1);
@@ -196,7 +197,7 @@ namespace FinancePermutator.Train
 						var functionInfo = funct.Value;
 
 						FunctionParameters functionParameters = new FunctionParameters((MethodInfo) functionInfo["methodInfo"],
-							inputDimension, offset);
+							selectedInputDimension, currentOffset);
 
 						// execute function
 						Function function = new Function((MethodInfo) functionInfo["methodInfo"]);
@@ -229,11 +230,11 @@ namespace FinancePermutator.Train
 
 					if (numRecord % 245 == 0)
 						debug(
-							$"offset: {offset} numRecord:{numRecord} inputSets:{inputSets.Length} outputSets:{outputSets.Length} combinedResult:{combinedResult.Length}");
+							$"offset: {currentOffset} numRecord:{numRecord} inputSets:{inputSets.Length} outputSets:{outputSets.Length} combinedResult:{combinedResult.Length}");
 
 					Array.Copy(combinedResult, inputSets[numRecord], combinedResult.Length);
 
-					SetOutputResult(inputDimension, offset, numRecord);
+					SetOutputResult(selectedInputDimension, currentOffset, numRecord);
 
 					numRecord++;
 				}
@@ -288,7 +289,7 @@ namespace FinancePermutator.Train
 				Program.Form.SetStatus($"Setup function #{i} <{methodInfo.Name}> ...");
 				debug($"Selected function #{i}: {methodInfo.Name} unixTimestamp: {unixTimestamp}");
 
-				if (Data.FunctionBase.ContainsKey(methodInfo.Name))
+				if (Repository.FunctionBase.ContainsKey(methodInfo.Name))
 				{
 					debug($"function {methodInfo.Name} already exist");
 					if (i > 0)
@@ -298,7 +299,7 @@ namespace FinancePermutator.Train
 				}
 
 				// generate parameters
-				FunctionParameters functionParameters = new FunctionParameters(methodInfo, inputDimension, 0);
+				FunctionParameters functionParameters = new FunctionParameters(methodInfo, selectedInputDimension, 0);
 
 				// execute function 
 				var function = new FinancePermutator.Function(methodInfo);
@@ -309,7 +310,7 @@ namespace FinancePermutator.Train
 				{
 					DumpValues(methodInfo, result);
 					debug(
-						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={inputDimension}], need {Configuration.MinTaFunctionsCount - i}");
+						$"WARNING: skip {methodInfo.Name} due to bad output [len={result.Length}, code={code} InputDimension={selectedInputDimension}], need {Configuration.MinTaFunctionsCount - i}");
 					if (i > 0)
 						i--;
 					numberOfFailedFunctions++;
@@ -319,7 +320,7 @@ namespace FinancePermutator.Train
 				//Program.Form.AddConfiguration($" [{methodInfo.Name} \r\n{functionParameters.parametersMap}] \r\n =====================\r\n");
 
 				// record info
-				Data.FunctionBase[methodInfo.Name] = new Dictionary<string, object>
+				Repository.FunctionBase[methodInfo.Name] = new Dictionary<string, object>
 				{
 					["parameters"] = functionParameters,
 					["methodInfo"] = methodInfo
@@ -330,7 +331,7 @@ namespace FinancePermutator.Train
 
 			var functions = new StringBuilder();
 
-			foreach (var func in Data.FunctionBase)
+			foreach (var func in Repository.FunctionBase)
 				functions.Append($"[{func.Key}] ");
 
 			Program.Form.funcListLabel.Invoke((MethodInvoker) (() => { Program.Form.funcListLabel.Text = functions.ToString(); }));
@@ -751,7 +752,7 @@ namespace FinancePermutator.Train
 
 				using (var cf = new StreamWriter($@"d:\forexAI\{netDirectory}\functions.json"))
 				{
-					cf.WriteLine(JsonConvert.SerializeObject(Data.FunctionBase, Formatting.Indented));
+					cf.WriteLine(JsonConvert.SerializeObject(Repository.FunctionBase, Formatting.Indented));
 				}
 
 			}));

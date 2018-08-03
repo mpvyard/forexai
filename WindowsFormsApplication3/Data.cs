@@ -6,7 +6,7 @@ namespace FinancePermutator
     using System.Collections.Generic;
     using System.Reflection;
 
-    internal static class Repository
+    internal static class Data
     {
         public static string chartBigLabel = "";
         public static readonly List<PriceEntry> Prices = new List<PriceEntry>();

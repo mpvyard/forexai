@@ -229,7 +229,7 @@ namespace FinancePermutator.Forms
             //CheckOneFunction();
             //return;
 
-            Repository.TALibMethods.Clear();
+            Data.TALibMethods.Clear();
             var methodInfos = typeof(Core).GetMethods(BindingFlags.Static | BindingFlags.Public);
 
 
@@ -237,7 +237,7 @@ namespace FinancePermutator.Forms
             {       
                 if (IsGoodMethod(method))
                 {
-                    Repository.TALibMethods.Add(method);
+                    Data.TALibMethods.Add(method);
                     debug($"Good method #{this.methodNum++,-3:000}: {method}");
                     Program.Form.loadTAButton.Invoke((MethodInvoker)(() => Program.Form.loadTAButton.Text = $"loading {this.methodNum}"));
                 }
@@ -247,9 +247,9 @@ namespace FinancePermutator.Forms
                 }
             }
 
-            Program.Form.loadTAButton.Text = $"{Repository.TALibMethods.Count} OK";
+            Program.Form.loadTAButton.Text = $"{Data.TALibMethods.Count} OK";
 
-            if (Repository.Prices.Any())
+            if (Data.Prices.Any())
                 Program.Form.buttonExecute.Enabled = true;
         }
 
@@ -418,7 +418,7 @@ namespace FinancePermutator.Forms
             }));
             Program.Form.debugView.Invoke((MethodInvoker) (() =>
             {
-                Repository.chartBigLabel = string.Empty;
+                Data.chartBigLabel = string.Empty;
             }));
         }
 
@@ -427,13 +427,13 @@ namespace FinancePermutator.Forms
             Program.Form.debugView.Invoke(
                 (MethodInvoker) (() =>
                 {
-                    Repository.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Repository.loadPercent,4:####}%]";
+                    Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
                 }));
         }
 
         private void Chart_PostPaint(object sender, ChartPaintEventArgs e)
         {
-            if (Repository.chartBigLabel.Length <= 1)
+            if (Data.chartBigLabel.Length <= 1)
                 return;
 
             Font drawFont = new Font("Consolas", 12);
@@ -455,7 +455,7 @@ namespace FinancePermutator.Forms
 			{
 				Alignment = StringAlignment.Center
 			};
-			e.ChartGraphics.Graphics.DrawString(Repository.chartBigLabel, drawFont, drawBrush, drawRect, drawFormat);
+			e.ChartGraphics.Graphics.DrawString(Data.chartBigLabel, drawFont, drawBrush, drawRect, drawFormat);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

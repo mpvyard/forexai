@@ -121,7 +121,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FinancePermutator.ForexExtensions">
-    <Position X="6.25" Y="6" Width="1.5" />
+    <Position X="5.5" Y="5.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Advanced\Extensions.cs</FileName>

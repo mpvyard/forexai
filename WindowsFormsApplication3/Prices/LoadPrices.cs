@@ -45,7 +45,7 @@ namespace FinancePermutator.Prices
                         Date = DateTime.Parse(tokens[0] + " " + tokens[1])
                     };
 
-                    Repository.Prices.Add(priceEntry);
+                    Data.Prices.Add(priceEntry);
 
                     if (lineNum % 1850 == 0)
                     {

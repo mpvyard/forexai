@@ -4,7 +4,7 @@ namespace FinancePermutator
 {
     public static class Configuration
     {
-        public static string PriceFileName = @"c:\forexAI\EURUSD15.csv";
+        public static string PriceFileName = @"c:\forexAI\EURUSD_in.csv";
         public static string LogFileName = @"c:\forexAI\forexAI.log";
         public static int maxInputDimension = 64;
         public static double MinSaveTestMSE = 0.02;

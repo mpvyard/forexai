@@ -9,9 +9,9 @@
 			int i = 0;
 			for (int index = offset; index < offset + num; index++)
 			{
-				if (index >= Repository.Prices.Count - 1)
+				if (index >= Data.Prices.Count - 1)
 					break;
-				copy[i++] = Repository.Prices[index].High;
+				copy[i++] = Data.Prices[index].High;
 			}
 
 			return copy;
@@ -24,9 +24,9 @@
 			int i = 0;
 			for (int index = offset; index < offset + num; index++)
 			{
-				if (index >= Repository.Prices.Count - 1)
+				if (index >= Data.Prices.Count - 1)
 					break;
-				copy[i++] = Repository.Prices[index].Low;
+				copy[i++] = Data.Prices[index].Low;
 			}
 
 			return copy;
@@ -39,9 +39,9 @@
 			int i = 0;
 			for (int index = offset; index < offset + num; index++)
 			{
-				if (index >= Repository.Prices.Count - 1)
+				if (index >= Data.Prices.Count - 1)
 					break;
-				copy[i++] = Repository.Prices[index].Open;
+				copy[i++] = Data.Prices[index].Open;
 			}
 			return copy;
 		}
@@ -53,9 +53,9 @@
 			int i = 0;
 			for (int index = offset; index < offset + num; index++)
 			{
-				if (index >= Repository.Prices.Count - 1)
+				if (index >= Data.Prices.Count - 1)
 					break;
-				copy[i++] = Repository.Prices[index].Close;
+				copy[i++] = Data.Prices[index].Close;
 			}
 
 			return copy;
@@ -68,9 +68,9 @@
 			int i = 0;
 			for (int index = offset; index < offset + num; index++)
 			{
-				if (index >= Repository.Prices.Count - 1)
+				if (index >= Data.Prices.Count - 1)
 					break;
-				copy[i++] = Repository.Prices[index].Vol;
+				copy[i++] = Data.Prices[index].Vol;
 			}
 
 			return copy;

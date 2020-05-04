@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Text;
+using System;
 
 namespace FinancePermutator
 {
@@ -101,6 +102,12 @@ namespace FinancePermutator
 				if (input[i] != value)
 					return false;
 			return true;
+		}
+
+		public static string GetTempPath()
+		{
+			string tmp = Configuration.TempPath;
+			return Environment.ExpandEnvironmentVariables(tmp);
 		}
 
 		/*

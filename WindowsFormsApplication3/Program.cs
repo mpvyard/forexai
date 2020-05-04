@@ -3,6 +3,7 @@
 	using System;
 	using System.Windows.Forms;
 	using Forms;
+	using static FinancePermutator.Tools;
 
 	internal static class Program
 	{
@@ -17,7 +18,15 @@
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Form = new Form1();
-			Application.Run(Form);
+
+			try
+			{
+				Application.Run(Form);
+			}
+			catch(Exception e)
+			{
+				debug($"exception: {e.Message}");
+			}
 		}
 	}
 }

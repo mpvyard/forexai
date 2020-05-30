@@ -18,6 +18,8 @@
 		{
 			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
 
+			debug($"starting application ... pid {GetCurrentProcessId()}");
+
 			Application.ThreadException += (sender, args) =>
 			{
 				Crashes.TrackError(args.Exception);
@@ -36,11 +38,9 @@
 				{
 					return new ErrorAttachmentLog[]
 					{
-						ErrorAttachmentLog.AttachmentWithText("debug.log", $@"{Configuration.LogFileName}"),
+						ErrorAttachmentLog.AttachmentWithText(System.IO.File.ReadAllText($@"{Configuration.LogFileName}"), "debug"),
 					};
 				};
-
-				debug($"starting application ... pid {GetCurrentProcessId()}");
 
 				Form = new Form1();
 				Application.Run(Form);

@@ -1,0 +1,2 @@
+﻿implement shortcut/layer select
+implement quickprop/rprop select

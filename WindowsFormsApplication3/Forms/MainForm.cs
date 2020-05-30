@@ -288,10 +288,13 @@ namespace FinancePermutator.Forms
 
 		public void SetStatus(string status)
 		{
-			Program.Form.statusLabel.Invoke((MethodInvoker) (() =>
+			if(Program.Form.Visible)
 			{
-				Program.Form.statusLabel.Text = status;
-			}));
+				Program.Form.statusLabel.Invoke((MethodInvoker) (() =>
+				{
+					Program.Form.statusLabel.Text = status;
+				}));
+			}
 		}
 
 		private void GenerateTrainButtonClick(object sender, EventArgs e)
@@ -405,10 +408,13 @@ namespace FinancePermutator.Forms
 
 		public void SetStats(string text)
 		{
-			Program.Form.statsBox.Invoke((MethodInvoker) (() =>
+			if(Program.Form.Visible)
 			{
-				statsBox.Text = text;
-			}));
+				Program.Form.statsBox.Invoke((MethodInvoker) (() =>
+				{
+					statsBox.Text = text;
+				}));
+			}
 		}
 
 		public void EraseBigLabel()
@@ -425,11 +431,14 @@ namespace FinancePermutator.Forms
 
 		public void SetBigLabel(string text)
 		{
-			Program.Form.debugView.Invoke(
-				 (MethodInvoker) (() =>
-				 {
-					 Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
-				 }));
+			if(Program.Form.Visible)
+			{
+				Program.Form.debugView.Invoke(
+					 (MethodInvoker) (() =>
+					 {
+						 Data.chartBigLabel = text.Length > 0 ? text : $"[MUTATING DATA {Data.loadPercent,4:####}%]";
+					 }));
+			}
 		}
 
 		private void Chart_PostPaint(object sender, ChartPaintEventArgs e)

@@ -1,16 +1,17 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Finance Permutator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A forex financial values sign finder.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("xxx")]
+[assembly: AssemblyCompany("axis9")]
+[assembly: AssemblyProduct("product (tm)")]
 [assembly: AssemblyCopyright("    ©  3017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("(c) deconf")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -29,5 +30,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.2102.2018")]
-[assembly: AssemblyFileVersion("1.0.96.18")]
+[assembly: AssemblyVersion("0.0.6.0")]
+[assembly: AssemblyFileVersion("0.0.6.0")]
+[assembly: NeutralResourcesLanguage("en")]

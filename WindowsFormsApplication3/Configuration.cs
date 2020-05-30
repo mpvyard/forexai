@@ -18,6 +18,6 @@ namespace FinancePermutator
 		public static int SleepTime = 300;
 		public static int SleepCheckTime = 10000;
 		public static int OutputIndex = 15;
-		public static TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_RPROP;
+		public static TrainingAlgorithm TrainAlgo = TrainingAlgorithm.TRAIN_QUICKPROP;
 	}
 }

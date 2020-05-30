@@ -153,12 +153,15 @@ namespace FinancePermutator.Train
 				again:
 				Program.Form.ConfigurationClear();
 
-				Program.Form.debugView.Invoke((MethodInvoker) (() =>
-				 {
-					 noDelayEnabled = Program.Form.nodelayCheckbox.Checked;
-				 }));
+				if(Program.Form.debugView.Visible)
+				{
+					Program.Form.debugView.Invoke((MethodInvoker) (() =>
+					 {
+						 noDelayEnabled = Program.Form.nodelayCheckbox.Checked;
+					 }));
+				}
 
-				threadSleepTime = GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
+				threadSleepTime = 0;// GetIdleTickCount() >= Configuration.SleepCheckTime ? 0 : Configuration.SleepTime;
 
 				Program.Form.SetStatus($"generating functions list, sleepTime={threadSleepTime}");
 
@@ -549,7 +552,7 @@ namespace FinancePermutator.Train
 
 			Program.Form.AddConfiguration($"\r\nConfig hash: {XRandom.randomString()}\r\n\r\nNetwork:\r\n inputs: {inputCount} neurons: {numNeurons}");
 
-			NetworkType layer = NetworkType.LAYER;
+			NetworkType layer = NetworkType.SHORTCUT;
 			network = new Network(layer, inputCount, numNeurons, 2)
 			{
 				TrainingAlgorithm = Configuration.TrainAlgo
@@ -683,7 +686,7 @@ namespace FinancePermutator.Train
 
 				// draw graphics
 				var epoch = currentEpoch;
-				if(Program.Form.Visible)
+				if(Program.Form.chart.Visible)
 				{
 					Program.Form.chart.Invoke((MethodInvoker) (() =>
 						{

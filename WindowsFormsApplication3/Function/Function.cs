@@ -27,10 +27,10 @@ namespace FinancePermutator
 
 			var retCode = Core.RetCode.UnknownErr;
 			try
-			{ 
+			{
 				retCode = (Core.RetCode) method.Invoke(null, parameters.Arguments);
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				debug($"exception: {e.Message}");
 			}
@@ -40,17 +40,17 @@ namespace FinancePermutator
 			code = retCode;
 			returnData = new double[resultLen];
 
-			if (parameters.Arguments[parameters.OutIndex].GetType().ToString() == "System.Int32[]")
+			if(parameters.Arguments[parameters.OutIndex].GetType().ToString() == "System.Int32[]")
 			{
 				resultsInt = (int[]) parameters.Arguments[parameters.OutIndex];
 
-				for (var i = 0; i < resultLen; i++)
+				for(var i = 0; i < resultLen; i++)
 					results[i] = resultsInt[i];
 			}
 			else
 				results = parameters.Arguments[parameters.OutIndex] as double[];
 
-			if (results != null)
+			if(results != null)
 				Array.Copy(results, returnData, resultLen);
 
 			//DumpValues(method, returnData);

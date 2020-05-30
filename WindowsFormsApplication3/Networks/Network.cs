@@ -56,10 +56,13 @@ namespace FinancePermutator.Networks
 		public void SetupActivation()
 		{
 			var activationFunc = ActivationFunction.SIGMOID_SYMMETRIC;
-			Program.Form.AddConfiguration($"\r\n InputActFunc: {activationFunc}");
+			Program.Form.AddConfiguration($"\r\n InputActFunc i: {activationFunc}");
+			network.SetActivationFunctionLayer(activationFunc, 0);
+			activationFunc = ActivationFunctionGenerator.GetRandomFunction();
+			Program.Form.AddConfiguration($" LayerActFunc m: {activationFunc}");
 			network.SetActivationFunctionLayer(activationFunc, 1);
 			activationFunc = ActivationFunctionGenerator.GetRandomFunction();
-			Program.Form.AddConfiguration($" LayerActFunc: {activationFunc}");
+			Program.Form.AddConfiguration($" LayerActFunc o: {activationFunc}");
 			network.SetActivationFunctionLayer(activationFunc, 2);
 		}
 

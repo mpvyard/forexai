@@ -6,7 +6,7 @@ namespace FinancePermutator.Generators
 	{
 		public static ActivationFunction GetRandomFunction()
 		{
-			switch (XRandom.next(12))
+			switch (XRandom.next(15))
 			{
 				default:
 				case 1:

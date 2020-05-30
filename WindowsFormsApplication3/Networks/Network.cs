@@ -1,11 +1,15 @@
 ﻿using System;
+using System.IO;
 using FANNCSharp;
 using FANNCSharp.Double;
 using FinancePermutator.Generators;
 using Microsoft.AppCenter;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using static FinancePermutator.Tools;
+using System.Windows.Forms;
 
 /*
 				░░ ♡ ▄▀▀▀▄░░░ 
@@ -68,6 +72,53 @@ namespace FinancePermutator.Networks
 			activationFunc = ActivationFunctionGenerator.GetRandomFunction();
 			Program.Form.AddConfiguration($" LayerActFunc o: {activationFunc}");
 			network.SetActivationFunctionLayer(activationFunc, 2);
+		}
+
+		/*
+						\\         //
+						 \\     //
+						   \\ //
+							(O)
+						   //#\\
+						 // ### \\
+					   //  #####  \\
+						  #######
+						  ### ###
+					'' """  """"  "'"""""
+		*/
+		public void SaveNetwork()
+		{
+			string netDirectory = $"NET_{network.GetHashCode():X}";
+
+			if(!Directory.Exists($"c:\\forexAI\\{netDirectory}"))
+				Directory.CreateDirectory($"c:\\forexAI\\{netDirectory}");
+
+			network.Save($@"c:\forexAI\{netDirectory}\FANN.net");
+
+			File.Copy($@"{GetTempPath()}\traindata.dat", $@"c:\forexAI\{netDirectory}\traindata.dat", true);
+			File.Copy($@"{GetTempPath()}\testdata.dat", $@"c:\forexAI\{netDirectory}\testdata.dat", true);
+
+			Program.Form.chart.Invoke((MethodInvoker) (() =>
+			{
+				Program.Form.chart.SaveImage($@"c:\forexAI\{netDirectory}\chart.jpg", ChartImageFormat.Jpeg);
+
+				using(var tw = new StreamWriter($@"c:\forexAI\{netDirectory}\debug.log"))
+				{
+					foreach(var item in Program.Form.debugView.Items)
+						tw.WriteLine(item.ToString());
+				}
+
+				using(var cf = new StreamWriter($@"c:\forexAI\{netDirectory}\configuration.txt"))
+				{
+					cf.WriteLine(Program.Form.configurationTab.Text);
+				}
+
+				using(var cf = new StreamWriter($@"c:\forexAI\{netDirectory}\functions.json"))
+				{
+					cf.WriteLine(JsonConvert.SerializeObject(Data.FunctionConfiguration, Formatting.Indented));
+				}
+
+			}));
 		}
 
 		public void InitWeights(TrainingData trainData)

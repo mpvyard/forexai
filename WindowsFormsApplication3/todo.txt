@@ -1,2 +1,4 @@
 ﻿implement shortcut/layer select
 implement quickprop/rprop select
+try to recover simulated annealing train
+genetic algorithm selection of success parameters

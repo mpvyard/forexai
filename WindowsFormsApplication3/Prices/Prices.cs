@@ -7,9 +7,9 @@
 			var copy = new double[num];
 
 			int i = 0;
-			for (int index = offset; index < offset + num; index++)
+			for(int index = offset; index < offset + num; index++)
 			{
-				if (index >= Data.Prices.Count - 1)
+				if(index >= Data.Prices.Count - 1)
 					break;
 				copy[i++] = Data.Prices[index].High;
 			}
@@ -22,9 +22,9 @@
 			var copy = new double[num];
 
 			int i = 0;
-			for (int index = offset; index < offset + num; index++)
+			for(int index = offset; index < offset + num; index++)
 			{
-				if (index >= Data.Prices.Count - 1)
+				if(index >= Data.Prices.Count - 1)
 					break;
 				copy[i++] = Data.Prices[index].Low;
 			}
@@ -37,9 +37,9 @@
 			var copy = new double[num];
 
 			int i = 0;
-			for (int index = offset; index < offset + num; index++)
+			for(int index = offset; index < offset + num; index++)
 			{
-				if (index >= Data.Prices.Count - 1)
+				if(index >= Data.Prices.Count - 1)
 					break;
 				copy[i++] = Data.Prices[index].Open;
 			}
@@ -51,9 +51,9 @@
 			var copy = new double[num];
 
 			int i = 0;
-			for (int index = offset; index < offset + num; index++)
+			for(int index = offset; index < offset + num; index++)
 			{
-				if (index >= Data.Prices.Count - 1)
+				if(index >= Data.Prices.Count - 1)
 					break;
 				copy[i++] = Data.Prices[index].Close;
 			}
@@ -66,9 +66,9 @@
 			var copy = new double[num];
 
 			int i = 0;
-			for (int index = offset; index < offset + num; index++)
+			for(int index = offset; index < offset + num; index++)
 			{
-				if (index >= Data.Prices.Count - 1)
+				if(index >= Data.Prices.Count - 1)
 					break;
 				copy[i++] = Data.Prices[index].Vol;
 			}

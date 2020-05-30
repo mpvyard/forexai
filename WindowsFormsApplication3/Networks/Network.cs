@@ -2,6 +2,9 @@
 using FANNCSharp;
 using FANNCSharp.Double;
 using FinancePermutator.Generators;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using static FinancePermutator.Tools;
 
 /*
@@ -28,6 +31,7 @@ namespace FinancePermutator.Networks
 		public uint ErrNo => network.ErrNo;
 		public string ErrStr => network.ErrStr;
 		public uint BitFail => network.BitFail;
+		public bool newNetwork = false;
 
 		public double Test(TrainingData testData)
 		{
@@ -93,6 +97,12 @@ namespace FinancePermutator.Networks
 		{
 			debug($"saving network 0x{network.GetHashCode()} as {name}");
 			network.Save(name);
+
+			if(newNetwork)
+			{
+				Analytics.TrackEvent($"New network mined [0x{network.GetHashCode():x}]");
+				newNetwork = false;
+			}
 		}
 
 		internal void SetupScaling(TrainingData trainData)

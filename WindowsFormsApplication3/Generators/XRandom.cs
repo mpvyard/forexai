@@ -7,7 +7,7 @@ namespace FinancePermutator.Generators
 	{
 		public static Random random;
 		private static readonly RNGCryptoServiceProvider _generator = new RNGCryptoServiceProvider();
-		
+
 		public static void init()
 		{
 			random = new Random(DateTime.Now.Millisecond);
@@ -41,9 +41,9 @@ namespace FinancePermutator.Generators
 
 			double randomValueInRange = Math.Floor(multiplier * range);
 
-			return (int)(minimumValue + randomValueInRange);
+			return (int) (minimumValue + randomValueInRange);
 		}
-		
+
 		public static string randomString()
 		{
 			// create a stronger hash code using RNGCryptoServiceProvider

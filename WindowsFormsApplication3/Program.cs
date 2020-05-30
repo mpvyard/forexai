@@ -4,23 +4,45 @@
 	using System.Windows.Forms;
 	using Forms;
 	using static FinancePermutator.Tools;
+	using System.Runtime.InteropServices;
+	using Microsoft.AppCenter;
+	using Microsoft.AppCenter.Analytics;
+	using Microsoft.AppCenter.Crashes;
 
-	internal static class Program
+	static class Program
 	{
 		public static Form1 Form;
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
 		[STAThread]
 		private static void Main()
 		{
+			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
+
+			Application.ThreadException += (sender, args) =>
+			{
+				Crashes.TrackError(args.Exception);
+			};
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Form = new Form1();
 
 			try
 			{
+				debug("connecting with appStats");
+
+				AppCenter.Start("caac19a5-4dc0-4d17-a2c7-9c2dea745a8e", typeof(Analytics), typeof(Crashes));
+
+				Crashes.GetErrorAttachments = (ErrorReport report) =>
+				{
+					return new ErrorAttachmentLog[]
+					{
+						ErrorAttachmentLog.AttachmentWithText("debug.log", $@"{Configuration.LogFileName}"),
+					};
+				};
+
+				debug($"starting application ... pid {GetCurrentProcessId()}");
+
+				Form = new Form1();
 				Application.Run(Form);
 			}
 			catch(Exception e)

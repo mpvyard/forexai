@@ -1,7 +1,7 @@
 ![photo-original.png](https://bitbucket.org/repo/64RkKMg/images/1704156120-photo-original.png) 
 # Wel**com***e* #
 
-
+custom: ['https://money.yandex.ru/to/410011883775956']
 
 ## Принцип работы ##
 
